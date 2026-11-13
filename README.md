@@ -1,5 +1,13 @@
 # NarRTOS-Drive
 
+> 📖 **Başlamadan önce:** kurulum, derleme, karta yükleme, yapılandırma, rapor içeriği, konum, OTA ve sorun giderme adımlarının tamamı
+> **[NarRTOS Drive Wiki](https://www.corezzle.com/document-content/narrtos-drive-9)** sayfasında adım adım anlatılıyor.
+> Projeyi ilk kez kullanacaksanız oradan ilerleyin; bu README yalnız kısa bir özettir.
+>
+> 📖 **Before you start:** installation, build, flashing, configuration and troubleshooting are covered step by step in the
+> **[NarRTOS Drive Wiki](https://www.corezzle.com/document-content/narrtos-drive-9)** (Turkish, with English pages under `docs/panel-icerik/en/`).
+
+
 Ekransız araç takip cihazı için gömülü işletim sistemi (ESP32-S3).
 
 NarRTOS ürün ailesinin ikinci ürünü. Birincisi
@@ -7,6 +15,11 @@ NarRTOS ürün ailesinin ikinci ürünü. Birincisi
 (NarRTOS-Wear): dokunmatik ekranlı giyilebilir cihaz. Drive aynı çekirdek
 disiplinini paylaşır ama farklı bir üründür: ekran, LVGL ve uygulama katmanı
 yoktur; yerine CAN, GNSS ve hücresel bağlantı vardır.
+
+## Belgeler
+
+Wiki'nin kaynak dosyaları depoda: `docs/panel-icerik/` (TR), `docs/panel-icerik/en/` (EN),
+tek dosya sürüm `docs/NarRTOS-Drive-Wiki.html` ve `.pdf`.
 
 ## Ne yapar
 
@@ -109,7 +122,7 @@ geçersiz sayılıp rapora 0,0 gider. Hareket eden araçta eski bir noktayı
 Uydu kesildiğinde (tünel, kapalı alan) konum bırakılmaz: ölü hesapla
 tahmin edilerek sürdürülür ve rapora `positionSource:"dr"` + hata yarıçapı
 (`positionAccuracy`) ile işaretlenir. Tahmin 500 m belirsizliği ya da 10
-dakikayı aşarsa konum "yok" olur. Ayrıntı wiki'nin Konum bölümünde.
+dakikayı aşarsa konum "yok" olur. Ayrıntı [wiki'nin Konum bölümünde](https://www.corezzle.com/document-content/narrtos-drive-9).
 
 ## OTA: geri alma korumalı
 
