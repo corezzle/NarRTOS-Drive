@@ -1,6 +1,6 @@
 **In short:** no screen, no buttons, no sound. With a cable there is the console, with connectivity there are remote commands. But the installer is under the vehicle, and while the device has not joined the network yet, neither is available. The only local indicator is this LED.
 
-![LED patterns and their meanings](GORSEL: en/led-desenleri.png)
+![LED patterns and their meanings](GORSEL: en/led-patterns.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>LED patterns: the more light, the worse. A healthy device gives a single blink every 3 seconds.</em></div>
 

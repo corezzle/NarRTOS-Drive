@@ -1,6 +1,6 @@
 **In short:** the device is driven by text commands. The same commands can be sent from two places: from a computer over the USB cable, or remotely when connectivity is up.
 
-![pos status and power status output on the serial console](GORSEL: en/konsol-teshis.png)
+![pos status and power status output on the serial console](GORSEL: en/console-diagnostics.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Field diagnostics: pos status shows the switch to estimation in a tunnel, power status shows the sleep decision. Device output is in Turkish.</em></div>
 

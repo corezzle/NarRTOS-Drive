@@ -1,6 +1,6 @@
 **Kısaca:** cihaz metin komutlarıyla sürülüyor. Aynı komutlar iki yerden gönderilebiliyor: USB kablosuyla bilgisayardan, ya da bağlantı varken uzaktan.
 
-![Seri konsolda pos status ve power status çıktıları](GORSEL: konsol-teshis.svg)
+![Seri konsolda pos status ve power status çıktıları](GORSEL: console-diagnostics.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Sahada teşhis: pos status tünelde tahmine geçildiğini, power status uyku kararını gösteriyor.</em></div>
 

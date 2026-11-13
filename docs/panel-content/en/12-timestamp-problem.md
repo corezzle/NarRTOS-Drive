@@ -1,6 +1,6 @@
 **In short:** the device has no battery-backed clock chip. It loses the time when power is cut and needs the internet or satellites to learn it again. Yet most reports are produced exactly when there is no connectivity. This is the most carefully thought-through topic in this document.
 
-![Timestamp decision flow](GORSEL: en/zaman-damgasi.png)
+![Timestamp decision flow](GORSEL: en/timestamp.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>The stamp decision at send time: all four outcomes are deliberate.</em></div>
 

@@ -1,6 +1,6 @@
 **In short:** when the ignition goes off, the device can finish its pending work and enter **deep sleep**. Consumption drops by orders of magnitude; even if the vehicle parks for weeks, the battery does not die because of the device. The feature ships disabled and is enabled on field devices with `set power sleep 1`.
 
-![Power management state cycle](GORSEL: en/guc-dongusu.png)
+![Power management state cycle](GORSEL: en/power-cycle.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>The power cycle: grace period, deep sleep, and the two wake paths.</em></div>
 

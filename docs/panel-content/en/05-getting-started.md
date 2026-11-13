@@ -1,6 +1,6 @@
 **In short:** this section is the explained version of Quick start. Someone who has never set up an embedded device can walk through it step by step: what you are installing and why, what you should see at each step, and what to do when something goes wrong.
 
-![Initial setup commands on the serial console](GORSEL: en/konsol-kurulum.png)
+![Initial setup commands on the serial console](GORSEL: en/console-setup.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Initial setup over the serial console: identity, server and workshop network are configured and a test report is produced. Device output is in Turkish.</em></div>
 

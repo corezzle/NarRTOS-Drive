@@ -1,6 +1,6 @@
 <div style="border-left:4px solid #D9922F;background:rgba(217,146,47,.12);border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0"><div style="font-weight:800;margin-bottom:6px;color:inherit">Pin haritası geçici</div><div style="line-height:1.6;color:inherit">Drive'ın kendi elektronik kartı henüz üretilmedi. Aşağıdaki bacak numaraları geliştirme kartında çakışmayan pinlerden seçildi. Gerçek kart gelince <strong>tek dosyadan</strong> düzeltilecek; kodun geri kalanı değişmeyecek.</div></div>
 
-![Araca bağlantı şeması: besleme, kontak, CAN, antenler](GORSEL: arac-baglanti.svg)
+![Araca bağlantı şeması: besleme, kontak, CAN, antenler](GORSEL: vehicle-wiring.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Araca bağlantı şeması. Pin haritası geçicidir; kesin bağlantı Drive'ın kendi kartıyla netleşecek.</em></div>
 

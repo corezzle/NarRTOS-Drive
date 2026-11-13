@@ -1,6 +1,6 @@
 **Kısaca:** kontak kapanınca cihaz bekleyen işlerini bitirip **derin uykuya** geçebiliyor. Uykuda tüketim binlerce kat düşüyor; araç haftalarca park etse de akü cihaz yüzünden bitmiyor. Özellik varsayılan olarak kapalı geliyor ve sahaya çıkan cihazda `set power sleep 1` ile açılıyor.
 
-![Güç yönetimi durum döngüsü](GORSEL: guc-dongusu.svg)
+![Güç yönetimi durum döngüsü](GORSEL: power-cycle.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Güç döngüsü: bekleme, derin uyku ve iki uyanma yolu.</em></div>
 

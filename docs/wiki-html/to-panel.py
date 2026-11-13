@@ -8,9 +8,9 @@ kabul etmiyor. Bu betik narrtos-wiki'nin SON HALİNİ kaynak alır (md dosyalar�
 değil: Telemetri yeniden yazıldı, Sunucu Kurulumu'nun md'si hiç yok) ve her
 panel başlığı için bir .md dosyası üretir.
 
-Çıktı:  docs/panel-icerik/NN-<slug>.md  +  00-GORSEL-LISTESI.md
+Çıktı:  docs/panel-content/NN-<slug>.md  +  00-IMAGE-LIST.md
 
-Kullanım:  python3 docs/wiki-html/panele-cevir.py
+Kullanım:  python3 docs/wiki-html/to-panel.py
 """
 import html as htmllib
 import re
@@ -19,7 +19,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OUT = HERE.parent / "panel-icerik"
+OUT = HERE.parent / "panel-content"
 
 # Wiki alt sayfası → panelde karşılık gelen dökümanın adresi. Panel TR'yi
 # öneksiz, EN'i /en/ önekiyle sunuyor; burada TR üretiliyor, en/ dosyaları
@@ -610,6 +610,123 @@ def slug(text):
     return re.sub(r"[^a-z0-9]+", "-", t).strip("-")
 
 
+SLUG_EN = {  # Türkçe slug → İngilizce dosya adı (dosya adları İngilizce tutulur)
+    "ailenin-diger-urunuyle-iliskisi": "relation-to-wear",
+    "sinirlar-ve-kaynak-kullanimi": "limits-and-resources",
+    "donanim-ve-board-varyantlari": "hardware-and-board-variants",
+    "corezzle-imager-ile-yukleme": "corezzle-imager-install",
+    "telemetri-ve-konumlandirma": "telemetry-and-positioning",
+    "telemetri-konum-ve-sunucu": "telemetry-location-and-server",
+    "imager-ile-yukleme-senaryo": "imager-install-script",
+    "windows-baslat-powershell": "windows-start-powershell",
+    "terminal-hizli-baslangic": "terminal-quick-start",
+    "terminal-cihaz-listesi": "terminal-device-list",
+    "durum-ve-yol-haritasi": "status-and-roadmap",
+    "vs-code-kurulumu-genel": "vs-code-setup-general",
+    "donanim-ve-baglantilar": "hardware-and-wiring",
+    "baglanti-ve-gonderim": "connectivity-and-upload",
+    "tampon-zaman-cizgisi": "buffer-timeline",
+    "vscode-eklenti-onerisi": "vscode-extension-prompt",
+    "test-ve-dogrulama": "testing-and-verification",
+    "tarama-rapor-dongusu": "scan-report-cycle",
+    "sebeke-yokken-tampon": "offline-buffer",
+    "telemetri-boru-hatti": "telemetry-pipeline",
+    "vscode-dil-degistir": "vscode-change-language",
+    "cekirdek-ve-servisler": "core-and-services",
+    "bu-cihaz-ne-yapiyor": "what-it-does",
+    "zaman-damgasi-sorunu": "timestamp-problem",
+    "kadran-analog-son": "watchface-analog-final",
+    "kadran-dijital-son": "watchface-digital-final",
+    "kadran-io-control": "watchface-io-control",
+    "uygulama-gelistirme": "app-development",
+    "kablosuz-guncelleme": "ota-updates",
+    "mimari-katmanlar": "architecture-layers",
+    "kullanici-arayuzu": "user-interface",
+    "bildirim-detay": "notification-detail",
+    "nasil-kurgulandi": "design-rationale",
+    "tunel-olu-hesap": "tunnel-dead-reckoning",
+    "imager-ile-yukleme": "imager-install",
+    "vs-code-kurulumu": "vs-code-setup",
+    "maliyet-korumasi": "cost-protection",
+    "guvenlik-durumu": "security-status",
+    "kadran-activity": "watchface-activity",
+    "terminal-derleme": "terminal-build",
+    "terminal-kurulum": "terminal-setup",
+    "veri-durustlugu": "data-integrity",
+    "vscode-kurulumu": "vscode-setup",
+    "acilis-selftest": "boot-selftest",
+    "arac-verisi-can": "vehicle-data-can",
+    "bssid-ile-konum": "bssid-positioning",
+    "temel-kavramlar": "basic-concepts",
+    "uygulama-acilis": "app-launch",
+    "hizli-baslangic": "quick-start",
+    "sunucu-kurulumu": "server-setup",
+    "rapor-anatomisi": "report-anatomy",
+    "konsol-teshis": "console-diagnostics",
+    "kadran-dijital": "watchface-digital",
+    "admin-telemetri": "admin-telemetry",
+    "diyagram-kaynak": "diagram-src",
+    "admin-cihazlar": "admin-devices",
+    "admin-surumler": "admin-releases",
+    "rapor-icerigi": "report-contents",
+    "kadran-analog": "watchface-analog",
+    "kadran-secici": "watchface-selector",
+    "komut-arayuzu": "command-interface",
+    "tarama-dongusu": "scan-cycle",
+    "vscode-indirme": "vscode-download",
+    "konsol-kurulum": "console-setup",
+    "wifi-konumlama": "wifi-positioning",
+    "zaman-damgasi": "timestamp",
+    "ota-guncelleme": "ota-updates",
+    "sorun-giderme": "troubleshooting",
+    "araca-montaj": "vehicle-installation",
+    "arac-baglanti": "vehicle-wiring",
+    "sunucu-tarafi": "server-side",
+    "vscode-pencere": "vscode-window",
+    "hero-cihazlar": "hero-devices",
+    "ota-geri-alma": "ota-rollback",
+    "led-desenleri": "led-patterns",
+    "guc-yonetimi": "power-management",
+    "lcd128-kaynak": "lcd128-src",
+    "cift-cekirdek": "dual-core",
+    "durum-led-i": "status-led",
+    "panele-cevir": "to-panel",
+    "panel-icerik": "panel-content",
+    "guc-raylari": "power-rails",
+    "hava-durumu": "weather",
+    "guc-dongusu": "power-cycle",
+    "store-detay": "store-detail",
+    "bildirimler": "notifications",
+    "genel-bakis": "overview",
+    "boru-hatti": "pipeline",
+    "lcd128-tur": "lcd128-tour",
+    "veri-akisi": "data-flow",
+    "adim-sayar": "step-counter",
+    "gif-kaynak": "gif-src",
+    "baslarken": "getting-started",
+    "gorseller": "images",
+    "gif-saat": "gif-watch",
+    "saat-240": "watch-240",
+    "telemetri": "telemetry",
+    "paketle": "package",
+    "ayarlar": "settings",
+    "donanim": "hardware",
+    "mimari": "architecture",
+    "galeri": "gallery",
+    "sozluk": "glossary",
+    "dongu": "cycle",
+    "konum": "positioning",
+    "saat": "watch",
+}
+
+
+def slug_en(text):
+    s = slug(text)
+    for a, b in sorted(SLUG_EN.items(), key=lambda kv: -len(kv[0])):
+        s = re.sub(r"(?<![a-z])" + re.escape(a) + r"(?![a-z])", b, s)
+    return s
+
+
 def to_md(fragment):
     p = ToMarkdown()
     p.feed(fragment)
@@ -685,17 +802,17 @@ def main():
                 "Her dosya panelde bir **başlık** olur. `GORSEL:` işaretli yerlere",
                 "editörün *Resim Yükle* butonuyla ilgili dosyayı yükleyip URL'i oraya koy.", ""]
     for n, (baslik, md, imgs, ust) in enumerate(bolumler, start=1):
-        fname = f"{n:02d}-{slug(baslik)}.md"
+        fname = f"{n:02d}-{slug_en(baslik)}.md"
         (OUT / fname).write_text(md + "\n", encoding="utf-8")
         ustbilgi = f"  ↳ üst bölüm: **{ust}**" if ust else ""
         listeler.append(f"### {n:02d}. {baslik}{ustbilgi}")
-        listeler.append(f"Dosya: `panel-icerik/{fname}` · {len(md)} karakter · {len(imgs)} görsel")
+        listeler.append(f"Dosya: `panel-content/{fname}` · {len(md)} karakter · {len(imgs)} görsel")
         for src, alt in imgs:
             listeler.append(f"- `{src.split('/')[-1]}`: {alt or '(başlıksız)'}")
         listeler.append("")
         print(f"  ✓ {fname:38s} {len(md):>6} karakter, {len(imgs)} görsel")
 
-    (OUT / "00-GORSEL-LISTESI.md").write_text("\n".join(listeler) + "\n", encoding="utf-8")
+    (OUT / "00-IMAGE-LIST.md").write_text("\n".join(listeler) + "\n", encoding="utf-8")
     print(f"\n✓ {len(bolumler)} bölüm → {OUT.relative_to(HERE.parent.parent)}")
 
 

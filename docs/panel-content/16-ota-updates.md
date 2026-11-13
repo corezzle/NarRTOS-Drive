@@ -1,6 +1,6 @@
 **Kısaca:** cihaz yazılımını kendi kendine güncelleyebiliyor. Mekanizma ailenin ilk ürünüyle aynı ama *politika* tamamen farklı, ve bunun tek bir sebebi var: **bu cihaza kimse fiziksel olarak ulaşamıyor.** Saatte bozuk bir güncelleme kullanıcıyı rahatsız eder, kullanıcı cihazı bilgisayara takar. Araç cihazı ise aracın altında, ekransız, belki başka şehirde.
 
-![A/B bölüm ve geri alma akışı](GORSEL: ota-geri-alma.svg)
+![A/B bölüm ve geri alma akışı](GORSEL: ota-rollback.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>A/B bölüm ve geri alma: kendini kanıtlayamayan güncelleme eski sürüme döner.</em></div>
 
