@@ -5,7 +5,7 @@
 > Projeyi ilk kez kullanacaksanız oradan ilerleyin; bu README yalnız kısa bir özettir.
 >
 > 📖 **Before you start:** installation, build, flashing, configuration and troubleshooting are covered step by step in the
-> **[NarRTOS Drive Wiki](https://www.corezzle.com/document-content/narrtos-drive-9)** (Turkish, with English pages under `docs/panel-icerik/en/`).
+> **[NarRTOS Drive Wiki](https://www.corezzle.com/document-content/narrtos-drive-9)** (Turkish, with English pages under `docs/panel-content/en/`).
 
 
 Ekransız araç takip cihazı için gömülü işletim sistemi (ESP32-S3).
@@ -18,7 +18,7 @@ yoktur; yerine CAN, GNSS ve hücresel bağlantı vardır.
 
 ## Belgeler
 
-Wiki'nin kaynak dosyaları depoda: `docs/panel-icerik/` (TR), `docs/panel-icerik/en/` (EN),
+Wiki'nin kaynak dosyaları depoda: `docs/panel-content/` (TR), `docs/panel-content/en/` (EN),
 tek dosya sürüm `docs/NarRTOS-Drive-Wiki.html` ve `.pdf`.
 
 ## Ne yapar

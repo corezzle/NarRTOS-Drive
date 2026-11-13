@@ -1,6 +1,6 @@
 **Kısaca:** ekran yok, buton yok, ses yok. Kablo takılıyken konsol var, bağlantı varken uzaktan komut var. Ama kurulumcu aracın altında ve cihaz henüz ağa girmemişken ikisinden de yararlanamıyor. Tek yerel gösterge bu LED.
 
-![LED desenleri ve anlamları](GORSEL: led-desenleri.svg)
+![LED desenleri ve anlamları](GORSEL: led-patterns.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>LED desenleri: ne kadar çok ışık, o kadar kötü. Sağlıklı cihaz 3 saniyede bir tek kırpma yapar.</em></div>
 

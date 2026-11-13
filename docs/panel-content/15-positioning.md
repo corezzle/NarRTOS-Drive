@@ -23,7 +23,7 @@ Sabitleme henüz yokken alıcı alanları boş bırakıyor. Boşu sıfır olarak
 
 Uydu görünürken konum doğrudan uydudan alınıyor. Tünelde ya da kapalı otoparkta uydu kesildiğinde cihaz son bilinen uydu noktasından başlayıp konumu **tahmin ederek sürdürüyor**: ne kadar yol alındığı aracın kendi hız verisinden, ne kadar dönüldüğü jiroskoptan okunuyor. Bu yönteme "ölü hesap" deniyor ve ticari takip cihazlarının tünel çözümü budur. Uydu geri geldiğinde tahmin bırakılıyor ve bir sonraki kesinti için o taze noktadan yeniden başlanıyor; biriken hata her seferinde sıfırlanıyor.
 
-![Tünelde ölü hesap: büyüyen hata payı ve yeniden tohumlama](GORSEL: tunel-olu-hesap.svg)
+![Tünelde ölü hesap: büyüyen hata payı ve yeniden tohumlama](GORSEL: tunnel-dead-reckoning.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Tünel geçişi: konum hız + jiroskopla yürütülür, hata payı halka olarak büyür, uydu dönünce sıfırlanır.</em></div>
 
@@ -55,7 +55,7 @@ Durum `pos status` komutuyla izleniyor: konum kaynağı, hata yarıçapı, tahmi
 
 Tünelin çözümü yukarıdaki tahmin; uydu görmeyen diğer kapalı alanlarda (otopark, AVM, bina içi) ise bir kanıt daha var. Konum uydudan gelmediği sürece cihaz 30 saniyede bir çevredeki WiFi ağlarını tarıyor ve en güçlü 8 ağın kimliğini (MAC) + sinyal gücünü rapora ekliyor. **Konumu cihaz çözmüyor**: araç verisindeki kalıbın aynısı, ham liste sunucuya gidiyor ve konum orada, bilinen ağ konumları veritabanından çözülüyor.
 
-![WiFi listesiyle kapalı alan konumlaması](GORSEL: wifi-konumlama.svg)
+![WiFi listesiyle kapalı alan konumlaması](GORSEL: wifi-positioning.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Kapalı alanda WiFi listesi rapora eklenir; konumu sunucu çözer, cihazın internete ihtiyacı olmaz.</em></div>
 

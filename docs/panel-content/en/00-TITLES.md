@@ -29,7 +29,7 @@
 
 Not: cihazın konsol çıktıları firmware'de Türkçe olduğu için İngilizce
 sayfalardaki örnek çıktılar Türkçe bırakıldı; açıklamalar İngilizce.
-Görseller dil bazında ayrı: İngilizce sayfaya gorseller/en/ altındaki
+Görseller dil bazında ayrı: İngilizce sayfaya images/en/ altındaki
 İngilizce çizim yüklenir (GORSEL: en/... işaretleri onları gösterir).
 Konsol görüntülerinin en/ sürümünde yalnız pencere başlığı İngilizce;
 cihaz çıktısı gerçekte Türkçe olduğu için içerik aynı bırakıldı.

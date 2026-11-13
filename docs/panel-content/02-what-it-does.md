@@ -10,7 +10,7 @@ Bir nakliye şirketi düşünün. Yüz kamyonu var ve şu soruların cevabını 
 
 Bu cihaz her aracın içine takılıyor ve bu soruların cevabını toplayıp merkeze gönderiyor. Merkezdeki yazılım (buna **filo sistemi** diyoruz) verileri bir haritada ve raporlarda gösteriyor.
 
-![Uçtan uca veri akışı: araç, cihaz, sunucu](GORSEL: veri-akisi.svg)
+![Uçtan uca veri akışı: araç, cihaz, sunucu](GORSEL: data-flow.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Uçtan uca akış: cihaz veriyi toplayıp iletir, çözüm sunucudadır.</em></div>
 

@@ -1,6 +1,6 @@
 **In short:** losing network in a vehicle is not an exception, it is *normal*. Tunnels, underground car parks, rural roads, handovers between two cell towers. During these periods the device writes reports to its persistent memory and sends them in order once the connection returns.
 
-![Buffer behavior during a coverage outage](GORSEL: en/tampon-zaman-cizgisi.png)
+![Buffer behavior during a coverage outage](GORSEL: en/buffer-timeline.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>During an outage, reports are written to the persistent buffer and sent in order when the connection returns.</em></div>
 

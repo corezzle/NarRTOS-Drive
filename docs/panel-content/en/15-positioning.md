@@ -23,7 +23,7 @@ Before a fix exists, the receiver leaves the fields empty. Reading empty as zero
 
 While satellites are visible, position comes directly from them. When they drop in a tunnel or an enclosed car park, the device starts from the last known satellite point and **continues the position by estimation**: distance traveled comes from the vehicle's own speed data, turns come from the gyroscope. The method is called "dead reckoning" and it is what commercial trackers use for tunnels. When satellites return the estimate is abandoned, and the next outage starts fresh from that new point; accumulated error is wiped every time.
 
-![Dead reckoning in a tunnel: growing error radius and reseeding](GORSEL: en/tunel-olu-hesap.png)
+![Dead reckoning in a tunnel: growing error radius and reseeding](GORSEL: en/tunnel-dead-reckoning.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>A tunnel passage: position is advanced with speed + gyroscope, the error radius grows as a ring, and resets when satellites return.</em></div>
 
@@ -55,7 +55,7 @@ The state is watched with the `pos status` command: position source, error radiu
 
 The tunnel's answer is the estimation above; in other enclosed places that see no satellites (car parks, malls, inside buildings) there is one more piece of evidence. As long as position is not coming from satellites, the device scans nearby WiFi networks every 30 seconds and adds the identities (MAC) and signal strengths of the strongest 8 to the report. **The device does not resolve the position**: same pattern as the vehicle data, the raw list goes to the server and the position is resolved there against a database of known network locations.
 
-![Indoor positioning with the WiFi list](GORSEL: en/wifi-konumlama.png)
+![Indoor positioning with the WiFi list](GORSEL: en/wifi-positioning.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Indoors, the WiFi list is added to the report; the server resolves the position and the device needs no internet.</em></div>
 

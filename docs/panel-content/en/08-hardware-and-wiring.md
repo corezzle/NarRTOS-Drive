@@ -1,6 +1,6 @@
 <div style="border-left:4px solid #D9922F;background:rgba(217,146,47,.12);border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0"><div style="font-weight:800;margin-bottom:6px;color:inherit">The pin map is temporary</div><div style="line-height:1.6;color:inherit">Drive's own circuit board has not been manufactured yet. The pin numbers below were chosen from non-conflicting pins on the development board. When the real board arrives it will be corrected <strong>in a single file</strong>; the rest of the code will not change.</div></div>
 
-![Vehicle wiring diagram: power, ignition, CAN, antennas](GORSEL: en/arac-baglanti.png)
+![Vehicle wiring diagram: power, ignition, CAN, antennas](GORSEL: en/vehicle-wiring.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Vehicle wiring diagram. The pin map is temporary; final wiring will be settled with Drive's own board.</em></div>
 

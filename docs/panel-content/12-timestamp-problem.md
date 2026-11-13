@@ -1,6 +1,6 @@
 **Kısaca:** cihazda pil destekli saat yongası yok. Elektrik kesilince saati kaybediyor ve tekrar öğrenmek için internete ya da uyduya ihtiyacı var. Ama raporların çoğu tam da bağlantı yokken üretiliyor. Bu belgede en çok kafa yorulan konu bu.
 
-![Zaman damgası karar akışı](GORSEL: zaman-damgasi.svg)
+![Zaman damgası karar akışı](GORSEL: timestamp.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Gönderim anında damga kararı: dört hâlin dördü de bilinçli.</em></div>
 

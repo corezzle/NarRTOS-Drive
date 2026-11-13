@@ -10,7 +10,7 @@ Imagine a logistics company. It has a hundred trucks and constantly needs answer
 
 This device is installed in every vehicle; it collects the answers and sends them to a central server. The software at the center (we call it the **fleet system**) shows the data on a map and in reports.
 
-![End-to-end data flow: vehicle, device, server](GORSEL: en/veri-akisi.png)
+![End-to-end data flow: vehicle, device, server](GORSEL: en/data-flow.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>The end-to-end flow: the device collects and forwards data; decoding happens on the server.</em></div>
 

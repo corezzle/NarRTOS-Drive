@@ -48,7 +48,7 @@
   </ul>
 
   <p>Bu cihaz her aracın içine takılıyor ve bu soruların cevabını toplayıp merkeze gönderiyor. Merkezdeki yazılım (buna <strong>filo sistemi</strong> diyoruz) verileri bir haritada ve raporlarda gösteriyor.</p>
-      <figure><img src="assets/img/veri-akisi.svg" alt="Uçtan uca veri akışı: araç, cihaz, sunucu"><figcaption>Uçtan uca akış: cihaz veriyi toplayıp iletir, çözüm sunucudadır.</figcaption></figure>
+      <figure><img src="assets/img/data-flow.svg" alt="Uçtan uca veri akışı: araç, cihaz, sunucu"><figcaption>Uçtan uca akış: cihaz veriyi toplayıp iletir, çözüm sunucudadır.</figcaption></figure>
 
 
   <h3>Cihaz veriyi nereden alıyor?</h3>
@@ -134,7 +134,7 @@ pio run -e esp32s3_drive -t upload</code></pre>
 
       <p><strong>Kısaca:</strong> bu bölüm, Hızlı başlangıç'taki adımların açıklamalı hâli. Hiç gömülü cihaz kurmamış biri buradan adım adım ilerleyebilir: neyi neden kurduğun, her adımda ne görmen gerektiği ve bir şey ters giderse ne yapacağın yazıyor.</p>
 
-      <figure><img src="assets/img/konsol-kurulum.svg" alt="Seri konsolda ilk kurulum komutları"><figcaption>İlk kurulum seri konsoldan: kimlik, sunucu ve atölye ağı ayarlanıp deneme raporu üretiliyor.</figcaption></figure>
+      <figure><img src="assets/img/console-setup.svg" alt="Seri konsolda ilk kurulum komutları"><figcaption>İlk kurulum seri konsoldan: kimlik, sunucu ve atölye ağı ayarlanıp deneme raporu üretiliyor.</figcaption></figure>
 
       <p>Önce tek bir şeyi kafana yerleştir: cihazın <strong>ekranı yok</strong>. Onunla konuşmanın tek yolu, USB kablosuyla bağlanıp klavyeden metin komutları yazmak. Telefon kurar gibi dokunarak değil, kısa komutlar yazarak ilerleyeceksin ve cihaz her komuta yazıyla cevap verecek.</p>
 
@@ -329,7 +329,7 @@ tampon       2,4 MB   gönderilemeyen raporlar (624 rapor)</code></pre>
 
       <div class="note warn"><div class="note-t">Pin haritası geçici</div><p>Drive'ın kendi elektronik kartı henüz üretilmedi. Aşağıdaki bacak numaraları geliştirme kartında çakışmayan pinlerden seçildi. Gerçek kart gelince <strong>tek dosyadan</strong> düzeltilecek; kodun geri kalanı değişmeyecek.</p></div>
 
-      <figure><img src="assets/img/arac-baglanti.svg" alt="Araca bağlantı şeması: besleme, kontak, CAN, antenler"><figcaption>Araca bağlantı şeması. Pin haritası geçicidir; kesin bağlantı Drive'ın kendi kartıyla netleşecek.</figcaption></figure>
+      <figure><img src="assets/img/vehicle-wiring.svg" alt="Araca bağlantı şeması: besleme, kontak, CAN, antenler"><figcaption>Araca bağlantı şeması. Pin haritası geçicidir; kesin bağlantı Drive'ın kendi kartıyla netleşecek.</figcaption></figure>
 
       <h3>Bağlantı noktaları</h3>
       <p>"GPIO" işlemcinin dışa açılan bacaklarına verilen ad; her biri numaralı.</p>
@@ -494,7 +494,7 @@ mosquitto_sub -h &lt;sunucu&gt; -t 'narrtos/drive/&lt;imei&gt;/cmd/reply'</code>
       <h2 id="zaman-ve-damga">Zaman damgası sorunu</h2>
 
       <p><strong>Kısaca:</strong> cihazda pil destekli saat yongası yok. Elektrik kesilince saati kaybediyor ve tekrar öğrenmek için internete ya da uyduya ihtiyacı var. Ama raporların çoğu tam da bağlantı yokken üretiliyor. Bu belgede en çok kafa yorulan konu bu.</p>
-      <figure><img src="assets/img/zaman-damgasi.svg" alt="Zaman damgası karar akışı"><figcaption>Gönderim anında damga kararı: dört hâlin dördü de bilinçli.</figcaption></figure>
+      <figure><img src="assets/img/timestamp.svg" alt="Zaman damgası karar akışı"><figcaption>Gönderim anında damga kararı: dört hâlin dördü de bilinçli.</figcaption></figure>
 
 
       <h3>Sorun nasıl ortaya çıkıyor</h3>
@@ -531,7 +531,7 @@ Demek ki rapor 07:01'de üretildi.</code></pre>
       <h2 id="store-forward">Şebeke yokken: tampon</h2>
 
       <p><strong>Kısaca:</strong> araçta şebeke kesilmesi istisna değil, <em>normal</em>. Tünel, kapalı otopark, kırsal yol, iki baz istasyonu arası geçiş. Cihaz bu sürelerde raporları kalıcı belleğine yazıyor ve bağlantı gelince sırayla gönderiyor.</p>
-      <figure><img src="assets/img/tampon-zaman-cizgisi.svg" alt="Kapsama kesintisinde tamponun davranışı"><figcaption>Kapsama kesintisinde raporlar kalıcı tampona yazılır, bağlantı dönünce sırayla gönderilir.</figcaption></figure>
+      <figure><img src="assets/img/buffer-timeline.svg" alt="Kapsama kesintisinde tamponun davranışı"><figcaption>Kapsama kesintisinde raporlar kalıcı tampona yazılır, bağlantı dönünce sırayla gönderilir.</figcaption></figure>
 
 
       <p>Ailenin ilk ürünü olan saatte böyle bir mekanizma yoktu: WiFi yoksa rapor sessizce atlanıyordu. Bir giyilebilir cihazda kaçan ölçüm sadece eksik bir veri noktası. Araç takibinde ise <strong>eksik bir güzergâh</strong> demek. Filo ekranında araç kayboluyor ve hız, mesai, bölge raporları yanlış çalışıyor.</p>
@@ -596,7 +596,7 @@ Demek ki rapor 07:01'de üretildi.</code></pre>
 
       <h3>Kapalı alanda konum: uydu kesilince tahminle sürdürme</h3>
       <p>Uydu görünürken konum doğrudan uydudan alınıyor. Tünelde ya da kapalı otoparkta uydu kesildiğinde cihaz son bilinen uydu noktasından başlayıp konumu <strong>tahmin ederek sürdürüyor</strong>: ne kadar yol alındığı aracın kendi hız verisinden, ne kadar dönüldüğü jiroskoptan okunuyor. Bu yönteme "ölü hesap" deniyor ve ticari takip cihazlarının tünel çözümü budur. Uydu geri geldiğinde tahmin bırakılıyor ve bir sonraki kesinti için o taze noktadan yeniden başlanıyor; biriken hata her seferinde sıfırlanıyor.</p>
-      <figure><img src="assets/img/tunel-olu-hesap.svg" alt="Tünelde ölü hesap: büyüyen hata payı ve yeniden tohumlama"><figcaption>Tünel geçişi: konum hız + jiroskopla yürütülür, hata payı halka olarak büyür, uydu dönünce sıfırlanır.</figcaption></figure>
+      <figure><img src="assets/img/tunnel-dead-reckoning.svg" alt="Tünelde ölü hesap: büyüyen hata payı ve yeniden tohumlama"><figcaption>Tünel geçişi: konum hız + jiroskopla yürütülür, hata payı halka olarak büyür, uydu dönünce sıfırlanır.</figcaption></figure>
 
       <div class="tablewrap"><table><thead><tr><th>Kaynak</th><th>Ne veriyor</th><th>Durum</th></tr></thead><tbody>
         <tr><td>Aracın hız verisi (CAN)</td><td>Ne kadar yol alındığı</td><td>Uygulandı. Tek sinyal çözülüyor: tekerlek hızı</td></tr>
@@ -617,7 +617,7 @@ Demek ki rapor 07:01'de üretildi.</code></pre>
 
       <h3>Kapalı alanda ek kanıt: WiFi listesi</h3>
       <p>Tünelin çözümü yukarıdaki tahmin; uydu görmeyen diğer kapalı alanlarda (otopark, AVM, bina içi) ise bir kanıt daha var. Konum uydudan gelmediği sürece cihaz 30 saniyede bir çevredeki WiFi ağlarını tarıyor ve en güçlü 8 ağın kimliğini (MAC) + sinyal gücünü rapora ekliyor. <strong>Konumu cihaz çözmüyor</strong>: araç verisindeki kalıbın aynısı, ham liste sunucuya gidiyor ve konum orada, bilinen ağ konumları veritabanından çözülüyor.</p>
-      <figure><img src="assets/img/wifi-konumlama.svg" alt="WiFi listesiyle kapalı alan konumlaması"><figcaption>Kapalı alanda WiFi listesi rapora eklenir; konumu sunucu çözer, cihazın internete ihtiyacı olmaz.</figcaption></figure>
+      <figure><img src="assets/img/wifi-positioning.svg" alt="WiFi listesiyle kapalı alan konumlaması"><figcaption>Kapalı alanda WiFi listesi rapora eklenir; konumu sunucu çözer, cihazın internete ihtiyacı olmaz.</figcaption></figure>
 
       <ul>
         <li><strong>Cihazın internete ihtiyacı yok.</strong> Liste raporla birlikte tamponda bekliyor; şebekesiz kapalı alanda üretilen rapor sonradan gönderildiğinde konum geriye dönük çözülüyor.</li>
@@ -633,7 +633,7 @@ Demek ki rapor 07:01'de üretildi.</code></pre>
       <h2 id="ota">Kablosuz güncelleme</h2>
 
       <p><strong>Kısaca:</strong> cihaz yazılımını kendi kendine güncelleyebiliyor. Mekanizma ailenin ilk ürünüyle aynı ama <em>politika</em> tamamen farklı, ve bunun tek bir sebebi var: <strong>bu cihaza kimse fiziksel olarak ulaşamıyor.</strong> Saatte bozuk bir güncelleme kullanıcıyı rahatsız eder, kullanıcı cihazı bilgisayara takar. Araç cihazı ise aracın altında, ekransız, belki başka şehirde.</p>
-      <figure><img src="assets/img/ota-geri-alma.svg" alt="A/B bölüm ve geri alma akışı"><figcaption>A/B bölüm ve geri alma: kendini kanıtlayamayan güncelleme eski sürüme döner.</figcaption></figure>
+      <figure><img src="assets/img/ota-rollback.svg" alt="A/B bölüm ve geri alma akışı"><figcaption>A/B bölüm ve geri alma: kendini kanıtlayamayan güncelleme eski sürüme döner.</figcaption></figure>
 
 
       <h3>Bozuk güncelleme kendini geri alıyor</h3>
@@ -762,7 +762,7 @@ Demek ki rapor 07:01'de üretildi.</code></pre>
       <h2 id="komut-arayuzu">Komut arayüzü</h2>
 
       <p><strong>Kısaca:</strong> cihaz metin komutlarıyla sürülüyor. Aynı komutlar iki yerden gönderilebiliyor: USB kablosuyla bilgisayardan, ya da bağlantı varken uzaktan.</p>
-      <figure><img src="assets/img/konsol-teshis.svg" alt="Seri konsolda pos status ve power status çıktıları"><figcaption>Sahada teşhis: pos status tünelde tahmine geçildiğini, power status uyku kararını gösteriyor.</figcaption></figure>
+      <figure><img src="assets/img/console-diagnostics.svg" alt="Seri konsolda pos status ve power status çıktıları"><figcaption>Sahada teşhis: pos status tünelde tahmine geçildiğini, power status uyku kararını gösteriyor.</figcaption></figure>
 
 
       <h3>Ayar komutları</h3>
@@ -813,7 +813,7 @@ net offline 0               <span class="c-cmt"># şebeke döndü, tampon boşal
       <h2 id="durum-led">Durum LED'i</h2>
 
       <p><strong>Kısaca:</strong> ekran yok, buton yok, ses yok. Kablo takılıyken konsol var, bağlantı varken uzaktan komut var. Ama kurulumcu aracın altında ve cihaz henüz ağa girmemişken ikisinden de yararlanamıyor. Tek yerel gösterge bu LED.</p>
-      <figure><img src="assets/img/led-desenleri.svg" alt="LED desenleri ve anlamları"><figcaption>LED desenleri: ne kadar çok ışık, o kadar kötü. Sağlıklı cihaz 3 saniyede bir tek kırpma yapar.</figcaption></figure>
+      <figure><img src="assets/img/led-patterns.svg" alt="LED desenleri ve anlamları"><figcaption>LED desenleri: ne kadar çok ışık, o kadar kötü. Sağlıklı cihaz 3 saniyede bir tek kırpma yapar.</figcaption></figure>
 
 
       <p>Desen dili tek bir kurala dayanıyor: <strong>ne kadar çok ışık, o kadar kötü.</strong></p>
@@ -835,7 +835,7 @@ net offline 0               <span class="c-cmt"># şebeke döndü, tampon boşal
       <h2 id="guc-yonetimi">Güç yönetimi</h2>
 
       <p><strong>Kısaca:</strong> kontak kapanınca cihaz bekleyen işlerini bitirip <strong>derin uykuya</strong> geçebiliyor. Uykuda tüketim binlerce kat düşüyor; araç haftalarca park etse de akü cihaz yüzünden bitmiyor. Özellik varsayılan olarak kapalı geliyor ve sahaya çıkan cihazda <code>set power sleep 1</code> ile açılıyor.</p>
-      <figure><img src="assets/img/guc-dongusu.svg" alt="Güç yönetimi durum döngüsü"><figcaption>Güç döngüsü: bekleme, derin uyku ve iki uyanma yolu.</figcaption></figure>
+      <figure><img src="assets/img/power-cycle.svg" alt="Güç yönetimi durum döngüsü"><figcaption>Güç döngüsü: bekleme, derin uyku ve iki uyanma yolu.</figcaption></figure>
 
 
       <h3>Neden var?</h3>

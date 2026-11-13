@@ -5,10 +5,10 @@
 tek başına alan kişi stilsiz bir metin görür ve içindekiler menüsü hiç
 oluşmaz. Bu betik ikisini de belgeye gömer.
 
-Wear'ın paketle.py'sinden uyarlandı. Drive'da alt sayfa ve görsel olmadığı
+Wear'ın package.py'sinden uyarlandı. Drive'da alt sayfa ve görsel olmadığı
 için base64 gömme ve sayfa birleştirme adımları çıkarıldı.
 
-Kullanım:  python3 docs/wiki-html/paketle.py
+Kullanım:  python3 docs/wiki-html/package.py
 Çıktı:     docs/NarRTOS-Drive-Wiki.html   (çift tıklayınca her yerde açılır)
 """
 import base64

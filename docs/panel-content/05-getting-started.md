@@ -1,6 +1,6 @@
 **Kısaca:** bu bölüm, Hızlı başlangıç'taki adımların açıklamalı hâli. Hiç gömülü cihaz kurmamış biri buradan adım adım ilerleyebilir: neyi neden kurduğun, her adımda ne görmen gerektiği ve bir şey ters giderse ne yapacağın yazıyor.
 
-![Seri konsolda ilk kurulum komutları](GORSEL: konsol-kurulum.svg)
+![Seri konsolda ilk kurulum komutları](GORSEL: console-setup.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>İlk kurulum seri konsoldan: kimlik, sunucu ve atölye ağı ayarlanıp deneme raporu üretiliyor.</em></div>
 

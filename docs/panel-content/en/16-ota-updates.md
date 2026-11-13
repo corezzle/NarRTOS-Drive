@@ -1,6 +1,6 @@
 **In short:** the device can update its own software. The mechanism is the same as the family's first product, but the *policy* is completely different, and for a single reason: **nobody can physically reach this device.** On the watch a broken update annoys the user, and the user plugs it into a computer. The vehicle device is under a vehicle, screenless, perhaps in another city.
 
-![A/B partitions and rollback flow](GORSEL: en/ota-geri-alma.png)
+![A/B partitions and rollback flow](GORSEL: en/ota-rollback.png)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>A/B partitions and rollback: an update that cannot prove itself falls back to the previous version.</em></div>
 

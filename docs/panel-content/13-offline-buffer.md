@@ -1,6 +1,6 @@
 **Kısaca:** araçta şebeke kesilmesi istisna değil, *normal*. Tünel, kapalı otopark, kırsal yol, iki baz istasyonu arası geçiş. Cihaz bu sürelerde raporları kalıcı belleğine yazıyor ve bağlantı gelince sırayla gönderiyor.
 
-![Kapsama kesintisinde tamponun davranışı](GORSEL: tampon-zaman-cizgisi.svg)
+![Kapsama kesintisinde tamponun davranışı](GORSEL: buffer-timeline.svg)
 
 <div style="font-size:12.5px;color:inherit;opacity:.72;text-align:center;margin:-6px 0 14px"><em>Kapsama kesintisinde raporlar kalıcı tampona yazılır, bağlantı dönünce sırayla gönderilir.</em></div>
 
