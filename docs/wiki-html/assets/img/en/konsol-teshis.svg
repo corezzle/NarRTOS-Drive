@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 541" font-family="-apple-system,'Segoe UI',Roboto,sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#93AEC7"/></marker></defs>
+<rect width="1200" height="541" fill="#040B1C"/>
+<rect x="40" y="24" width="1120" height="477" rx="16" fill="#02060F" stroke="#1B4570" stroke-width="1.6"/>
+<circle cx="74" cy="56" r="7.5" fill="#FF6E6E" opacity="0.85"/>
+<circle cx="100" cy="56" r="7.5" fill="#F5A623" opacity="0.85"/>
+<circle cx="126" cy="56" r="7.5" fill="#2ECC71" opacity="0.85"/>
+<text x="600.0" y="62" text-anchor="middle" fill="#93AEC7" font-size="14.5" font-weight="700">USB serial console · tunnel position diagnostics (device output is in Turkish)</text>
+<text x="76" y="104" text-anchor="start" fill="#00CAD7" font-size="15.5" font-weight="700" font-family="Menlo,Consolas,monospace">&gt; </text>
+<text x="100" y="104" text-anchor="start" fill="#00CAD7" font-size="15.5" font-weight="700" font-family="Menlo,Consolas,monospace">pos status</text>
+<text x="76" y="131" text-anchor="start" fill="#F5A623" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] kaynak      : tahmin</text>
+<text x="76" y="158" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] belirsizlik : 42 m (sınır 500)</text>
+<text x="76" y="185" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] uydu        : 118 tur konum alındı</text>
+<text x="76" y="212" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] tahmin      : 63 adım, 2 kez düşüldü, 0 kez sınır aşıldı</text>
+<text x="76" y="239" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] tahmin yolu : 840 m (son tohumlamadan beri)</text>
+<text x="76" y="266" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] araç hızı   : CAN'den geliyor</text>
+<text x="76" y="293" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] jiroskop    : var, sapma -0.3 derece/sn (duruşta ölçülür)</text>
+<text x="76" y="320" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] wifi        : 5 ağ, 12 sn önce (rapora girme sınırı 120 sn)</text>
+<text x="76" y="347" text-anchor="start" fill="#00CAD7" font-size="15.5" font-weight="700" font-family="Menlo,Consolas,monospace">&gt; </text>
+<text x="100" y="347" text-anchor="start" fill="#00CAD7" font-size="15.5" font-weight="700" font-family="Menlo,Consolas,monospace">power status</text>
+<text x="76" y="374" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] uyku ayarı  : açık</text>
+<text x="76" y="401" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] karar       : kontak açık</text>
+<text x="76" y="428" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] uyanma      : kontak açıldı</text>
+<text x="76" y="455" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] uyku sayısı : 47</text>
+<text x="76" y="482" text-anchor="start" fill="#93AEC7" font-size="15" font-weight="500" font-family="Menlo,Consolas,monospace">[cmd] kontak      : açık</text>
+</svg>

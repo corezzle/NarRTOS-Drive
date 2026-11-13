@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="-apple-system,'Segoe UI',Roboto,sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#93AEC7"/></marker><marker id="arT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#00CAD7"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FF6E6E"/></marker><marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F5A623"/></marker></defs>
+<rect width="1200" height="560" fill="#040B1C"/>
+<rect x="80" y="80" width="300" height="90" rx="12" fill="#0A2447" stroke="#00CAD7" stroke-width="1.6"/>
+<text x="230.0" y="121.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Bölüm A</text>
+<text x="230.0" y="145.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">çalışan yazılım v1.0</text>
+<rect x="80" y="220" width="300" height="90" rx="12" fill="#0A2447" stroke="#1B4570" stroke-width="1.6"/>
+<text x="230.0" y="261.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Bölüm B</text>
+<text x="230.0" y="285.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">boş / eski sürüm</text>
+<line x1="230" y1="170" x2="230" y2="220" stroke="#93AEC7" stroke-width="2.4" marker-end="url(#ar)"/>
+<text x="410" y="120" text-anchor="start" fill="#E4F0EE" font-size="15" font-weight="700">1. Yeni sürüm (v1.1) sunucudan</text>
+<text x="410" y="142" text-anchor="start" fill="#93AEC7" font-size="14" font-weight="500">BOŞTAKİ bölüme (B) yazılır;</text>
+<text x="410" y="162" text-anchor="start" fill="#93AEC7" font-size="14" font-weight="500">çalışan A'ya dokunulmaz</text>
+<line x1="380" y1="265" x2="660" y2="265" stroke="#93AEC7" stroke-width="2.4" marker-end="url(#ar)"/>
+<text x="410" y="296" text-anchor="start" fill="#E4F0EE" font-size="14.5" font-weight="700">2. Araç park hâlindeyken yeniden</text>
+<text x="410" y="316" text-anchor="start" fill="#93AEC7" font-size="14" font-weight="500">başlatılıp B denenir</text>
+<polygon points="760,215 880,265 760,315 640,265" fill="#0F2F58" stroke="#1B4570" stroke-width="1.6"/>
+<text x="760" y="258" text-anchor="middle" fill="#E4F0EE" font-size="15.5" font-weight="700">v1.1 kendini</text>
+<text x="760" y="280" text-anchor="middle" fill="#E4F0EE" font-size="15.5" font-weight="700">kanıtladı mı?</text>
+<text x="790" y="352" text-anchor="start" fill="#93AEC7" font-size="13.5" font-weight="600">kanıt: bir rapor sunucu onayı aldı</text>
+<text x="790" y="371" text-anchor="start" fill="#93AEC7" font-size="13.5" font-weight="600">YA DA 5 dk çökmeden çalıştı</text>
+<line x1="880" y1="265" x2="960" y2="265" stroke="#00CAD7" stroke-width="2.4" marker-end="url(#arT)"/>
+<text x="918" y="252" text-anchor="middle" fill="#00CAD7" font-size="14" font-weight="600">evet</text>
+<rect x="960" y="225" width="190" height="80" rx="12" fill="#0A2447" stroke="#00CAD7" stroke-width="1.6"/>
+<text x="1055.0" y="261.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">B kalıcı olur</text>
+<text x="1055.0" y="285.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">cihaz artık v1.1</text>
+<line x1="760" y1="315" x2="760" y2="400" stroke="#FF6E6E" stroke-width="2.4" marker-end="url(#arR)"/>
+<text x="742" y="368" text-anchor="end" fill="#FF6E6E" font-size="14" font-weight="600">hayır</text>
+<rect x="560" y="400" width="400" height="84" rx="12" fill="#0A2447" stroke="#FF6E6E" stroke-width="1.6"/>
+<text x="760.0" y="438.0" text-anchor="middle" fill="#FF6E6E" font-size="19" font-weight="700">Bootloader A'ya geri döner</text>
+<text x="760.0" y="462.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">bozuk güncelleme kendini geri alır; cihaza gitmek gerekmez</text>
+<path d="M560 442 C 300 442 230 400 230 315" fill="none" stroke="#FF6E6E" stroke-width="2.2" marker-end="url(#arR)" stroke-dasharray="6 6"/>
+<text x="600" y="530" text-anchor="middle" fill="#93AEC7" font-size="14" font-weight="600">Ölçüt bilinçli olarak İKİLİ: yalnız onay olsaydı sunucu bakımı sonsuz döngü yaratırdı; yalnız süre olsaydı açılan ama işlevsiz yazılım sağlam sayılırdı.</text>
+</svg>

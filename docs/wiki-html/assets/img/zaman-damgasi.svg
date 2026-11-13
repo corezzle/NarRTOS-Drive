@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" font-family="-apple-system,'Segoe UI',Roboto,sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#93AEC7"/></marker><marker id="arT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#00CAD7"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FF6E6E"/></marker><marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F5A623"/></marker></defs>
+<rect width="1200" height="620" fill="#040B1C"/>
+<rect x="60" y="60" width="300" height="60" rx="12" fill="#0A2447" stroke="#1B4570" stroke-width="1.6"/>
+<text x="210.0" y="86.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Kayıt gönderilecek</text>
+<text x="210.0" y="110.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">tampondan sıradaki kayıt</text>
+<line x1="360" y1="90" x2="450" y2="90" stroke="#93AEC7" stroke-width="2.4" marker-end="url(#ar)"/>
+<polygon points="600,40.0 750.0,90 600,140.0 450.0,90" fill="#0F2F58" stroke="#1B4570" stroke-width="1.6"/>
+<text x="600" y="88" text-anchor="middle" fill="#E4F0EE" font-size="16" font-weight="700">Kayıtta duvar</text>
+<text x="600" y="109" text-anchor="middle" fill="#E4F0EE" font-size="16" font-weight="700">saati var mı?</text>
+<line x1="750" y1="90" x2="860" y2="90" stroke="#00CAD7" stroke-width="2.4" marker-end="url(#arT)"/>
+<text x="795" y="78" text-anchor="middle" fill="#00CAD7" font-size="14.5" font-weight="600">evet</text>
+<rect x="860" y="60" width="280" height="60" rx="12" fill="#0A2447" stroke="#00CAD7" stroke-width="1.6"/>
+<text x="1000.0" y="86.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Damga hazır</text>
+<text x="1000.0" y="110.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">JSON üretilir, gönderilir</text>
+<line x1="600" y1="140" x2="600" y2="210" stroke="#93AEC7" stroke-width="2.4" marker-end="url(#ar)"/>
+<text x="622" y="180" text-anchor="middle" fill="#93AEC7" font-size="14.5" font-weight="600">hayır</text>
+<polygon points="600,212.5 760.0,265 600,317.5 440.0,265" fill="#0F2F58" stroke="#1B4570" stroke-width="1.6"/>
+<text x="600" y="263" text-anchor="middle" fill="#E4F0EE" font-size="16" font-weight="700">Kayıt bu açılıştan mı?</text>
+<text x="600" y="284" text-anchor="middle" fill="#E4F0EE" font-size="16" font-weight="700">(boot kimliği aynı mı)</text>
+<line x1="760" y1="265" x2="880" y2="265" stroke="#FF6E6E" stroke-width="2.4" marker-end="url(#arR)"/>
+<text x="812" y="252" text-anchor="middle" fill="#FF6E6E" font-size="14.5" font-weight="600">hayır</text>
+<rect x="880" y="233" width="260" height="64" rx="12" fill="#0A2447" stroke="#FF6E6E" stroke-width="1.6"/>
+<text x="1010.0" y="261.0" text-anchor="middle" fill="#FF6E6E" font-size="19" font-weight="700">Düşürülür</text>
+<text x="1010.0" y="285.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">damga asla çözülemez</text>
+<line x1="600" y1="318" x2="600" y2="385" stroke="#93AEC7" stroke-width="2.4" marker-end="url(#ar)"/>
+<text x="622" y="356" text-anchor="middle" fill="#93AEC7" font-size="14.5" font-weight="600">evet</text>
+<polygon points="600,387.5 750.0,440 600,492.5 450.0,440" fill="#0F2F58" stroke="#1B4570" stroke-width="1.6"/>
+<text x="600" y="438" text-anchor="middle" fill="#E4F0EE" font-size="16" font-weight="700">Saat ŞU AN</text>
+<text x="600" y="459" text-anchor="middle" fill="#E4F0EE" font-size="16" font-weight="700">biliniyor mu?</text>
+<line x1="750" y1="440" x2="860" y2="440" stroke="#00CAD7" stroke-width="2.4" marker-end="url(#arT)"/>
+<text x="797" y="427" text-anchor="middle" fill="#00CAD7" font-size="14.5" font-weight="600">evet</text>
+<rect x="860" y="408" width="300" height="64" rx="12" fill="#0A2447" stroke="#00CAD7" stroke-width="1.6"/>
+<text x="1010.0" y="436.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Geriye hesaplanır</text>
+<text x="1010.0" y="460.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">şimdi - (geçen süre) = üretim anı</text>
+<line x1="450" y1="440" x2="330" y2="440" stroke="#F5A623" stroke-width="2.4" marker-end="url(#arA)"/>
+<text x="392" y="427" text-anchor="middle" fill="#F5A623" font-size="14.5" font-weight="600">hayır</text>
+<rect x="70" y="408" width="260" height="64" rx="12" fill="#0A2447" stroke="#F5A623" stroke-width="1.6"/>
+<text x="200.0" y="436.0" text-anchor="middle" fill="#F5A623" font-size="19" font-weight="700">Bekletilir</text>
+<text x="200.0" y="460.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">saat gelince çözülecek</text>
+<text x="600" y="585" text-anchor="middle" fill="#93AEC7" font-size="14.5" font-weight="600">Kural: yanlış damga hiç damgadan kötüdür. Çözülemeyecek kayıt beklemez, düşer; çözülebilecek kayıt acele etmez, bekler.</text>
+</svg>

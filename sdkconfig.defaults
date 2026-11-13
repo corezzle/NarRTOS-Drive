@@ -1,0 +1,67 @@
+# ============================================================
+# ESP-IDF sdkconfig.defaults
+# NarRTOS-Drive — ESP32-S3, ekransız araç takip cihazı
+# ============================================================
+
+# ── Flash — 8 MB ─────────────────────────────────────────────
+# ZORUNLU. Bu dosya olmadan ESP-IDF varsayılanı 2 MB'tır ve
+# partitions_drive.csv tam 8 MB ister (son bölüm 0x800000'de biter).
+# Uyumsuzluk derlemede yalnız uyarı verir ama flash sırasında patlar:
+# bootloader 2 MB'a göre kurulur, buffer bölümüne erişilemez.
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="8MB"
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+
+# ── CPU — 240 MHz ────────────────────────────────────────────
+# İki anahtar da gerekli: ESP32S3_* eski, ESP_DEFAULT_* güncel.
+CONFIG_ESP32S3_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ=240
+
+# ── Derleyici — release ──────────────────────────────────────
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_DISABLE=y
+
+# ── PSRAM — KAPALI ───────────────────────────────────────────
+# Wear'da ekran buffer'ı için octal PSRAM şart. Drive'da ekran yok;
+# store&forward tamponu flash'ta duracak. Donanım netleşince açılabilir.
+CONFIG_SPIRAM=n
+
+# ── FreeRTOS — çift çekirdek ─────────────────────────────────
+# CAN yakalama çekirdek 1'de, ağ işleri çekirdek 0'da (bkz. os_config.h).
+CONFIG_FREERTOS_UNICORE=n
+CONFIG_FREERTOS_HZ=1000
+
+# ── TWAI ─────────────────────────────────────────────────────
+# ISR'yi IRAM'de tut: flash yazma (OTA, store&forward) sırasında cache
+# kapanır; IRAM'de olmayan ISR o anda çalışamaz ve frame kaçar.
+CONFIG_TWAI_ISR_IN_IRAM=y
+
+# ── Konsol ───────────────────────────────────────────────────
+CONFIG_ESP_CONSOLE_UART_BAUDRATE=115200
+
+# ── PPP — modem veri yolu ────────────────────────────────────
+# Varsayılan kapalı. 4G modem lwIP'e PPPoS ile bağlanıyor; bu
+# olmadan modem arka ucu derlense de IP alamaz.
+CONFIG_LWIP_PPP_SUPPORT=y
+CONFIG_LWIP_PPP_PAP_SUPPORT=y
+CONFIG_LWIP_PPP_CHAP_SUPPORT=y
+
+# ── OTA — GERİ ALMA AÇIK ─────────────────────────────────────
+# Wear'da kapalıydı; Drive'da ZORUNLU. Bu cihaza fiziksel olarak
+# ulaşılamıyor: aracın altında, ekransız, belki başka şehirde.
+# Açılışta çöken bir güncelleme, geri alma olmadan cihazı sahada
+# tuğlaya çevirir ve aracı takipten düşürür.
+#
+# Yeni firmware esp_ota_mark_app_valid_cancel_rollback() çağırmazsa
+# bootloader bir sonraki açılışta eski sürüme döner. Çağırma ölçütü
+# ota_service.h'de: yayın onayı VEYA 5 dk çökmeden çalışma.
+CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
+
+# ── Watchdog ─────────────────────────────────────────────────
+# Araçta cihaza kimse müdahale edemez; takılan bir görev cihazı sessizce
+# ölü bırakmasın diye watchdog açık ve panik ile yeniden başlatıyor.
+CONFIG_ESP_TASK_WDT_EN=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=10
+CONFIG_ESP_INT_WDT=y

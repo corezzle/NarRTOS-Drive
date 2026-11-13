@@ -1,0 +1,1 @@
+This document explains **how** the device works and **why** it works the way it does. A reader with no prior background can follow it from the start; technical terms are explained where they first appear, and the full list is in the Glossary at the end.

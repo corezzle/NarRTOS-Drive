@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="-apple-system,'Segoe UI',Roboto,sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#93AEC7"/></marker><marker id="arT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#00CAD7"/></marker><marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FF6E6E"/></marker><marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F5A623"/></marker></defs>
+<rect width="1200" height="500" fill="#040B1C"/>
+<rect x="60" y="70" width="420" height="290" rx="16" fill="#0A2447" stroke="#1B4570" stroke-width="1.6"/>
+<text x="270" y="102" text-anchor="middle" fill="#E4F0EE" font-size="15" font-weight="800">KAPALI ALAN (otopark, AVM, bina içi)</text>
+<rect x="180" y="240" width="180" height="64" rx="12" fill="#0A2447" stroke="#00CAD7" stroke-width="1.6"/>
+<text x="270.0" y="268.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Cihaz</text>
+<text x="270.0" y="292.0" text-anchor="middle" fill="#93AEC7" font-size="14.5">uydu yok, tarama var</text>
+<circle cx="130" cy="160" r="7" fill="#F5A623"/>
+<path d="M116 160 a14 14 0 0 1 28 0" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.6"/>
+<path d="M108 160 a22 22 0 0 1 44 0" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.6"/>
+<line x1="130" y1="170" x2="262" y2="238" stroke="#F5A623" stroke-width="1.6" marker-end="url(#arA)"/>
+<circle cx="280" cy="150" r="7" fill="#F5A623"/>
+<path d="M266 150 a14 14 0 0 1 28 0" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.6"/>
+<path d="M258 150 a22 22 0 0 1 44 0" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.6"/>
+<line x1="280" y1="160" x2="262" y2="238" stroke="#F5A623" stroke-width="1.6" marker-end="url(#arA)"/>
+<circle cx="420" cy="190" r="7" fill="#F5A623"/>
+<path d="M406 190 a14 14 0 0 1 28 0" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.6"/>
+<path d="M398 190 a22 22 0 0 1 44 0" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.6"/>
+<line x1="420" y1="200" x2="262" y2="238" stroke="#F5A623" stroke-width="1.6" marker-end="url(#arA)"/>
+<text x="270" y="340" text-anchor="middle" fill="#F5A623" font-size="14" font-weight="600">en güçlü 8 ağın kimliği (MAC) + sinyal gücü</text>
+<line x1="480" y1="250" x2="610" y2="250" stroke="#93AEC7" stroke-width="2.4" marker-end="url(#ar)"/>
+<rect x="610" y="196" width="300" height="108" rx="12" fill="#0A2447" stroke="#1B4570" stroke-width="1.6"/>
+<text x="760" y="234" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700">Rapor</text>
+<text x="760" y="262" text-anchor="middle" fill="#93AEC7" font-size="14" font-weight="600">wifi listesi kayda girer;</text>
+<text x="760" y="282" text-anchor="middle" fill="#93AEC7" font-size="14" font-weight="600">şebeke yoksa tamponda bekler</text>
+<line x1="910" y1="250" x2="950" y2="250" stroke="#00CAD7" stroke-width="2.4" marker-end="url(#arT)"/>
+<rect x="950" y="120" width="200" height="260" rx="12" fill="#0A2447" stroke="#1B4570" stroke-width="1.6"/>
+<text x="1050.0" y="256.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700"> </text>
+<text x="1050" y="158" text-anchor="middle" fill="#00CAD7" font-size="15.5" font-weight="800">SUNUCU</text>
+<text x="1050" y="192" text-anchor="middle" fill="#93AEC7" font-size="13.5" font-weight="600">bilinen ağ konumları</text>
+<text x="1050" y="210" text-anchor="middle" fill="#93AEC7" font-size="13.5" font-weight="600">veritabanı</text>
+<circle cx="1050" cy="268" r="11" fill="#00CAD7"/>
+<path d="M1050 279 L1040 300 H1060 Z" fill="#00CAD7"/>
+<text x="1050" y="330" text-anchor="middle" fill="#E4F0EE" font-size="14" font-weight="700">çözülen konum</text>
+<text x="1050" y="350" text-anchor="middle" fill="#93AEC7" font-size="12.5" font-weight="600">(tahminin doğrulaması)</text>
+<rect x="60" y="400" width="1090" height="66" rx="12" fill="#0A2447" stroke="#1B4570" stroke-width="1.6"/>
+<text x="605.0" y="439.0" text-anchor="middle" fill="#E4F0EE" font-size="19" font-weight="700"> </text>
+<text x="80" y="428" text-anchor="start" fill="#E4F0EE" font-size="15.5" font-weight="800">Cihaz konumu ÇÖZMEZ, listeyi iletir.</text>
+<text x="80" y="452" text-anchor="start" fill="#93AEC7" font-size="14" font-weight="500">Çözüm sunucuda yapılır; internet cihazda değil sunucuda gerekir. Rapor günler sonra gelse bile konum geriye dönük çözülebilir.</text>
+</svg>

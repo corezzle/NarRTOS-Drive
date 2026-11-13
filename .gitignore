@@ -1,0 +1,28 @@
+# PlatformIO
+.pio
+.platformio/
+
+# VS Code
+.vscode/.browse.c_cpp.db*
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/ipch
+
+# Firmware binaries (derleme çıktısı)
+*.bin
+*.elf
+*.map
+
+# macOS
+.DS_Store
+
+# Yardımcı araç dizinleri (projeye ait değil)
+.claude/
+.agents/
+agent/
+skills-lock.json
+
+# Logs / temp
+*.log
+*.swp
+*~

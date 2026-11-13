@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NarRTOS Drive Wiki</title>
+<style>
+/* NarRTOS Wiki: Corezzle kurumsal kimlik paleti
+   Koyu Zemin #00102E · Koyu Lacivert #004C6A · Turkuaz #00CAD7 · Açık Mint #E4F0EE */
+
+:root {
+  --bg:        #00102E;
+  --bg-2:      #001B3F;
+  --surface:   #0A2447;
+  --surface-2: #0F2F58;
+  --line:      #1B4570;
+  --trq:       #00CAD7;
+  --mint:      #E4F0EE;
+  --muted:     #93AEC7;
+  --code-bg:   #040B1C;
+  --red:       #FF6E6E;
+  --amber:     #F5A623;
+  --radius:    16px;
+  --maxw:      1180px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+body {
+  background: linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+  background-attachment: fixed;
+  color: var(--mint);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre, .mono { font-family: "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace; }
+
+/* ── Üst çubuk ─────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(0, 16, 46, .86);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-in {
+  max-width: var(--maxw); margin: 0 auto; padding: 14px 24px;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+}
+.brand { font-weight: 800; font-size: 19px; letter-spacing: -.2px; white-space: nowrap; }
+.brand span { color: var(--trq); }
+/* Üst çubukta sekme yok: ana sayfada sürüm etiketi, alt sayfalarda geri bağlantısı. */
+.ver { margin-left: auto; font-size: 13.5px; color: var(--muted); letter-spacing: .2px; }
+.back {
+  margin-left: auto; color: var(--muted); text-decoration: none; font-size: 15px;
+  font-weight: 600; padding: 7px 14px; border-radius: 10px;
+  transition: background .15s, color .15s;
+}
+.back:hover { background: var(--surface); color: var(--trq); }
+
+/* ── Yerleşim ──────────────────────────────────────────────────────── */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 96px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 244px; gap: 52px; align-items: start; }
+/* Grid/flex çocukları varsayılan olarak min-content'in altına inemez; geniş bir
+   tablo ya da kod bloğu sütunu şişirip sayfayı yatay kaydırılabilir yapar. */
+.layout > * { min-width: 0; }
+@media (max-width: 980px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .toc { display: none; }
+}
+
+/* ── İçindekiler ───────────────────────────────────────────────────── */
+.toc { position: sticky; top: 92px; padding-top: 40px; }
+.toc-h { font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 12px; }
+.toc a {
+  display: block; color: var(--muted); text-decoration: none; font-size: 14.5px;
+  padding: 6px 12px; border-left: 2px solid var(--line); line-height: 1.45;
+  transition: color .15s, border-color .15s;
+}
+.toc a:hover { color: var(--mint); }
+.toc a.active { color: var(--trq); border-left-color: var(--trq); font-weight: 600; }
+
+/* ── Başlıklar / metin ─────────────────────────────────────────────── */
+.hero { padding: 52px 0 8px; }
+.eyebrow {
+  display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--trq); margin-bottom: 14px;
+}
+h1 { font-size: 46px; line-height: 1.12; font-weight: 800; letter-spacing: -1px; }
+.lede { font-size: 21px; color: var(--muted); margin-top: 16px; max-width: 780px; }
+h2 {
+  font-size: 30px; font-weight: 800; letter-spacing: -.4px;
+  margin: 56px 0 16px; padding-top: 10px;
+}
+h3 { font-size: 22px; font-weight: 700; margin: 32px 0 10px; }
+p { margin: 14px 0; }
+a { color: var(--trq); }
+ul, ol { margin: 14px 0 14px 24px; }
+li { margin: 7px 0; }
+strong { color: #fff; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 44px 0; }
+
+/* ── Kartlar ───────────────────────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 18px; margin: 26px 0; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px; text-decoration: none; color: inherit; display: block;
+  transition: border-color .18s, transform .18s;
+}
+a.card:hover { border-color: var(--trq); transform: translateY(-2px); }
+.card h4 { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 15.5px; color: var(--muted); margin: 0; }
+.card .k { font-size: 13px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--trq); display: block; margin-bottom: 10px; }
+
+/* ── Bilgi kutuları ────────────────────────────────────────────────── */
+.note {
+  border-left: 4px solid var(--trq); background: rgba(0, 202, 215, .07);
+  border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 24px 0;
+}
+.note.warn { border-left-color: var(--amber); background: rgba(245, 166, 35, .08); }
+.note.stop { border-left-color: var(--red);   background: rgba(255, 110, 110, .08); }
+.note-t { font-weight: 800; margin-bottom: 6px; }
+.note p:last-child { margin-bottom: 0; }
+
+/* ── Kod ───────────────────────────────────────────────────────────── */
+.codewrap { position: relative; margin: 22px 0; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px 24px; overflow-x: auto; font-size: 14.5px; line-height: 1.65;
+}
+pre code { color: #CFE3F5; }
+code:not(pre code) {
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px;
+  padding: 2px 7px; font-size: .89em; color: var(--trq);
+}
+.copy {
+  position: absolute; top: 10px; right: 10px; background: var(--surface-2);
+  border: 1px solid var(--line); color: var(--muted); border-radius: 8px;
+  padding: 5px 11px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  opacity: 0; transition: opacity .15s, color .15s, border-color .15s;
+}
+.codewrap:hover .copy { opacity: 1; }
+.copy:hover { color: var(--trq); border-color: var(--trq); }
+.copy.done { color: var(--trq); border-color: var(--trq); opacity: 1; }
+.c-cmt { color: #6E89A6; } .c-key { color: #7FB4E8; } .c-str { color: #00CAD7; }
+.c-num { color: #F5A623; }
+
+/* ── Görseller ─────────────────────────────────────────────────────── */
+figure { margin: 30px 0; }
+figure img {
+  width: 100%; display: block; border-radius: 14px; border: 1px solid var(--line);
+  cursor: zoom-in; background: var(--code-bg);
+}
+figcaption { font-size: 14.5px; color: var(--muted); margin-top: 10px; text-align: center; }
+
+/* ── Saat ekranı galerisi ──────────────────────────────────────────────
+   Görseller 410×502 AMOLED cihazdan alınmıştır; köşe maskesi PNG'ye
+   gömülü olduğu için her boyutta temiz oturur. */
+.screens {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 22px 18px; margin: 28px 0;
+}
+.screen { text-align: center; }
+.screen img {
+  width: 100%; display: block; cursor: zoom-in;
+  /* PNG'lerin köşe/daire maskesi kendi içinde; genel `figure img` kenarlık ve
+     dolgusu maskenin dışında kare bir çerçeve olarak görünürdü. */
+  border: 0; background: none; border-radius: 0;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .5));
+  transition: transform .18s;
+}
+.screen:hover img { transform: translateY(-3px); }
+.screen b { display: block; font-size: 14px; font-weight: 700; margin-top: 12px; }
+.screen span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.screens-note { font-size: 14.5px; color: var(--muted); margin-top: -8px; }
+
+/* tek/ikili vurgulu yerleşim: bir bölümün yanına iliştirilen ekranlar */
+.screen-row { display: flex; gap: 26px; align-items: flex-start; margin: 26px 0; flex-wrap: wrap; }
+.screen-row .screen { flex: 0 0 168px; }
+.screen-row .screen-txt { flex: 1 1 300px; min-width: 260px; }
+.screen-row .screen-txt p:first-child { margin-top: 0; }
+
+/* ── Sekmeler ──────────────────────────────────────────────────────── */
+.tabs { margin: 26px 0; }
+.tabbar { display: flex; gap: 4px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.tabbar button {
+  background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted);
+  font: inherit; font-size: 15.5px; font-weight: 700; padding: 11px 18px; cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.tabbar button:hover { color: var(--mint); }
+.tabbar button[aria-selected="true"] { color: var(--trq); border-bottom-color: var(--trq); }
+.tabpanel { display: none; padding-top: 6px; }
+.tabpanel.on { display: block; }
+
+/* ── Açılır bölüm ──────────────────────────────────────────────────── */
+details {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 0 20px; margin: 16px 0;
+}
+details[open] { padding-bottom: 8px; }
+summary {
+  cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none;
+  display: flex; align-items: center; gap: 10px;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before {
+  content: "▸"; color: var(--trq); font-size: 15px; transition: transform .18s;
+  display: inline-block;
+}
+details[open] summary::before { transform: rotate(90deg); }
+
+/* ── Tablo ─────────────────────────────────────────────────────────── */
+.tablewrap { overflow-x: auto; margin: 24px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+th { color: var(--trq); font-size: 12.5px; letter-spacing: 1.1px; text-transform: uppercase; }
+tbody tr:hover { background: rgba(255, 255, 255, .025); }
+
+/* ── Rozetler ──────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block; border-radius: 20px; padding: 3px 12px;
+  font-size: 13px; font-weight: 700; border: 1px solid;
+}
+.b-ok   { color: var(--trq); border-color: var(--trq); background: rgba(0,202,215,.12); }
+.b-no   { color: #FF9A9A;  border-color: var(--red);  background: rgba(255,110,110,.12); }
+.b-gray { color: var(--muted); border-color: var(--line); background: var(--surface-2); }
+
+/* ── Veri dürüstlüğü demosu ────────────────────────────────────────── */
+.demo { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 26px; margin: 28px 0; }
+.demo-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.demo-title { font-weight: 800; font-size: 18px; }
+.switch { display: flex; gap: 4px; background: var(--code-bg); border: 1px solid var(--line);
+  border-radius: 10px; padding: 4px; margin-left: auto; }
+.switch button {
+  background: none; border: 0; color: var(--muted); font: inherit; font-size: 14px;
+  font-weight: 700; padding: 7px 15px; border-radius: 7px; cursor: pointer;
+}
+.switch button[aria-pressed="true"] { background: var(--trq); color: var(--bg); }
+.sinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.sink { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+  background: var(--code-bg); transition: border-color .2s, background .2s; }
+.sink-n { font-size: 14.5px; font-weight: 700; }
+.sink-s { font-size: 13.5px; color: var(--muted); margin-top: 6px; }
+.sink.pass { border-color: var(--trq); background: rgba(0,202,215,.08); }
+.sink.block { border-color: var(--red); background: rgba(255,110,110,.07); }
+.sink-v { float: right; font-weight: 800; }
+.sink.pass .sink-v { color: var(--trq); }
+.sink.block .sink-v { color: #FF9A9A; }
+
+/* ── Sonraki adım ──────────────────────────────────────────────────── */
+.next {
+  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  border: 1px solid var(--trq); background: rgba(0,202,215,.07);
+  border-radius: var(--radius); padding: 26px 28px; margin: 40px 0 0;
+  text-decoration: none; color: inherit; transition: background .18s;
+}
+.next:hover { background: rgba(0,202,215,.13); }
+.next-k { font-size: 12.5px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase;
+  color: var(--trq); }
+.next-t { font-size: 22px; font-weight: 800; margin-top: 4px; }
+.next-s { color: var(--muted); font-size: 15.5px; margin-top: 4px; }
+.next-a { margin-left: auto; font-size: 32px; color: var(--trq); }
+
+/* ── Lightbox ──────────────────────────────────────────────────────── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(0, 8, 24, .93); z-index: 100;
+  display: none; align-items: center; justify-content: center; padding: 36px; cursor: zoom-out;
+}
+#lightbox.on { display: flex; }
+#lightbox img { max-width: 100%; max-height: 100%; border-radius: 12px;
+  border: 1px solid var(--line); }
+
+/* ── Altbilgi ──────────────────────────────────────────────────────── */
+footer { border-top: 1px solid var(--line); margin-top: 72px; padding: 28px 0 0;
+  color: var(--muted); font-size: 14.5px; display: flex; gap: 16px; flex-wrap: wrap; }
+footer .sp { margin-left: auto; }
+
+/* Yuvarlak panel ekranları: maske PNG'de gömülü, gölge daireyi izlesin. */
+.screen.round img { filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .55)); }
+
+/* ── Cihaz GIF'leri ────────────────────────────────────────────────────
+   Gövde ve gölge GIF'in içinde çizili; genel `figure img` kenarlığı burada
+   da kare bir çerçeve yaratırdı. */
+.device-gifs { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
+.device-gifs figure { margin: 0; max-width: 260px; flex: 0 1 auto; }
+.device-gifs img {
+  width: 100%; display: block; border: 0; background: none; border-radius: 0;
+  cursor: zoom-in;
+}
+.device-gifs figcaption { margin-top: 4px; }
+
+/* GIF'li yan yana yerleşim: gövde/gölge GIF'in içinde çizili. */
+.screen-row .gif-cell { flex: 0 0 210px; margin: 0; }
+.screen-row .gif-cell img {
+  width: 100%; display: block; border: 0; background: none; border-radius: 0; cursor: zoom-in;
+}
+.screen-row .gif-cell figcaption { margin-top: 2px; font-size: 13px; }
+
+/* ── Açılış görseli ────────────────────────────────────────────────────── */
+.hero-media { margin: 26px 0 8px; }
+.hero-media img {
+  width: 100%; display: block; border-radius: 18px; border: 1px solid var(--line);
+  cursor: zoom-in;
+}
+
+/* ── Sayı kutuları ─────────────────────────────────────────────────────── */
+/* 118px taban: içerik sütununda (yan menüyle birlikte ~836px) altı kutu tek
+   sıraya sığar; dar ekranda kendiliğinden alt satıra iner. */
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 12px; margin: 30px 0 8px;
+}
+.stat {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 18px 12px; text-align: center;
+}
+.stat b {
+  display: block; font-size: 27px; font-weight: 800; color: var(--trq);
+  letter-spacing: -.8px; line-height: 1.1; white-space: nowrap;
+}
+.stat span { display: block; font-size: 13.5px; color: var(--muted); margin-top: 7px; line-height: 1.35; }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">NarRTOS <span>Drive</span></div>
+    <div class="ver mono">v0.1.0 · ESP32-S3 · ekransız</div>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="layout">
+<main>
+
+  <div class="hero">
+    <div class="eyebrow">Corezzle Electronics</div>
+    <h1>NarRTOS Drive</h1>
+    <p class="lede">
+      Araçlara takılan bir takip cihazının yazılımı. Aracın nerede olduğunu,
+      motorunun ne yaptığını ve kontağın açık mı kapalı mı olduğunu düzenli
+      olarak merkezî bir sunucuya bildirir. Şebeke çekmeyen yerlerde veriyi
+      kaybetmez; kendi belleğine yazar ve bağlantı gelince gönderir.
+    </p>
+    <p class="lede">
+      Bu belge cihazın <strong>nasıl çalıştığını</strong> ve <strong>neden
+      böyle çalıştığını</strong> anlatıyor. Konuyu hiç bilmeyen biri de
+      baştan okuyarak takip edebilir; teknik terimler ilk geçtikleri yerde
+      açıklanıyor, tam liste sonda <a href="#sozluk">Sözlük</a>'te.
+    </p>
+  </div>
+
+  <h2 id="ne-yapiyor">Bu cihaz ne yapıyor?</h2>
+
+  <p>Bir nakliye şirketi düşünün. Yüz kamyonu var ve şu soruların cevabını sürekli bilmek istiyor:</p>
+
+  <ul>
+    <li>Hangi kamyon şu an nerede?</li>
+    <li>Hangi sürücü ne zaman işe başladı, ne zaman bitirdi?</li>
+    <li>Hangi araç boşta rölantide bekleyip yakıt yakıyor?</li>
+    <li>Motorda arıza var mı?</li>
+  </ul>
+
+  <p>Bu cihaz her aracın içine takılıyor ve bu soruların cevabını toplayıp merkeze gönderiyor. Merkezdeki yazılım (buna <strong>filo sistemi</strong> diyoruz) verileri bir haritada ve raporlarda gösteriyor.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU2MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU2MCIgZmlsbD0iIzA0MEIxQyIvPgo8dGV4dCB4PSIxOTAiIHk9IjUyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iODAwIj5BUkHDhyDDh0VWUkVTxLA8L3RleHQ+Cjx0ZXh0IHg9IjYwMCIgeT0iNTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI4MDAiPk5BUlJUT1MtRFJJVkUgKEPEsEhBWik8L3RleHQ+Cjx0ZXh0IHg9IjEwMzUiIHk9IjUyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iODAwIj5TVU5VQ1UgKEbEsExPKTwvdGV4dD4KPGxpbmUgeDE9IjM3NSIgeTE9IjcwIiB4Mj0iMzc1IiB5Mj0iNTIwIiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNSA2Ii8+CjxsaW5lIHgxPSI4MjgiIHkxPSI3MCIgeDI9IjgyOCIgeTI9IjUyMCIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNiIvPgo8cmVjdCB4PSI2MCIgeT0iODAiIHdpZHRoPSIyNjAiIGhlaWdodD0iNjIiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIxOTAuMCIgeT0iMTA3LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkFyYcOnIHZlcmkgeW9sdSAoQ0FOKTwvdGV4dD4KPHRleHQgeD0iMTkwLjAiIHk9IjEzMS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPmhhbSBmcmFtZSdsZXIsIHNhbml5ZWRlIHnDvHpsZXJjZTwvdGV4dD4KPHJlY3QgeD0iNjAiIHk9IjE1OCIgd2lkdGg9IjI2MCIgaGVpZ2h0PSI2MiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjE5MC4wIiB5PSIxODUuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+S29udGFrIHNpbnlhbGk8L3RleHQ+Cjx0ZXh0IHg9IjE5MC4wIiB5PSIyMDkuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij7Dp2FsxLHFn8SxeW9yIC8gcGFyayBheXLEsW3EsTwvdGV4dD4KPHJlY3QgeD0iNjAiIHk9IjIzNiIgd2lkdGg9IjI2MCIgaGVpZ2h0PSI2MiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjE5MC4wIiB5PSIyNjMuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+VXlkdWxhciAoR05TUyk8L3RleHQ+Cjx0ZXh0IHg9IjE5MC4wIiB5PSIyODcuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij5rb251bSArIGlraW5jaSBzYWF0IGtheW5hxJ/EsTwvdGV4dD4KPHJlY3QgeD0iNjAiIHk9IjMxNCIgd2lkdGg9IjI2MCIgaGVpZ2h0PSI2MiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjE5MC4wIiB5PSIzNDEuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+w4dldnJlIFdpRmkgYcSfbGFyxLE8L3RleHQ+Cjx0ZXh0IHg9IjE5MC4wIiB5PSIzNjUuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij5rYXBhbMSxIGFsYW5kYSBrb251bSBpcHVjdTwvdGV4dD4KPHJlY3QgeD0iNjAiIHk9IjM5MiIgd2lkdGg9IjI2MCIgaGVpZ2h0PSI2MiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjE5MC4wIiB5PSI0MTkuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+SMO8Y3Jlc2VsIMWfZWJla2U8L3RleHQ+Cjx0ZXh0IHg9IjE5MC4wIiB5PSI0NDMuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij40RyBtb2RlbSwgU05UUCBzYWF0aTwvdGV4dD4KPHJlY3QgeD0iNDAwIiB5PSI3MiIgd2lkdGg9IjQwNCIgaGVpZ2h0PSI0NDgiIHJ4PSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjEuNiIgb3BhY2l0eT0iMC41NSIvPgo8cmVjdCB4PSI0MjQiIHk9IjkyIiB3aWR0aD0iMzU2IiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNjAyLjAiIHk9IjEyMS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5Ub3BsYXnEsWPEsWxhcjwvdGV4dD4KPHRleHQgeD0iNjAyLjAiIHk9IjE0NS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPkNBTiB0YWJsb3N1IMK3IGtvbnVtICh1eWR1L8O2bMO8IGhlc2FwKSDCtyBXaUZpIGxpc3Rlc2k8L3RleHQ+CjxyZWN0IHg9IjQyNCIgeT0iMTg2IiB3aWR0aD0iMzU2IiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNjAyLjAiIHk9IjIxNS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5SYXBvciBrYXlkxLEgKGlraWxpKTwvdGV4dD4KPHRleHQgeD0iNjAyLjAiIHk9IjIzOS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPmRhbWdhIGfDtm5kZXJpbWRlIMOnw7Z6w7xsw7xyLCBhbGFubGFyIGZpbG8gYmnDp2ltaW5kZTwvdGV4dD4KPHJlY3QgeD0iNDI0IiB5PSIyODAiIHdpZHRoPSIzNTYiIGhlaWdodD0iNjYiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI2MDIuMCIgeT0iMzA5LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkthbMSxY8SxIHRhbXBvbiAoZmxhc2gpPC90ZXh0Pgo8dGV4dCB4PSI2MDIuMCIgeT0iMzMzLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+a2Fwc2FtYSB5b2trZW4ga2F5xLF0IGJla2xlciwgZWxla3RyaWsga2VzaWxzZSBkZSBkdXJ1cjwvdGV4dD4KPHJlY3QgeD0iNDI0IiB5PSIzNzQiIHdpZHRoPSIzNTYiIGhlaWdodD0iNjYiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI2MDIuMCIgeT0iNDAzLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPk1RVFQgaXN0ZW1jaXNpPC90ZXh0Pgo8dGV4dCB4PSI2MDIuMCIgeT0iNDI3LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+b25heSAoUFVCQUNLKSBnZWxtZWRlbiBrYXnEsXQgc2lsaW5tZXo8L3RleHQ+CjxyZWN0IHg9IjQyNCIgeT0iNDYyIiB3aWR0aD0iMzU2IiBoZWlnaHQ9IjQ0IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNjAyLjAiIHk9IjQ5MC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIj5Lb211dCBhcmF5w7x6w7w8L3RleHQ+CjxsaW5lIHgxPSI2MDIiIHkxPSIxNTgiIHgyPSI2MDIiIHkyPSIxODYiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXJUKSIvPgo8bGluZSB4MT0iNjAyIiB5MT0iMjUyIiB4Mj0iNjAyIiB5Mj0iMjgwIiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPGxpbmUgeDE9IjYwMiIgeTE9IjM0NiIgeDI9IjYwMiIgeTI9IjM3NCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhclQpIi8+CjxsaW5lIHgxPSIzMjAiIHkxPSIxMTEiIHgyPSI0MjQiIHkyPSIxMjUiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+CjxsaW5lIHgxPSIzMjAiIHkxPSIxODkiIHgyPSI0MjQiIHkyPSIxMjUiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+CjxsaW5lIHgxPSIzMjAiIHkxPSIyNjciIHgyPSI0MjQiIHkyPSIxMjUiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+CjxsaW5lIHgxPSIzMjAiIHkxPSIzNDUiIHgyPSI0MjQiIHkyPSIxMjUiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+CjxsaW5lIHgxPSIzMjAiIHkxPSI0MjMiIHgyPSI0MjQiIHkyPSI0MDciIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+CjxyZWN0IHg9Ijg4MCIgeT0iOTIiIHdpZHRoPSIyODAiIGhlaWdodD0iNjYiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIxMDIwLjAiIHk9IjEzMS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5NZXNhaiBzdW51Y3VzdSAoYnJva2VyKTwvdGV4dD4KPHJlY3QgeD0iODgwIiB5PSIyMDAiIHdpZHRoPSIyODAiIGhlaWdodD0iODAiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIxMDIwLjAiIHk9IjIzNi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj7Dh8O2esO8bSBrYXRtYW7EsTwvdGV4dD4KPHRleHQgeD0iMTAyMC4wIiB5PSIyNjAuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij5DQU4gw6fDtnrDvG3DvCAoREJDKSDCtyBXaUZpIMOnw7Z6w7xtw7wgwrcgdGVraWxsZcWfdGlybWU8L3RleHQ+CjxyZWN0IHg9Ijg4MCIgeT0iMzIyIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMTAyMC4wIiB5PSIzNTEuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+VmVyaXRhYmFuxLE8L3RleHQ+Cjx0ZXh0IHg9IjEwMjAuMCIgeT0iMzc1LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+YXJhw6cgYmHFn8SxbmEgcmFwb3IgZ2XDp21pxZ9pPC90ZXh0Pgo8cmVjdCB4PSI4ODAiIHk9IjQzMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSI2NiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjEwMjAuMCIgeT0iNDU5LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkZpbG8gZWtyYW7EsTwvdGV4dD4KPHRleHQgeD0iMTAyMC4wIiB5PSI0ODMuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij5oYXJpdGEsIGFsYXJtLCByYXBvcmxhcjwvdGV4dD4KPGxpbmUgeDE9Ijc4MCIgeTE9IjQwNyIgeDI9Ijg4MCIgeTI9IjE0MCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhclQpIi8+Cjx0ZXh0IHg9IjgzMCIgeT0iMjU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNjAwIj4gPC90ZXh0Pgo8bGluZSB4MT0iMTAyMCIgeTE9IjE1OCIgeDI9IjEwMjAiIHkyPSIyMDAiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+CjxsaW5lIHgxPSIxMDIwIiB5MT0iMjgwIiB4Mj0iMTAyMCIgeTI9IjMyMiIgc3Ryb2tlPSIjOTNBRUM3IiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhcikiLz4KPGxpbmUgeDE9IjEwMjAiIHkxPSIzODgiIHgyPSIxMDIwIiB5Mj0iNDMwIiBzdHJva2U9IiM5M0FFQzciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyKSIvPgo8dGV4dCB4PSI2MDAiIHk9IjU0MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIj5DaWhheiB2ZXJpeWkgdG9wbGFyIHZlIGlsZXRpcjsgw6fDtnrDvG0gKENBTiBzaW55YWxsZXJpLCBXaUZpIGtvbnVtdSkgc3VudWN1ZGFkxLFyLjwvdGV4dD4KPC9zdmc+" alt="Uçtan uca veri akışı: araç, cihaz, sunucu"><figcaption>Uçtan uca akış: cihaz veriyi toplayıp iletir, çözüm sunucudadır.</figcaption></figure>
+
+
+  <h3>Cihaz veriyi nereden alıyor?</h3>
+  <div class="tablewrap"><table><thead><tr><th>Kaynak</th><th>Ne öğreniyor</th></tr></thead><tbody>
+    <tr><td>Uydu alıcısı (GNSS)</td><td>Konum, hız, gidiş yönü</td></tr>
+    <tr><td>Aracın kendi veri yolu (CAN)</td><td>Motor devri, yakıt, kilometre, arıza kodları. Aracın kendi bilgisayarlarının konuştuğu hat</td></tr>
+    <tr><td>Kontak kablosu</td><td>Araç çalışıyor mu, park hâlinde mi</td></tr>
+    <tr><td>Hücresel modem</td><td>Veriyi merkeze göndermek için (telefon gibi SIM kartı var)</td></tr>
+  </tbody></table></div>
+
+  <h3>Bir günün öyküsü</h3>
+  <p>Cihazın sıradan bir iş gününde yaptıklarını sırayla izleyelim. Belgedeki bütün teknik ayrıntılar bu akışın bir parçasını anlatıyor:</p>
+
+  <div class="tablewrap"><table><thead><tr><th>Saat</th><th>Olan</th><th>Cihaz ne yapıyor</th></tr></thead><tbody>
+    <tr><td>07:00</td><td>Sürücü kontağı açıyor</td><td>Kontak değişimini <strong>anında</strong> bildiriyor, çünkü mesai başlangıcı raporu buna dayanıyor</td></tr>
+    <tr><td>07:01</td><td>Araç kapalı otoparkta</td><td>Uydu ve şebeke yok. Veri toplamaya devam edip <strong>kendi belleğine yazıyor</strong></td></tr>
+    <tr><td>07:20</td><td>Açık havaya çıkıyor</td><td>Uydu ve şebeke geliyor. Biriken 20 dakikalık veri, <strong>üretildiği saatlerin damgasıyla</strong> gönderiliyor</td></tr>
+    <tr><td>09:30</td><td>Tünelden geçiyor</td><td>Şebeke kesiliyor, veri yine belleğe yazılıyor; tünel çıkışında gönderiliyor</td></tr>
+    <tr><td>12:00</td><td>Mola, kontak kapalı</td><td>Rapor sıklığı dakikada birden 10 dakikada bire düşüyor, boşa veri harcamamak için</td></tr>
+    <tr><td>18:00</td><td>Araç garajda, kontak kapalı</td><td>Yazılım güncellemesi varsa <strong>şimdi</strong> kuruluyor. Yol ortasında yapılmıyor</td></tr>
+  </tbody></table></div>
+
+  <div class="note"><div class="note-t">Bu cihazın diğerlerinden farkı ne?</div><p>Üç şey: <strong>şebeke yokken veri kaybetmiyor</strong>, <strong>saatini bilmese bile doğru zaman damgası üretiyor</strong>, ve <strong>bozuk bir güncelleme kendini geri alıyor</strong>. Üçünün de sebebi aynı: cihaz aracın altında ve kimse ona gidip müdahale edemiyor.</p></div>
+
+  <div class="cards">
+    <div class="card">
+      <span class="k">Veri</span>
+      <h4>Araç verisini sunucu çözüyor</h4>
+      <p>Cihaz aracın hattından okuduğu veriyi işlemeden iletiyor. Anlamlandırma merkezde yapılıyor, böylece yeni bir sinyal eklenince araçlara gitmek gerekmiyor.</p>
+    </div>
+    <div class="card">
+      <span class="k">Dayanıklılık</span>
+      <h4>Şebeke yokken veri kaybolmuyor</h4>
+      <p>Tünelde, kapalı otoparkta, kırsalda üretilen raporlar cihazın belleğine yazılıyor ve bağlantı dönünce sırayla gönderiliyor.</p>
+    </div>
+    <div class="card">
+      <span class="k">Bakım</span>
+      <h4>Güncelleme geri alınabiliyor</h4>
+      <p>Açılışta çöken bir yazılım kendiliğinden eski sürüme dönüyor. Aracın altındaki cihaza kimse gidip müdahale edemez.</p>
+    </div>
+    <div class="card">
+      <span class="k">Teşhis</span>
+      <h4>Ekransız ama sorgulanabilir</h4>
+      <p>Kablo, uzaktan mesaj ve tek bir LED. Üç kanal, üçü de "neden çalışmıyor" sorusunu cevaplamak için.</p>
+    </div>
+  </div>
+
+  <h2 id="temel-kavramlar">Temel kavramlar</h2>
+
+  <p>Belgenin geri kalanını takip etmek için gereken sekiz kavram. Tam liste sonda <a href="#sozluk">Sözlük</a>'te.</p>
+
+  <div class="tablewrap"><table><thead><tr><th>Kavram</th><th>Ne demek</th></tr></thead><tbody>
+    <tr><td><strong>CAN hattı</strong></td><td>Aracın içindeki bilgisayarların birbiriyle konuştuğu iki telli kablo. Motor, fren, gösterge paneli hepsi buradan haberleşiyor. Cihaz bu konuşmayı <em>dinliyor</em>.</td></tr>
+    <tr><td><strong>Frame</strong></td><td>CAN hattında geçen tek bir mesaj. Bir kimlik numarası ve en çok 8 bayt veri taşıyor. Saniyede binlercesi geçiyor.</td></tr>
+    <tr><td><strong>Sabitleme (fix)</strong></td><td>Uydu alıcısının yeterli uyduyu görüp konumu hesaplayabilmiş olması. Sabitleme yoksa konum üretilemez.</td></tr>
+    <tr><td><strong>Kapsama</strong></td><td>Hücresel şebekenin çektiği yer. "Kapsama dışı" = telefonun çekmediği yer.</td></tr>
+    <tr><td><strong>Tampon</strong></td><td>Gönderilemeyen raporların geçici olarak biriktirildiği bellek alanı. Bu cihazda kalıcı bellekte, yani elektrik kesilse bile duruyor.</td></tr>
+    <tr><td><strong>Zaman damgası</strong></td><td>Her raporun "ben şu saatte üretildim" bilgisi. Filo sisteminin bütün raporları buna dayanıyor.</td></tr>
+    <tr><td><strong>Filo sistemi</strong></td><td>Merkezdeki yazılım. Cihazlardan gelen verileri saklıyor, haritada gösteriyor, rapor üretiyor.</td></tr>
+    <tr><td><strong>Firmware</strong></td><td>Cihazın içindeki yazılım. Bilgisayardaki işletim sistemi gibi; güncellenebiliyor.</td></tr>
+  </tbody></table></div>
+
+  <h2 id="hizli-baslangic">Hızlı başlangıç</h2>
+  <p>Cihazı ilk kez eline alan biri için 15 dakikalık yol haritası. Her adımın sonunda ne görmen gerektiği yazıyor; ayrıntılar ve sorun çözümleri bir sonraki bölümde.</p>
+  <ol>
+    <li><strong>Hazırlık.</strong> Gereken üç şey: bir bilgisayar, bir USB kablosu ve ESP32-S3 kartı. Kartı USB ile bilgisayara tak.</li>
+    <li><strong>Derleme aracını kur</strong> (bir kez yapılır): terminale <code>pip install platformio</code> yaz.</li>
+    <li><strong>Kodu indir ve yükle:</strong></li>
+  </ol>
+<pre><code>git clone https://github.com/corezzle/NarRTOS-Drive
+cd NarRTOS-Drive
+pio run -e esp32s3_drive -t upload</code></pre>
+  <p>İlk seferde birkaç dakika sürer; sonunda <strong>SUCCESS</strong> yazısını görmelisin.</p>
+  <ol start="4">
+    <li><strong>Cihazla konuş:</strong> <code>pio device monitor</code> yaz. Cihazın açılış mesajları akar ve en sonda şunu görürsün: <em>"seri porttan 'help' yazarak komut listesini görebilirsiniz"</em>.</li>
+    <li><strong>Dene:</strong> <code>help</code> yaz, komut listesi gelsin. Sonra <code>info</code> yaz; sürüm ve durum bilgisi gelsin. Bu iki komut çalışıyorsa kurulum tamamdır.</li>
+    <li><strong>Ayarla ve ilk raporu üret:</strong> bir sonraki bölümdeki "İlk ayarlar" adımlarını izle.</li>
+  </ol>
+
+<!-- WIKI:BASLA -->
+
+      <h2 id="baslarken">Başlarken</h2>
+
+      <p><strong>Kısaca:</strong> bu bölüm, Hızlı başlangıç'taki adımların açıklamalı hâli. Hiç gömülü cihaz kurmamış biri buradan adım adım ilerleyebilir: neyi neden kurduğun, her adımda ne görmen gerektiği ve bir şey ters giderse ne yapacağın yazıyor.</p>
+
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU5NSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU5NSIgZmlsbD0iIzA0MEIxQyIvPgo8cmVjdCB4PSI0MCIgeT0iMjQiIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjUzMSIgcng9IjE2IiBmaWxsPSIjMDIwNjBGIiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+CjxjaXJjbGUgY3g9Ijc0IiBjeT0iNTYiIHI9IjcuNSIgZmlsbD0iI0ZGNkU2RSIgb3BhY2l0eT0iMC44NSIvPgo8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1NiIgcj0iNy41IiBmaWxsPSIjRjVBNjIzIiBvcGFjaXR5PSIwLjg1Ii8+CjxjaXJjbGUgY3g9IjEyNiIgY3k9IjU2IiByPSI3LjUiIGZpbGw9IiMyRUNDNzEiIG9wYWNpdHk9IjAuODUiLz4KPHRleHQgeD0iNjAwLjAiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI3MDAiPlVTQiBzZXJpIGtvbnNvbCDCtyBpbGsga3VydWx1bTwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjEwNCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPiZndDsgPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjEwNCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPnNldCBpbWVpIDM1MTIzNDU2Nzg5MDEyMzwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjEzMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSBPSzogaW1laT0zNTEyMzQ1Njc4OTAxMjM8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIxNTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzAwQ0FENyIgZm9udC1zaXplPSIxNS41IiBmb250LXdlaWdodD0iNzAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj4mZ3Q7IDwvdGV4dD4KPHRleHQgeD0iMTAwIiB5PSIxNTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzAwQ0FENyIgZm9udC1zaXplPSIxNS41IiBmb250LXdlaWdodD0iNzAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5zZXQgbXF0dCBob3N0IGJyb2tlci5vcm5lay5jb208L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIxODUiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gT0s6IG1xdHQgaG9zdD1icm9rZXIub3JuZWsuY29tPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMjEyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+Jmd0OyA8L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMjEyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+c2V0IHdpZmkgc3NpZCBBdG9seWUgQWdpPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMjM5IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIE9LOiB3aWZpIHNzaWQ9QXRvbHllIEFnaTwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjI2NiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPiZndDsgPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjI2NiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPmdldCBjb25maWc8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIyOTMiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gaW1laSAgICAgID0gMzUxMjM0NTY3ODkwMTIzPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMzIwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIG1xdHQgaG9zdCA9IGJyb2tlci5vcm5lay5jb208L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIzNDciIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gbXF0dCBwb3J0ID0gMTg4MzwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjM3NCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSBtcXR0IHVzZXIgPSAmbHQ7YXlhcmxhbm1hZMSxJmd0OzwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjQwMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSBhcG4gICAgICAgPSAmbHQ7YXlhcmxhbm1hZMSxJmd0OzwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjQyOCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSB3aWZpIHNzaWQgPSBBdG9seWUgQWdpPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iNDU1IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIG5ldCBiYWNrLiA9ICZsdDtvdG8mZ3Q7IChldGtpbjogd2lmaSk8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSI0ODIiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gcHdyIHNsZWVwID0gMCAoaGVwIHV5YW7EsWspPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iNTA5IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+Jmd0OyA8L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iNTA5IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+dGVsZW1ldHJ5IG5vdzwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjUzNiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSBPSzogcmFwb3Igw7xyZXRpbGRpICgxNCBmcmFtZSksIHRhbXBvbmEgeWF6xLFsZMSxPC90ZXh0Pgo8L3N2Zz4=" alt="Seri konsolda ilk kurulum komutları"><figcaption>İlk kurulum seri konsoldan: kimlik, sunucu ve atölye ağı ayarlanıp deneme raporu üretiliyor.</figcaption></figure>
+
+      <p>Önce tek bir şeyi kafana yerleştir: cihazın <strong>ekranı yok</strong>. Onunla konuşmanın tek yolu, USB kablosuyla bağlanıp klavyeden metin komutları yazmak. Telefon kurar gibi dokunarak değil, kısa komutlar yazarak ilerleyeceksin ve cihaz her komuta yazıyla cevap verecek.</p>
+
+      <h3>Adım 1: Bilgisayarı hazırla</h3>
+      <p>İki şey kurulacak, ikisi de bir kez:</p>
+      <ol>
+        <li><strong>PlatformIO</strong>: gömülü yazılımları derleyip karta yükleyen araç. Terminale şunu yaz:</li>
+      </ol>
+<pre><code>pip install platformio</code></pre>
+      <p style="margin-left:1.2em">Bilgisayarında Python yoksa önce <a href="https://www.python.org">python.org</a>'dan kur; PlatformIO gereken her şeyi kendisi indirir.</p>
+      <ol start="2">
+        <li><strong>USB-seri sürücüsü</strong>: bazı kartlar bilgisayara özel bir sürücüyle tanıtılır (karttaki köprü yongasına göre, ör. CH34x). Kartı taktığında bilgisayar görmezse bu sürücüyü kurup kabloyu çıkarıp tak.</li>
+      </ol>
+
+      <h3>Adım 2: Kodu indir, derle, karta yükle</h3>
+<pre><code># 1. Kodu indir
+git clone https://github.com/corezzle/NarRTOS-Drive
+cd NarRTOS-Drive
+
+# 2. Kart USB'de takılıyken derle ve yükle
+pio run -e esp32s3_drive -t upload</code></pre>
+      <p><strong>Ne göreceksin:</strong> ilk derleme birkaç dakika sürer (derleyiciler iniyor), ekrandan yüzlerce satır akar. Sonunda yeşil <strong>SUCCESS</strong> ve yükleme yüzdeleri görünür. Sonraki derlemeler saniyeler sürer.</p>
+      <div class="note"><div class="note-t">"Kart bulunamadı" derse</div><p>Üç şüpheli var, sırayla dene: kablo (bazı USB kablolar yalnız şarj içindir, veri taşımaz), sürücü (Adım 1'deki USB-seri sürücüsü) ve port (kartı farklı bir USB girişine tak). Kart görünüyor ama yükleme başlamıyorsa karttaki BOOT tuşuna basılı tutup tekrar dene.</p></div>
+
+      <h3>Adım 3: Cihazla ilk konuşma</h3>
+<pre><code>pio device monitor</code></pre>
+      <p>Bu komut cihazın konsoluna bağlanır. Kart her açılışta neler yaptığını satır satır yazar; en sonda şu satırı görürsün:</p>
+<pre><code>seri porttan 'help' yazarak komut listesini görebilirsiniz</code></pre>
+      <p>Şimdi <code>help</code> yazıp Enter'a bas: bütün komutların listesi gelir. <code>info</code> yaz: sürüm, çalışma süresi ve bellek bilgisi gelir. <strong>Bu ikisi çalışıyorsa cihazla konuşabiliyorsun demektir.</strong></p>
+
+      <h3>Adım 4: İlk ayarlar</h3>
+      <p>Cihaz fabrikadan "boş" gelir: kim olduğunu, hangi sunucuya rapor göndereceğini ve hangi ağı kullanacağını bilmez. Bunları tek tek söylüyorsun. Aşağıdakileri kendi bilgilerinle yaz; her komuttan sonra cihaz <code>OK</code> ile cevap verir:</p>
+<pre><code>set imei 351234567890123        # cihazın kimlik numarası (modem takılıysa gerekmez)
+set apn internet                # SIM operatörünün veri ağı adı
+set mqtt host broker.ornek.com  # raporların gideceği sunucu
+set mqtt port 1883
+set wifi ssid Atolye Agi        # atölyede test için WiFi adı
+set wifi pass sifre123          # WiFi şifresi
+get config                      # yazdıklarını kontrol et</code></pre>
+      <div class="tablewrap"><table><thead><tr><th>Ayar</th><th>Ne işe yarıyor</th><th>Nereden bulunur</th></tr></thead><tbody>
+        <tr><td><code>imei</code></td><td>Cihazın filo sistemindeki kimliği</td><td>Modem takılıysa cihaz kendisi okur, yazmana gerek kalmaz</td></tr>
+        <tr><td><code>apn</code></td><td>SIM kartın veri ağına giriş adı</td><td>SIM operatöründen (çoğu operatörde "internet")</td></tr>
+        <tr><td><code>mqtt host / port</code></td><td>Raporların gideceği sunucu</td><td>Sunucu ekibinden</td></tr>
+        <tr><td><code>wifi ssid / pass</code></td><td>Atölyede, modem yokken test bağlantısı</td><td>Atölyenin WiFi bilgileri</td></tr>
+      </tbody></table></div>
+      <div class="note"><div class="note-t">Şifreler ekrana basılmıyor</div><p><code>get config</code> çıktısında şifreler yerine <code>&lt;ayarlı&gt;</code> yazar. Sebebi: konsol çıktısı loglara, ekran görüntülerine ve destek yazışmalarına düşüyor.</p></div>
+      <div class="note"><div class="note-t">Ayarsız cihaz boşa çalışmıyor</div><p>SIM ya da WiFi bilgisi girilmemişse cihaz ağ donanımını <strong>hiç açmıyor</strong>; kurulum masasında bekleyen cihaz boşuna elektrik harcamasın diye. <code>net status</code> bu durumu "ayarsız" diye bildirir.</p></div>
+
+      <h3>Adım 5: Çalıştığını gör</h3>
+      <p>Sırayla şu üç komutu yaz ve yanlarındaki sonucu bekle:</p>
+      <div class="tablewrap"><table><thead><tr><th>Komut</th><th>Görmen gereken</th><th>Görmüyorsan</th></tr></thead><tbody>
+        <tr><td><code>net status</code></td><td>çevrimiçi</td><td>WiFi/SIM ayarlarını <code>get config</code> ile kontrol et</td></tr>
+        <tr><td><code>telemetry now</code></td><td>OK: rapor üretildi</td><td>Çıktıdaki hata satırını oku, ne eksikse onu söyler</td></tr>
+        <tr><td><code>sf peek</code></td><td>Gidecek raporun içeriği (JSON)</td><td>"saat henüz yok" görmen normaldir: saat öğrenilince kendiliğinden gönderilir</td></tr>
+      </tbody></table></div>
+      <p>Bu üçü tamamsa zincir uçtan uca çalışıyor: veri toplanıyor, rapor üretiliyor, gönderilmeye hazır. Cihaz bundan sonra kendi kendine çalışır; kontak açıkken dakikada bir, park hâlinde 10 dakikada bir rapor üretir.</p>
+
+      <h3>Cihaz açılışta ne yapıyor?</h3>
+      <p>Merak edersen: cihaz elektrik verildiğinde parçalarını belirli bir sırayla başlatır ve her adımı konsola yazar. Sıra keyfi değil: ayarlar en önce (her şey onları okuyor), komut arayüzü hemen ardından (yanlış ayarlı cihaza müdahalenin tek yolu), sonra veri toplayıcılar, tampon, ağ, saat, konum, rapor üretici, güncelleme ve durum LED'i.</p>
+
+      <h3>Geliştirici notları</h3>
+      <p>Aynı kaynak kod iki kart için derlenebiliyor:</p>
+      <div class="tablewrap"><table><thead><tr><th>Ortam adı</th><th>Kart</th><th>Notlar</th></tr></thead><tbody>
+        <tr><td><code>esp32s3_drive</code></td><td>ESP32-S3 + 8 MB bellek</td><td>Asıl hedef. Ekran olmadığı için ek bellek yongası (PSRAM) yok</td></tr>
+        <tr><td><code>esp32s3_drive_lcd128</code></td><td>Corezzle Touch-LCD-1.28</td><td>Geliştirme/test kartı: 16 MB bellek. Ekranına dokunulmuyor, siyah kalıyor</td></tr>
+      </tbody></table></div>
+      <p>Cihazın CAN, uydu ve modem donanımı henüz elimizde yok; ilgili kod parçaları özellik anahtarlarıyla derleme dışında tutulabiliyor. Önemli olan şu: <strong>servisler donanımdan bağımsız yazıldı</strong>, donanım olmasa bile komutlarla veri beslenip test edilebiliyorlar.</p>
+      <div class="tablewrap"><table><thead><tr><th>Anahtar</th><th>Varsayılan</th><th>Kapalıyken</th></tr></thead><tbody>
+        <tr><td><code>ENABLE_CAN</code></td><td>kapalı</td><td>Araç verisi <code>can inject</code> komutuyla elle beslenir</td></tr>
+        <tr><td><code>ENABLE_GNSS</code></td><td>kapalı</td><td>Konum <code>gnss inject</code> komutuyla elle beslenir</td></tr>
+        <tr><td><code>ENABLE_WIFI</code></td><td>açık</td><td>geçerli değil</td></tr>
+        <tr><td><code>ENABLE_MQTT</code></td><td>açık</td><td>Raporlar tamponda birikir, gönderilmez</td></tr>
+        <tr><td><code>ENABLE_MODEM</code></td><td>kapalı</td><td>Modem seçilemez</td></tr>
+      </tbody></table></div>
+      <div class="note"><div class="note-t">Yazılmamış bir parçayı açmak derlemeyi durduruyor</div><p>Bir anahtarı yanlışlıkla açan kişi sessizce çalışmayan bir cihaz almasın diye, ilgili dosyada derlemeyi durduran bir kontrol var.</p></div>
+
+      <h2 id="mimari">Nasıl kurgulandı</h2>
+
+      <p><strong>Kısaca:</strong> yazılım dört katmana ayrılmış. En üstte iş yapan servisler, altında donanım sürücüleri. Aralarında bir katman daha var ve projenin en özgün yanı o: <em>donanım bilmeyen saf modüller</em>. Bunlar geliştirme bilgisayarında test edilebiliyor, yani cihaz elimizde olmadan doğrulanabiliyorlar.</p>
+
+      <h3>Katmanlar</h3>
+      <pre><code>+--------------------------------------------------------------+
+|  SERVİSLER    rapor üretimi, gönderim, ağ, konum, saat,       |
+|               güncelleme, tampon, komut arayüzü               |
++--------------------------------------------------------------+
+|  SAF MODÜLLER veri biçimlendirici, uydu cümlesi çözücü,       |
+|  (bilgisayarda güncelleme bildirimi çözücü, modem yanıtı      |
+|   test edilir)  çözücü                                        |
++--------------------------------------------------------------+
+|  SÜRÜCÜLER    CAN, uydu alıcısı UART'ı, modem/WiFi,           |
+|               kalıcı bellek erişimi                          |
++--------------------------------------------------------------+
+|  ÇEKİRDEK     ayar deposu, merkezî yapılandırma               |
++--------------------------------------------------------------+</code></pre>
+      <p>Ailenin ilk ürünü olan Wear'da bir <strong>uygulama katmanı</strong> vardı (saat kadranı, ayarlar menüsü, galeri…). Drive'da yok, çünkü kullanıcı yok. Onun yerini saf modül katmanı aldı.</p>
+
+      <h3>Verinin yolu</h3>
+      <p>Üç kaynaktan gelen veri tek bir rapora dönüşüyor, kalıcı belleğe yazılıyor, sonra gönderiliyor:</p>
+      <pre><code>  CAN hattı          uydu alıcısı        kontak kablosu
+      |                   |                   |
+      v                   v                   v
+ 96 sinyallik       taze sabitleme      rapor zamanlayıcı
+ tablo              (10 sn'den eski     (kontak açık: 1 dk
+                     olan kullanılmaz)   park: 10 dk)
+      |                   |                   |
+      +---------+---------+---------+---------+
+                          |
+                          v
+              +-------------------------+
+              |  RAPOR                  |  sıkıştırılmış ikili
+              |  en çok 933 bayt        |  biçim. Okunabilir
+              |                         |  metne SONRA çevrilir
+              +-------------------------+
+                          |
+                          v
+              +-------------------------+
+              |  KALICI BELLEK          |  624 rapor sığıyor
+              |  (tampon)               |  elektrik kesilse
+              +-------------------------+  bile kaybolmuyor
+                          |
+                          v
+              +-------------------------+
+              |  METNE ÇEVİR            |  zaman damgası
+              |                         |  burada hesaplanıyor
+              +-------------------------+
+                          |
+                          v
+                    şebeke üzerinden
+                       GÖNDER
+                          |
+                          v
+                    ==== SUNUCU ====
+                          |
+              +-----------+-----------+
+              |                       |
+              v                       v
+      araç verisini çöz,      "aldım" onayı
+      veritabanına yaz          geri döner
+                                      |
+                                      v
+                            rapor bellekten silinir
+                            (ancak ŞİMDİ)</code></pre>
+
+      <div class="note"><div class="note-t">Akışın iki kuralı</div><p><strong>1. Her rapor tampondan geçiyor</strong>, şebeke varken bile. Sebebi: yalnızca arıza anında kullanılan bir yol, ihtiyaç duyulduğunda bozuk çıkan yoldur. Her rapor aynı yoldan geçince o yol sürekli sınanıyor.</p><p><strong>2. Rapor, sunucu "aldım" demeden silinmiyor.</strong> Gönderdikten hemen sonra silseydik, tam o anda kopan bir bağlantı raporu hem göndermemiş hem silmiş olurdu.</p></div>
+
+      <h3>İşlerin paylaşımı</h3>
+      <p>Cihazın işlemcisi iki çekirdekli. İşler ikisine dağıtılmış:</p>
+      <div class="tablewrap"><table><thead><tr><th>İş</th><th>Çekirdek</th><th>Öncelik</th></tr></thead><tbody>
+        <tr><td>CAN dinleme</td><td>1</td><td>en yüksek</td></tr>
+        <tr><td>Ağ bağlantısı</td><td>0</td><td>yüksek</td></tr>
+        <tr><td>Rapor üretimi, gönderim, konum</td><td>0</td><td>orta</td></tr>
+        <tr><td>Komut arayüzü</td><td>0</td><td>orta</td></tr>
+        <tr><td>Güncelleme, durum LED'i</td><td>0</td><td>en düşük</td></tr>
+      </tbody></table></div>
+      <p>CAN dinleme ayrı çekirdekte ve en yüksek öncelikte, çünkü hattan saniyede binlerce mesaj geçiyor. Modem ya da gönderim işi 20 saniye takılsa bile araç verisi kaçmıyor.</p>
+
+      <h3>Bellek bölümleri</h3>
+      <p>Cihazın 8 MB'lık kalıcı belleği parçalara ayrılmış:</p>
+      <pre><code>ayarlar     20 KB     IMEI, sunucu adresi, SIM ayarı
+yazılım A    2,8 MB   çalışan firmware
+yazılım B    2,8 MB   güncelleme buraya yazılıyor
+tampon       2,4 MB   gönderilemeyen raporlar (624 rapor)</code></pre>
+      <p><strong>İki yazılım bölümü olmasının sebebi güvenlik.</strong> Güncelleme boştaki bölüme yazılıyor; başarılıysa cihaz ona geçiyor. Yarıda kalan bir güncelleme çalışan yazılıma dokunmadığı için cihaz bozulmuyor.</p>
+      <p>Tampon yazılım bölümlerinin dışında duruyor. Yani <strong>güncelleme, bekleyen raporları silmiyor.</strong></p>
+
+      <h2 id="wear-iliskisi">Ailenin diğer ürünüyle ilişkisi</h2>
+
+      <p>Drive, NarRTOS ürün ailesinin ikinci ürünü. Birincisi <strong>NarRTOS Wear</strong>: dokunmatik ekranlı, kol saati benzeri bir cihaz. İkisi aynı geliştirme disiplinini paylaşıyor ama <strong>ayrı kod depoları, ayrı sürüm numaraları, ayrı yazılım</strong>.</p>
+
+      <h3>Neyi paylaşıyorlar, neyi paylaşmıyorlar</h3>
+      <div class="tablewrap"><table><thead><tr><th>Konu</th><th>Wear (saat)</th><th>Drive (araç)</th></tr></thead><tbody>
+        <tr><td>Kullanıcı arayüzü</td><td>Dokunmatik ekran, 12 uygulama</td><td><strong>yok.</strong> Ekran, buton, ses hiçbiri yok</td></tr>
+        <tr><td>İnternet bağlantısı</td><td>WiFi</td><td>Hücresel modem (WiFi yalnız atölyede)</td></tr>
+        <tr><td>Konum</td><td>Çevredeki WiFi ağlarından tahmin (±19 m)</td><td>Uydu. Hareket eden araçta WiFi yöntemi işlemiyor</td></tr>
+        <tr><td>Şebeke yokken</td><td>Rapor atlanıyor</td><td>Belleğe yazılıyor, sonra gönderiliyor</td></tr>
+        <tr><td>Bozuk güncelleme</td><td>Kullanıcı cihazı USB'ye takıp kurtarıyor</td><td><strong>Kendiliğinden geri alınıyor</strong>, çünkü kimse ulaşamıyor</td></tr>
+        <tr><td>Güncelleme zamanı</td><td>Gece, kullanıcı uyurken</td><td>Araç park hâlindeyken</td></tr>
+        <tr><td>Cihaz kimliği</td><td>Ağ kartı adresi</td><td>IMEI. Filo sistemi bunu kullanıyor</td></tr>
+        <tr><td>Sorun teşhisi</td><td>Ekrandaki ayarlar menüsü</td><td>Kablo, uzaktan mesaj, tek LED</td></tr>
+        <tr><td>Saat kaynağı</td><td>İnternet + saat yongası</td><td>İnternet + uydu + modem (saat yongası yok)</td></tr>
+      </tbody></table></div>
+
+      <h3>Ortak kod: henüz yok, sebebi var</h3>
+      <p>Doğal soru: <em>"İki ürün bu kadar benzer disiplin paylaşıyorsa neden kodu ortaklaştırmadınız?"</em></p>
+      <p>Her aşama sonunda bu yeniden değerlendirildi. Sonuç: <strong>kod paylaşılmıyor, kalıp paylaşılıyor.</strong></p>
+      <p>En güçlü aday kablosuz güncelleme kodu oldu. Wear'ın ilgili dosyası 710 satır; gerçekten ortak olabilecek çekirdek ~150 satır. Geri kalanı ürüne özgü: güncelleme ne zaman tetiklenir, ne zaman kurulur, bozuksa ne olur, cihaz nasıl tanınır. Hepsi farklı.</p>
+      <p>İki ayrı depoya paylaşılan bir bileşen koymak ek altyapı istiyor: sürüm takibi, eşgüdümlü değişiklik, ayrı test kurulumu. 150 satır iyi anlaşılmış kod için bu maliyet kendini karşılamıyor.</p>
+      <div class="note"><div class="note-t">Karar noktası üçüncü ürün</div><p>Ailede dört ürün planlanıyor. <strong>İki ürün kopyayı taşıyabilir, dört ürün taşıyamaz.</strong> Üçüncü ürün başladığında aynı kod üçüncü kez yazılacak. Asıl tetikleyici o an olacak. Üstelik o noktada hangi kodun gerçekten sabit kaldığı iki ürünlük deneyimle görülmüş olacak.</p></div>
+      <p>Bu arada ortaklaştırma <strong>cihazda değil sunucuda</strong> yapıldı: güncelleme bildirimi biçimi Wear ile birebir aynı tutuldu, böylece tek bir sunucu iki ürünü de besleyebiliyor.</p>
+
+      <h2 id="donanim">Donanım ve bağlantılar</h2>
+
+      <div class="note warn"><div class="note-t">Pin haritası geçici</div><p>Drive'ın kendi elektronik kartı henüz üretilmedi. Aşağıdaki bacak numaraları geliştirme kartında çakışmayan pinlerden seçildi. Gerçek kart gelince <strong>tek dosyadan</strong> düzeltilecek; kodun geri kalanı değişmeyecek.</p></div>
+
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU2MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU2MCIgZmlsbD0iIzA0MEIxQyIvPgo8dGV4dCB4PSIxNDAiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI4MDAiPkFSQcOHIFRBUkFGSTwvdGV4dD4KPHRleHQgeD0iODgwIiB5PSI2MCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iODAwIj5DxLBIQVo8L3RleHQ+CjxyZWN0IHg9IjgwIiB5PSI5MCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSI2NiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjIyMC4wIiB5PSIxMTkuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCI+QWvDvDwvdGV4dD4KPHRleHQgeD0iMjIwLjAiIHk9IjE0Mi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPjEyIC8gMjQgViBzw7xyZWtsaSBiZXNsZW1lPC90ZXh0Pgo8cmVjdCB4PSI4MCIgeT0iMTgwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjIwLjAiIHk9IjIwOS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIj5Lb250YWsgaGF0dMSxPC90ZXh0Pgo8dGV4dCB4PSIyMjAuMCIgeT0iMjMyLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+YW5haHRhciBhw6fEsWzEsW5jYSBnZXJpbGltIGdlbGlyPC90ZXh0Pgo8cmVjdCB4PSI4MCIgeT0iMjcwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjIwLjAiIHk9IjI5OS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIj5DQU4gdmVyaSB5b2x1PC90ZXh0Pgo8dGV4dCB4PSIyMjAuMCIgeT0iMzIyLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+Q0FOLUggdmUgQ0FOLUwsIGLDvGvDvG1sw7wgw6dpZnQ8L3RleHQ+CjxyZWN0IHg9IjgwIiB5PSIzNjAiIHdpZHRoPSIyODAiIGhlaWdodD0iNjYiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIyMjAuMCIgeT0iMzg5LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiPkfDtmt5w7x6w7wgLyDFn2ViZWtlPC90ZXh0Pgo8dGV4dCB4PSIyMjAuMCIgeT0iNDEyLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+dXlkdSB2ZSA0RyBhbnRlbiBnw7Zyw7zFn8O8PC90ZXh0Pgo8cmVjdCB4PSI3MDAiIHk9IjkwIiB3aWR0aD0iNDIwIiBoZWlnaHQ9IjM4MCIgcng9IjE4IiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMS44IiBvcGFjaXR5PSIwLjk1Ii8+Cjx0ZXh0IHg9IjkxMCIgeT0iMTI2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iODAwIj5OYXJSVE9TLURyaXZlPC90ZXh0Pgo8cmVjdCB4PSI3MzAiIHk9IjE1MCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NiIgcng9IjEyIiBmaWxsPSIjMEYyRjU4IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjkxMC4wIiB5PSIxNzQuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCI+R8O8w6cgZ2lyacWfaTwvdGV4dD4KPHRleHQgeD0iOTEwLjAiIHk9IjE5Ny4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPmFyYcOnIGdlcmlsaW1pbmRlbiAzLDMgVidhIGTDvMWfw7xyw7xjw7w8L3RleHQ+CjxyZWN0IHg9IjczMCIgeT0iMjIyIiB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU2IiByeD0iMTIiIGZpbGw9IiMwRjJGNTgiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iOTEwLjAiIHk9IjI0Ni4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIj5Lb250YWsgYWxnxLFzxLEgKEdQSU8gMTApPC90ZXh0Pgo8dGV4dCB4PSI5MTAuMCIgeT0iMjY5LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+Z2VyaWxpbSBiw7Zsw7xjw7wgw7x6ZXJpbmRlbiBva3VudXI8L3RleHQ+CjxyZWN0IHg9IjczMCIgeT0iMjk0IiB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU2IiByeD0iMTIiIGZpbGw9IiMwRjJGNTgiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iOTEwLjAiIHk9IjMxOC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIj5DQU4gYWzEsWPEsXPEsSAodHJhbnNjZWl2ZXIpPC90ZXh0Pgo8dGV4dCB4PSI5MTAuMCIgeT0iMzQxLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+eWFsbsSxeiBExLBOTEVSLCBoYXR0YSB5YXptYXo8L3RleHQ+CjxyZWN0IHg9IjczMCIgeT0iMzY2IiB3aWR0aD0iMzYwIiBoZWlnaHQ9Ijg0IiByeD0iMTIiIGZpbGw9IiMwRjJGNTgiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iOTEwLjAiIHk9IjQwNC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIj5BbnRlbmxlcjwvdGV4dD4KPHRleHQgeD0iOTEwLjAiIHk9IjQyNy4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPkdOU1MgKyA0Rzsgamlyb3Nrb3Aga2FydCDDvHplcmluZGU8L3RleHQ+CjxsaW5lIHgxPSIzNjAiIHkxPSIxMjMiIHgyPSI3MzAiIHkyPSIxNzgiIHN0cm9rZT0iI0ZGNkU2RSIgc3Ryb2tlLXdpZHRoPSIyLjYiLz4KPHRleHQgeD0iNTA1IiB5PSIxMjgiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0ZGNkU2RSIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNjAwIj4rIGJlc2xlbWUgKHNpZ29ydGFsxLEpPC90ZXh0Pgo8bGluZSB4MT0iMzYwIiB5MT0iMjEzIiB4Mj0iNzMwIiB5Mj0iMjUwIiBzdHJva2U9IiNGNUE2MjMiIHN0cm9rZS13aWR0aD0iMi42Ii8+Cjx0ZXh0IHg9IjUwNSIgeT0iMjE4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiNGNUE2MjMiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjYwMCI+a29udGFrIHNpbnlhbGk8L3RleHQ+CjxsaW5lIHgxPSIzNjAiIHkxPSIyOTgiIHgyPSI3MzAiIHkyPSIzMTgiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyLjYiLz4KPGxpbmUgeDE9IjM2MCIgeTE9IjMwOCIgeDI9IjczMCIgeTI9IjMzMCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjIuNiIgc3Ryb2tlLWRhc2hhcnJheT0iNyA1Ii8+Cjx0ZXh0IHg9IjUwNSIgeT0iMjk2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjYwMCI+Q0FOLUggLyBDQU4tTDwvdGV4dD4KPGxpbmUgeDE9IjM2MCIgeTE9IjM5MyIgeDI9IjczMCIgeTI9IjQwNCIgc3Ryb2tlPSIjOTNBRUM3IiBzdHJva2Utd2lkdGg9IjIuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyA1Ii8+CjxyZWN0IHg9IjYwIiB5PSI0NzAiIHdpZHRoPSIxMDkwIiBoZWlnaHQ9IjYwIiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNjA1LjAiIHk9IjUwNi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIj4gPC90ZXh0Pgo8dGV4dCB4PSI4MCIgeT0iNTA2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiNGNUE2MjMiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiPlBpbiBoYXJpdGFzxLEgR0XDh8SwQ8SwRMSwUjogRHJpdmUnxLFuIGtlbmRpIGthcnTEsSB0YXNhcmxhbsSxbmNhIGtlc2lubGXFn2VjZWsuIEtvbnRhayBnaXJpxZ9pIGRvxJ9ydWRhbiAxMiBWJ2EgQkHEnkxBTk1BWiwgYsO2bMO8Y8O8IMWfYXJ0dMSxci48L3RleHQ+Cjwvc3ZnPg==" alt="Araca bağlantı şeması: besleme, kontak, CAN, antenler"><figcaption>Araca bağlantı şeması. Pin haritası geçicidir; kesin bağlantı Drive'ın kendi kartıyla netleşecek.</figcaption></figure>
+
+      <h3>Bağlantı noktaları</h3>
+      <p>"GPIO" işlemcinin dışa açılan bacaklarına verilen ad; her biri numaralı.</p>
+      <div class="tablewrap"><table><thead><tr><th>İşlev</th><th>GPIO</th><th>Yön</th><th>Not</th></tr></thead><tbody>
+        <tr><td>CAN veri çıkışı</td><td>4</td><td>çıkış</td><td>Ara yongaya bağlanır (cihaz hatta yazmasa da pin bağlanır)</td></tr>
+        <tr><td>CAN veri girişi</td><td>5</td><td>giriş</td><td>Ara yongadan gelir</td></tr>
+        <tr><td>CAN uyku hattı</td><td>yok</td><td>yok</td><td>Kullanılmıyor</td></tr>
+        <tr><td>Uydu alıcısı girişi</td><td>8</td><td>giriş</td><td>Konum verisi buradan gelir</td></tr>
+        <tr><td>Uydu alıcısı çıkışı</td><td>9</td><td>çıkış</td><td>Kullanılmıyor. Alıcıya komut gönderilmiyor</td></tr>
+        <tr><td>Modem çıkışı</td><td>17</td><td>çıkış</td><td>Modemin giriş bacağına</td></tr>
+        <tr><td>Modem girişi</td><td>18</td><td>giriş</td><td>Modemin çıkış bacağından</td></tr>
+        <tr><td>Modem güç düğmesi</td><td>15</td><td>çıkış</td><td>Modemi açmak için 1,2 saniyelik darbe</td></tr>
+        <tr><td>Kontak girişi</td><td>10</td><td>giriş</td><td>Aracın kontak hattından, gerilim düşürücü üzerinden</td></tr>
+        <tr><td>Durum LED'i</td><td>48</td><td>çıkış</td><td>Bağlanmazsa servis hiç çalışmıyor</td></tr>
+      </tbody></table></div>
+
+      <h3>Seri hatların dağılımı</h3>
+      <p>İşlemcinin üç seri haberleşme birimi var; her biri bir iş için ayrılmış:</p>
+      <div class="tablewrap"><table><thead><tr><th>Birim</th><th>Kullanım</th><th>Hız</th></tr></thead><tbody>
+        <tr><td>UART0</td><td>Bilgisayar bağlantısı ve komutlar</td><td>115200</td></tr>
+        <tr><td>UART1</td><td>Uydu alıcısı</td><td>9600 (ayarlanabilir)</td></tr>
+        <tr><td>UART2</td><td>Modem</td><td>115200</td></tr>
+      </tbody></table></div>
+
+      <div class="note stop"><div class="note-t">CAN için ara yonga zorunlu</div><p>İşlemcinin içinde CAN denetleyicisi var ama <strong>elektriksel arayüzü yok</strong>. Bacakları doğrudan aracın CAN kablosuna bağlamak ne işe yarar ne de güvenlidir. Hem hattı bozar hem işlemciyi. Arada bir <em>transceiver</em> (SN65HVD230, TJA1050 gibi) olmak zorunda; hat uçlarında da 120 ohm'luk sonlandırma direnci.</p></div>
+
+      <h3>Kontak girişi</h3>
+      <p>Araç kontağı 12 volt, işlemcinin girişi 3,3 volt. Arada gerilim düşürücü ve koruma devresi şart.</p>
+      <p>Kontak bilgisi üç yerde kullanılıyor: <strong>rapor sıklığı</strong> (açıkken dakikada bir, park hâlinde 10 dakikada bir), <strong>anında rapor</strong> (kontak değişince beklemeden), ve <strong>güncelleme zamanı</strong> (yalnız park hâlindeyken). Bu kablo bağlanmazsa cihaz aracı sürekli park hâlinde sanar.</p>
+
+      <h3>Besleme</h3>
+      <p>Cihazın aracın sürekli 12 volt hattına bağlanması öngörülüyor; kontak bilgisi ayrı bir giriş olarak okunuyor. Ters bağlama, aşırı gerilim ve motor çalıştırma anındaki gerilim darbelerine karşı koruma kart tasarımının işi.</p>
+      <div class="note warn"><div class="note-t">Elektrik tüketimi ölçülmedi</div><p>Donanım olmadığı için tüketim hiç ölçülmedi ve <strong>güç yönetimi henüz yazılmadı</strong>: kontak kapalıyken cihaz tam güçte çalışmaya devam ediyor, modem açık kalıyor. Uzun süre park eden bir araçta bu aküyü tüketir. Yapılacaklar listesinde.</p></div>
+
+      <h2 id="montaj">Araca montaj</h2>
+
+      <p>Bu bölüm cihazı araca takan kişi için: kabloları bağladıktan sonra çalıştığını nasıl anlayacağı.</p>
+
+      <h3>1. Kablolama</h3>
+      <div class="tablewrap"><table><thead><tr><th>Kablo</th><th>Nereye</th></tr></thead><tbody>
+        <tr><td>12 volt (+)</td><td>Kontakla kesilmeyen sürekli besleme hattı</td></tr>
+        <tr><td>Şase (−)</td><td>Araç gövdesi</td></tr>
+        <tr><td>Kontak sinyali</td><td>Kontakla gerilim alan hat → gerilim düşürücü → GPIO 10</td></tr>
+        <tr><td>CAN H / CAN L</td><td>Aracın veri yolu → ara yonga → GPIO 4 ve 5</td></tr>
+        <tr><td>Uydu anteni</td><td>Gökyüzünü gören yer (ön cam altı uygun)</td></tr>
+        <tr><td>Hücresel anten</td><td>Metal yüzeylerden uzak</td></tr>
+      </tbody></table></div>
+      <div class="note"><div class="note-t">Cihaz aracın hattına veri YAZMIYOR</div><p>Yalnız dinliyor. Yazma yeteneği yazılımda <strong>hiç kurulmuyor</strong>, yanlışlıkla bile mümkün olmasın diye. Takip cihazının aracın veri yoluna müdahale etmesi gereksiz ve riskli.</p></div>
+
+      <h3>2. İlk ayar (USB kablosuyla)</h3>
+      <pre><code>pio device monitor            <span class="c-cmt"># cihazın konsoluna bağlan</span>
+
+set apn internet              <span class="c-cmt"># operatörünüzün veri ağı adı</span>
+set mqtt host broker.ornek.com
+set mqtt port 1883
+set ota url https://ota.ornek.com/drive/manifest
+get config                    <span class="c-cmt"># kontrol</span></code></pre>
+      <p>IMEI yazmaya gerek yok: modem bağlıysa cihaz numarayı kendisi okuyup kaydediyor.</p>
+
+      <h3>3. Bağlantıyı kontrol et</h3>
+      <pre><code>net status                    <span class="c-cmt"># "çevrimiçi" olmalı</span>
+net modem                     <span class="c-cmt"># bağlanmadıysa nerede takıldı?</span>
+time status                   <span class="c-cmt"># saat kurulmuş olmalı</span>
+mqtt status                   <span class="c-cmt"># "bağlı: evet" olmalı</span></code></pre>
+      <p><code>net modem</code> çıktısı sorunun yerini söylüyor: <em>SIM YOK</em>, <em>şebeke aranıyor</em>, <em>ayar reddedildi</em>. Her biri ayrı bir adım. "Modem bağlanmıyor" tek başına işe yaramaz; hangi adımda kaldığı lazım.</p>
+
+      <h3>4. Veri akışını kontrol et</h3>
+      <pre><code>can stats                     <span class="c-cmt"># araçtan mesaj geliyor mu?</span>
+gnss status                   <span class="c-cmt"># uydu sabitlemesi var mı?</span>
+telemetry status              <span class="c-cmt"># kontak durumu doğru mu?</span>
+sf peek                       <span class="c-cmt"># gidecek raporu gözle gör</span></code></pre>
+      <p>Kontağı açıp kapatın ve <code>telemetry status</code> çıktısındaki kontak satırının değiştiğini görün. Değişmiyorsa kontak kablosu ya da gerilim düşürücü hatalı.</p>
+
+      <h3>5. Kabloyu çek, LED'e bak</h3>
+      <p>USB çıktıktan sonra elinizdeki tek gösterge durum LED'i. Beklenen: <strong>3 saniyede bir çok kısa kırpma</strong>, yani her şey yolunda.</p>
+      <div class="tablewrap"><table><thead><tr><th>Görüyorsanız</th><th>Yapılacak</th></tr></thead><tbody>
+        <tr><td>Hızlı yanıp sönme</td><td>Ayar eksik. <code>get config</code> ile IMEI ve SIM ayarını kontrol edin</td></tr>
+        <tr><td>Uzun tek flaş</td><td>Şebeke yok. Anteni ve kapsamayı kontrol edin</td></tr>
+        <tr><td>Çift kısa flaş</td><td>Şebeke var, sunucuya bağlanamıyor. Adres, port ya da şifre hatalı</td></tr>
+        <tr><td>Sürekli yanık</td><td>Cihazın kendi belleğinde sorun var. Cihazı geri gönderin</td></tr>
+        <tr><td>Hiç yanmıyor</td><td>Elektrik gelmiyor, cihaz arızalı ya da derin uykuda (uyku açıksa park hâlinde normaldir)</td></tr>
+      </tbody></table></div>
+
+      <h3>6. Kablosuz kontrol (isteğe bağlı)</h3>
+      <p>Cihaz ağa girdikten sonra kablo takmadan da sorgulanabiliyor:</p>
+      <pre><code>mosquitto_pub -h &lt;sunucu&gt; -t 'narrtos/drive/&lt;imei&gt;/cmd' -m 'net status'
+mosquitto_sub -h &lt;sunucu&gt; -t 'narrtos/drive/&lt;imei&gt;/cmd/reply'</code></pre>
+      <p>Araç sahada, cihaz aracın altında ve kimse ona ulaşamıyorken tek müdahale yolu bu.</p>
+
+      <h2 id="can-veri-yolu">Araç verisi (CAN)</h2>
+
+      <p><strong>Kısaca:</strong> aracın kendi bilgisayarları saniyede binlerce mesaj alışverişi yapıyor. Cihaz bunları dinliyor ama <em>anlamlandırmıyor</em>. Ham hâliyle sunucuya iletiyor. Sunucu 5,7 MB'lık bir tanım dosyasıyla "bu mesaj motor devri, şu yakıt seviyesi" diye çözüyor.</p>
+
+      <h3>Neden cihaz çözmüyor?</h3>
+      <p>Üç sebep:</p>
+      <ul>
+        <li><strong>Tanım dosyası cihaza sığmıyor.</strong> 5,7 MB, 47 bin satır. Cihazın toplam belleği 8 MB.</li>
+        <li><strong>Tanımlar değişiyor.</strong> Yeni bir araç modeli ya da yeni bir sinyal eklendiğinde sunucudaki dosya güncelleniyor. Cihazda olsaydı sahadaki her araca gitmek gerekirdi.</li>
+        <li><strong>Ham veri hiçbir şey kaybetmiyor.</strong> Cihaz süzme yapsaydı, sonradan ihtiyaç duyulan bir sinyal geri getirilemezdi.</li>
+      </ul>
+      <p>Cihazın gönderdiği biçim şöyle: mesajın kimlik numarası, ardından veri baytları.</p>
+      <pre><code>"0x18FEE500,01,02,03,04,05,06,07,08"</code></pre>
+
+      <div class="note warn"><div class="note-t">Kimlik tam 8 haneli yazılmak zorunda</div><p>Sunucu bu metnin belirli karakterlerini keserek tanım dosyasındaki karşılığını buluyor. Hane sayısı farklı olursa <strong>yanlış sinyale eşleşiyor ve hiçbir hata vermiyor</strong>. Sunucu yanlış veriyi doğru sanıyor. Bu yüzden kısa kimlikler başa sıfır eklenerek yazılıyor: <code>0x00000123</code>, <code>0x123</code> değil.</p></div>
+
+      <div class="note warn"><div class="note-t">Mesajın öncelik bilgisi korunmak zorunda</div><p>CAN kimliğinin ilk haneleri mesajın aciliyetini belirtiyor. Sunucudaki eşleştirme buna da duyarlı: aynı sinyal farklı öncelikle gönderilirse tanım dosyasında karşılığı bulunmuyor ve sessizce kaybediliyor. Cihaz bu yüzden kimliği <strong>hiç değiştirmeden</strong> iletiyor.</p></div>
+
+      <h3>Neden hepsini değil, her sinyalin son hâlini saklıyor?</h3>
+      <p>Araç hattında her sinyal düzenli olarak tekrar ediyor, bazıları saniyede yüz kez. Cihaz gelen her mesajı sıraya dizip biriktirseydi, bellek saniyeler içinde dolar ve rapora hattın rastgele bir dilimi giderdi.</p>
+      <p>Oysa sunucunun istediği şey her sinyalin <strong>güncel değeri</strong>, geçmişi değil. Bu yüzden cihaz her sinyal kimliği için yalnız <em>en son</em> mesajı tutuyor. Tablo 96 kimlik alıyor; tipik bir araç 30 ile 80 arasında farklı sinyal yayınlıyor, yani rahat bir pay var.</p>
+      <div class="note"><div class="note-t">Tablo dolarsa yeni sinyal atılıyor, mevcutlar korunuyor</div><p>Tersi olsaydı, nadiren gelen ama önemli bir sinyal (örneğin arıza kodu) sürekli gelen bir sinyal uğruna düşerdi. Atılan sinyaller sayılıyor; <code>can stats</code> komutuyla görülüyor. Sayı artıyorsa tablo büyütülmeli.</p></div>
+
+      <h2 id="telemetri">Rapor içeriği</h2>
+
+      <p><strong>Kısaca:</strong> cihaz düzenli aralıklarla bir rapor hazırlıyor. İçinde konum, hız, kontak durumu ve o anki araç verileri var. Biçim filo sisteminin beklediğine göre belirlendi. Tahminle değil, sunucu kodu okunarak.</p>
+
+      <h3>Rapordaki alanlar</h3>
+      <div class="tablewrap"><table><thead><tr><th>Alan</th><th>Ne</th><th>Bilinmiyorsa</th></tr></thead><tbody>
+        <tr><td><code>imei</code></td><td>Cihaz kimliği</td><td>her zaman var</td></tr>
+        <tr><td><code>dateTime</code></td><td>Raporun üretildiği an</td><td>Rapor gönderilmiyor</td></tr>
+        <tr><td><code>latitude</code>, <code>longitude</code></td><td>Enlem, boylam</td><td><code>0</code></td></tr>
+        <tr><td><code>speed</code></td><td>Hız (km/sa)</td><td><code>0</code></td></tr>
+        <tr><td><code>direction</code></td><td>Gidiş yönü (derece)</td><td><code>0</code></td></tr>
+        <tr><td><code>ignitionState</code></td><td>Kontak açık mı</td><td>her zaman var</td></tr>
+        <tr><td><code>satelliteCount</code></td><td>Görülen uydu sayısı</td><td><code>0</code></td></tr>
+        <tr><td><code>gsmSignalQuality</code></td><td>Şebeke sinyal gücü</td><td><code>-1</code></td></tr>
+        <tr><td><code>fuel</code></td><td>Yakıt seviyesi</td><td><code>-1</code></td></tr>
+        <tr><td><code>positionSource</code></td><td>Konum uydudan mı tahminden mi (<code>gnss</code> / <code>dr</code> / <code>none</code>)</td><td><code>none</code></td></tr>
+        <tr><td><code>positionAccuracy</code></td><td>Konumun hata yarıçapı (metre)</td><td><code>-1</code></td></tr>
+        <tr><td><code>wifi</code></td><td>Çevredeki ağlar (MAC + sinyal gücü), kapalı alan konumlaması için</td><td>alan hiç yazılmaz</td></tr>
+        <tr><td><code>can</code></td><td>Ham araç verisi listesi</td><td>boş liste</td></tr>
+      </tbody></table></div>
+      <p>Rölanti süresi, çalışma süresi ve araç durumu gibi alanları <strong>sunucu kendisi hesaplıyor</strong>; cihaz göndermiyor.</p>
+
+      <div class="note"><div class="note-t">"Bilinmiyor" için özel değerler</div><p>Sunucu kodunda yakıt için <code>-1</code>, konum için <code>0</code> "bu bilgi yok" anlamında kullanılıyor. Üstelik sunucu güzergâh çizerken konumu <code>0</code> olan noktaları zaten atlıyor. Yani uydu sabitlemesi olmadığında gönderilen <code>0,0</code> haritada yanlış bir nokta oluşturmuyor, sessizce eleniyor. Cihaz bu değerleri bilerek kullanıyor.</p></div>
+
+      <h3>Örnek rapor</h3>
+      <pre><code>{"imei":"351234567890123",
+ "dateTime":"2026-08-14T13:22:32.390Z",
+ "latitude":41.0123456,"longitude":29.0123456,
+ "speed":54.3,"ignitionState":true,"direction":123.4,
+ "gsmSignalQuality":-1,"satelliteCount":0,"fuel":-1.0,
+ "positionSource":"gnss","positionAccuracy":5,
+ "can":["0x18FEE500,01,02,03,04,05,06,07,08",
+        "0x0CF00400,FF,7D,80,7D,7D,00,00,FF"]}</code></pre>
+
+      <h3>Belleğe okunabilir metin değil, sıkıştırılmış biçim yazılıyor</h3>
+      <p>Rapor tampona yukarıdaki okunabilir metin olarak değil, sıkıştırılmış ikili biçimde yazılıyor. Metne çevirme işi <em>gönderim anında</em> yapılıyor. İki sebep var:</p>
+      <ol>
+        <li><strong>Zaman damgası.</strong> Rapor üretildiği anda cihaz saati bilmiyor olabilir. Metni o an yazsaydık damga ya yanlış olurdu ya da rapor çöpe gidecekti. Ayrıntısı bir sonraki bölümde.</li>
+        <li><strong>Yer.</strong> Sıkıştırılmış biçim en çok 933 bayt, metin hâli ~2.900 bayt. Aynı bellekte üç kat fazla rapor duruyor: 10 saat yerine yaklaşık 30 saat.</li>
+      </ol>
+
+      <h3>Rapor sıklığı</h3>
+      <div class="tablewrap"><table><thead><tr><th>Durum</th><th>Sıklık</th></tr></thead><tbody>
+        <tr><td>Kontak açık (araç çalışıyor)</td><td>1 dakika</td></tr>
+        <tr><td>Kontak kapalı (park)</td><td>10 dakika</td></tr>
+        <tr><td>Kontak değişimi</td><td><strong>anında</strong></td></tr>
+      </tbody></table></div>
+      <p>Kontak değişimi beklemiyor, çünkü filo sisteminin mesai başlangıç/bitiş raporu tam bu ana dayanıyor. 10 dakika gecikmeli bildirmek o raporu doğrudan yanlışlar.</p>
+
+      <h2 id="zaman-ve-damga">Zaman damgası sorunu</h2>
+
+      <p><strong>Kısaca:</strong> cihazda pil destekli saat yongası yok. Elektrik kesilince saati kaybediyor ve tekrar öğrenmek için internete ya da uyduya ihtiyacı var. Ama raporların çoğu tam da bağlantı yokken üretiliyor. Bu belgede en çok kafa yorulan konu bu.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDYyMCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgZmlsbD0iIzA0MEIxQyIvPgo8cmVjdCB4PSI2MCIgeT0iNjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iNjAiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIyMTAuMCIgeT0iODYuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+S2F5xLF0IGfDtm5kZXJpbGVjZWs8L3RleHQ+Cjx0ZXh0IHg9IjIxMC4wIiB5PSIxMTAuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij50YW1wb25kYW4gc8SxcmFkYWtpIGthecSxdDwvdGV4dD4KPGxpbmUgeDE9IjM2MCIgeTE9IjkwIiB4Mj0iNDUwIiB5Mj0iOTAiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+Cjxwb2x5Z29uIHBvaW50cz0iNjAwLDQwLjAgNzUwLjAsOTAgNjAwLDE0MC4wIDQ1MC4wLDkwIiBmaWxsPSIjMEYyRjU4IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjYwMCIgeT0iODgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI3MDAiPkthecSxdHRhIGR1dmFyPC90ZXh0Pgo8dGV4dCB4PSI2MDAiIHk9IjEwOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCI+c2FhdGkgdmFyIG3EsT88L3RleHQ+CjxsaW5lIHgxPSI3NTAiIHkxPSI5MCIgeDI9Ijg2MCIgeTI9IjkwIiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPHRleHQgeD0iNzk1IiB5PSI3OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwQ0FENyIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIj5ldmV0PC90ZXh0Pgo8cmVjdCB4PSI4NjAiIHk9IjYwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjYwIiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMTAwMC4wIiB5PSI4Ni4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5EYW1nYSBoYXrEsXI8L3RleHQ+Cjx0ZXh0IHg9IjEwMDAuMCIgeT0iMTEwLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+SlNPTiDDvHJldGlsaXIsIGfDtm5kZXJpbGlyPC90ZXh0Pgo8bGluZSB4MT0iNjAwIiB5MT0iMTQwIiB4Mj0iNjAwIiB5Mj0iMjEwIiBzdHJva2U9IiM5M0FFQzciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyKSIvPgo8dGV4dCB4PSI2MjIiIHk9IjE4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIj5oYXnEsXI8L3RleHQ+Cjxwb2x5Z29uIHBvaW50cz0iNjAwLDIxMi41IDc2MC4wLDI2NSA2MDAsMzE3LjUgNDQwLjAsMjY1IiBmaWxsPSIjMEYyRjU4IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjYwMCIgeT0iMjYzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIj5LYXnEsXQgYnUgYcOnxLFsxLHFn3RhbiBtxLE/PC90ZXh0Pgo8dGV4dCB4PSI2MDAiIHk9IjI4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCI+KGJvb3Qga2ltbGnEn2kgYXluxLEgbcSxKTwvdGV4dD4KPGxpbmUgeDE9Ijc2MCIgeTE9IjI2NSIgeDI9Ijg4MCIgeTI9IjI2NSIgc3Ryb2tlPSIjRkY2RTZFIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhclIpIi8+Cjx0ZXh0IHg9IjgxMiIgeT0iMjUyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRkY2RTZFIiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiPmhhecSxcjwvdGV4dD4KPHJlY3QgeD0iODgwIiB5PSIyMzMiIHdpZHRoPSIyNjAiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjRkY2RTZFIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIxMDEwLjAiIHk9IjI2MS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRkY2RTZFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5Ew7zFn8O8csO8bMO8cjwvdGV4dD4KPHRleHQgeD0iMTAxMC4wIiB5PSIyODUuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij5kYW1nYSBhc2xhIMOnw7Z6w7xsZW1lejwvdGV4dD4KPGxpbmUgeDE9IjYwMCIgeTE9IjMxOCIgeDI9IjYwMCIgeTI9IjM4NSIgc3Ryb2tlPSIjOTNBRUM3IiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhcikiLz4KPHRleHQgeD0iNjIyIiB5PSIzNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjYwMCI+ZXZldDwvdGV4dD4KPHBvbHlnb24gcG9pbnRzPSI2MDAsMzg3LjUgNzUwLjAsNDQwIDYwMCw0OTIuNSA0NTAuMCw0NDAiIGZpbGw9IiMwRjJGNTgiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNjAwIiB5PSI0MzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI3MDAiPlNhYXQgxZ5VIEFOPC90ZXh0Pgo8dGV4dCB4PSI2MDAiIHk9IjQ1OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCI+YmlsaW5peW9yIG11PzwvdGV4dD4KPGxpbmUgeDE9Ijc1MCIgeTE9IjQ0MCIgeDI9Ijg2MCIgeTI9IjQ0MCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhclQpIi8+Cjx0ZXh0IHg9Ijc5NyIgeT0iNDI3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiPmV2ZXQ8L3RleHQ+CjxyZWN0IHg9Ijg2MCIgeT0iNDA4IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMTAxMC4wIiB5PSI0MzYuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+R2VyaXllIGhlc2FwbGFuxLFyPC90ZXh0Pgo8dGV4dCB4PSIxMDEwLjAiIHk9IjQ2MC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPsWfaW1kaSAtIChnZcOnZW4gc8O8cmUpID0gw7xyZXRpbSBhbsSxPC90ZXh0Pgo8bGluZSB4MT0iNDUwIiB5MT0iNDQwIiB4Mj0iMzMwIiB5Mj0iNDQwIiBzdHJva2U9IiNGNUE2MjMiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyQSkiLz4KPHRleHQgeD0iMzkyIiB5PSI0MjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGNUE2MjMiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjYwMCI+aGF5xLFyPC90ZXh0Pgo8cmVjdCB4PSI3MCIgeT0iNDA4IiB3aWR0aD0iMjYwIiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjAwLjAiIHk9IjQzNi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRjVBNjIzIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5CZWtsZXRpbGlyPC90ZXh0Pgo8dGV4dCB4PSIyMDAuMCIgeT0iNDYwLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+c2FhdCBnZWxpbmNlIMOnw7Z6w7xsZWNlazwvdGV4dD4KPHRleHQgeD0iNjAwIiB5PSI1ODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjYwMCI+S3VyYWw6IHlhbmzEscWfIGRhbWdhIGhpw6cgZGFtZ2FkYW4ga8O2dMO8ZMO8ci4gw4fDtnrDvGxlbWV5ZWNlayBrYXnEsXQgYmVrbGVtZXosIGTDvMWfZXI7IMOnw7Z6w7xsZWJpbGVjZWsga2F5xLF0IGFjZWxlIGV0bWV6LCBiZWtsZXIuPC90ZXh0Pgo8L3N2Zz4=" alt="Zaman damgası karar akışı"><figcaption>Gönderim anında damga kararı: dört hâlin dördü de bilinçli.</figcaption></figure>
+
+
+      <h3>Sorun nasıl ortaya çıkıyor</h3>
+      <p>Kapalı bir otoparkta duran kamyonu düşünün. Sürücü kontağı açıyor, cihaz çalışmaya başlıyor, ama ne uydu görüyor ne şebeke çekiyor. Yani <strong>saatin kaç olduğunu bilmiyor.</strong> 20 dakika boyunca veri toplayıp belleğe yazıyor. Sonra araç açık havaya çıkıyor, şebeke geliyor, saat öğreniliyor.</p>
+      <p>O 20 dakikalık verinin zaman damgası ne olacak?</p>
+
+      <h3>Çözüm: sonradan geriye doğru hesaplamak</h3>
+      <p>Cihazın iki farklı saati var:</p>
+      <ul>
+        <li><strong>Duvar saati</strong>: gerçek tarih ve saat. Öğrenilmesi bağlantı gerektiriyor, öğrenilince ileri/geri sıçrayabiliyor.</li>
+        <li><strong>Açılıştan beri geçen süre</strong>: her zaman biliniyor, hiç sıçramıyor, ama tarih bilgisi taşımıyor.</li>
+      </ul>
+      <p>Cihaz her raporun yanına "açılışın kaçıncı saniyesinde üretildim" bilgisini yazıyor. Saat sonradan öğrenildiğinde şu hesap yapılıyor:</p>
+      <pre><code>Şimdi saat 07:20 ve açılışın 1200. saniyesindeyiz.
+Bu rapor açılışın 60. saniyesinde üretilmiş.
+Fark 1140 saniye = 19 dakika.
+Demek ki rapor 07:01'de üretildi.</code></pre>
+      <p>Bu sayede otoparkta biriken raporlar <strong>üretildikleri saatlerin damgasıyla</strong> gönderiliyor, gönderildikleri saatle değil.</p>
+
+      <h3>Saat üç kaynaktan öğrenilebiliyor</h3>
+      <div class="tablewrap"><table><thead><tr><th>Kaynak</th><th>Neye ihtiyaç var</th></tr></thead><tbody>
+        <tr><td>İnternet zaman sunucusu</td><td>Çalışan bağlantı</td></tr>
+        <tr><td>Uydu alıcısı</td><td>Uydu sabitlemesi. Şebeke gerekmiyor</td></tr>
+        <tr><td>Hücresel modem</td><td>Şebekeye kayıt</td></tr>
+      </tbody></table></div>
+      <p>Uydu kaynağı özellikle değerli: şebeke hiç çekmeyen bir yerde bile doğru damga üretilebiliyor.</p>
+
+      <h3>Çözülemeyen durum ve nasıl ele alındığı</h3>
+      <p>Bir açık uç var: cihaz yeniden başlarsa "açılıştan beri geçen süre" sayacı sıfırlanıyor. Yeniden başlatmadan önce yazılmış, damgası olmayan bir raporun sayacı yeni oturumda anlamsız hâle geliyor. Geriye hesaplasak rastgele bir tarih çıkardı.</p>
+      <p>Bu yüzden her açılışta rastgele bir kimlik üretiliyor ve raporlara yazılıyor. Kimlik uyuşmuyorsa rapor <strong>düşürülüyor</strong>; beklemek de anlamsız, çünkü o rapor bir daha asla damgalanamaz ve sırada bekleyen diğerlerini sonsuza kadar tıkardı.</p>
+
+      <div class="note stop"><div class="note-t">Saat bilinmiyorsa rapor gönderilmiyor</div><p>Tamponda bekliyor. Yanlış damgalı bir rapor filo veritabanına girdikten sonra ayıklanamaz: güzergâhı, hız raporunu ve mesai raporunu aynı anda bozar. Beklemek çok daha ucuz, zaten tamponun varlık sebebi bu.</p></div>
+
+      <h2 id="store-forward">Şebeke yokken: tampon</h2>
+
+      <p><strong>Kısaca:</strong> araçta şebeke kesilmesi istisna değil, <em>normal</em>. Tünel, kapalı otopark, kırsal yol, iki baz istasyonu arası geçiş. Cihaz bu sürelerde raporları kalıcı belleğine yazıyor ve bağlantı gelince sırayla gönderiyor.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDQ3MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjQ3MCIgZmlsbD0iIzA0MEIxQyIvPgo8dGV4dCB4PSI3MCIgeT0iNTYiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjcwMCI+S2Fwc2FtYTwvdGV4dD4KPHJlY3QgeD0iMTgwIiB5PSI0MCIgd2lkdGg9IjMzMCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiMwMENBRDciIG9wYWNpdHk9IjAuNzUiLz4KPHJlY3QgeD0iNTEwIiB5PSI0MCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNGRjZFNkUiIG9wYWNpdHk9IjAuNSIvPgo8cmVjdCB4PSI4OTAiIHk9IjQwIiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iIzAwQ0FENyIgb3BhY2l0eT0iMC43NSIvPgo8dGV4dCB4PSIzNDUiIHk9IjU4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDQwQjFDIiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI4MDAiPnZhcjwvdGV4dD4KPHRleHQgeD0iNzAwIiB5PSI1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNzAwIj5rZXNpbnRpICh0w7xuZWwsIGvEsXJzYWwsIGdhcmFqKTwvdGV4dD4KPHRleHQgeD0iMTAxMCIgeT0iNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwNDBCMUMiIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjgwMCI+Z2VyaSBnZWxkaTwvdGV4dD4KPHRleHQgeD0iNzAiIHk9IjEyMiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIj5SYXBvcmxhcjwvdGV4dD4KPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTE2IiByPSI5IiBmaWxsPSIjMDBDQUQ3Ii8+CjxsaW5lIHgxPSIyMDAiIHkxPSIxMzAiIHgyPSIyMDAiIHkyPSIxNjgiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYXJUKSIvPgo8Y2lyY2xlIGN4PSIyNjQiIGN5PSIxMTYiIHI9IjkiIGZpbGw9IiMwMENBRDciLz4KPGxpbmUgeDE9IjI2NCIgeTE9IjEzMCIgeDI9IjI2NCIgeTI9IjE2OCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhclQpIi8+CjxjaXJjbGUgY3g9IjMyOCIgY3k9IjExNiIgcj0iOSIgZmlsbD0iIzAwQ0FENyIvPgo8bGluZSB4MT0iMzI4IiB5MT0iMTMwIiB4Mj0iMzI4IiB5Mj0iMTY4IiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPGNpcmNsZSBjeD0iMzkyIiBjeT0iMTE2IiByPSI5IiBmaWxsPSIjMDBDQUQ3Ii8+CjxsaW5lIHgxPSIzOTIiIHkxPSIxMzAiIHgyPSIzOTIiIHkyPSIxNjgiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYXJUKSIvPgo8Y2lyY2xlIGN4PSI0NTYiIGN5PSIxMTYiIHI9IjkiIGZpbGw9IiMwMENBRDciLz4KPGxpbmUgeDE9IjQ1NiIgeTE9IjEzMCIgeDI9IjQ1NiIgeTI9IjE2OCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhclQpIi8+CjxjaXJjbGUgY3g9IjUzMCIgY3k9IjExNiIgcj0iOSIgZmlsbD0iI0Y1QTYyMyIvPgo8bGluZSB4MT0iNTMwIiB5MT0iMTMwIiB4Mj0iNTMwIiB5Mj0iMjAwIiBzdHJva2U9IiNGNUE2MjMiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2FyQSkiLz4KPGNpcmNsZSBjeD0iNTkwIiBjeT0iMTE2IiByPSI5IiBmaWxsPSIjRjVBNjIzIi8+CjxsaW5lIHgxPSI1OTAiIHkxPSIxMzAiIHgyPSI1OTAiIHkyPSIyMDAiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYXJBKSIvPgo8Y2lyY2xlIGN4PSI2NTAiIGN5PSIxMTYiIHI9IjkiIGZpbGw9IiNGNUE2MjMiLz4KPGxpbmUgeDE9IjY1MCIgeTE9IjEzMCIgeDI9IjY1MCIgeTI9IjIwMCIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhckEpIi8+CjxjaXJjbGUgY3g9IjcxMCIgY3k9IjExNiIgcj0iOSIgZmlsbD0iI0Y1QTYyMyIvPgo8bGluZSB4MT0iNzEwIiB5MT0iMTMwIiB4Mj0iNzEwIiB5Mj0iMjAwIiBzdHJva2U9IiNGNUE2MjMiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2FyQSkiLz4KPGNpcmNsZSBjeD0iNzcwIiBjeT0iMTE2IiByPSI5IiBmaWxsPSIjRjVBNjIzIi8+CjxsaW5lIHgxPSI3NzAiIHkxPSIxMzAiIHgyPSI3NzAiIHkyPSIyMDAiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYXJBKSIvPgo8Y2lyY2xlIGN4PSI4MzAiIGN5PSIxMTYiIHI9IjkiIGZpbGw9IiNGNUE2MjMiLz4KPGxpbmUgeDE9IjgzMCIgeTE9IjEzMCIgeDI9IjgzMCIgeTI9IjIwMCIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhckEpIi8+CjxjaXJjbGUgY3g9Ijk1MCIgY3k9IjExNiIgcj0iOSIgZmlsbD0iIzAwQ0FENyIvPgo8bGluZSB4MT0iOTUwIiB5MT0iMTMwIiB4Mj0iOTUwIiB5Mj0iMTY4IiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPGNpcmNsZSBjeD0iMTAxNCIgY3k9IjExNiIgcj0iOSIgZmlsbD0iIzAwQ0FENyIvPgo8bGluZSB4MT0iMTAxNCIgeTE9IjEzMCIgeDI9IjEwMTQiIHkyPSIxNjgiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYXJUKSIvPgo8dGV4dCB4PSIzNDAiIHk9IjE5NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIj5hbsSxbmRhIGfDtm5kZXJpbGlyPC90ZXh0Pgo8dGV4dCB4PSIxMDEwIiB5PSIxOTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSIgZm9udC13ZWlnaHQ9IjYwMCI+YW7EsW5kYSBnw7ZuZGVyaWxpcjwvdGV4dD4KPHJlY3QgeD0iNDgwIiB5PSIyMTAiIHdpZHRoPSI0MDAiIGhlaWdodD0iODQiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI2ODAuMCIgeT0iMjQ4LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkthbMSxY8SxIHRhbXBvbiAoZmxhc2gpPC90ZXh0Pgo8dGV4dCB4PSI2ODAuMCIgeT0iMjcyLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+NjI0IGthecSxdCDCtyBlbGVrdHJpayBrZXNpbHNlIGRlIGR1cnVyIMK3IGVuIGVza2lzaSDDtm5jZSBnaWRlcjwvdGV4dD4KPGxpbmUgeDE9Ijg4MCIgeTE9IjI1MiIgeDI9IjEwMTAiIHkyPSIyNTIiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXJUKSIvPgo8dGV4dCB4PSI5NDgiIHk9IjIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwQ0FENyIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIj5ib8WfYWzEsXI8L3RleHQ+CjxyZWN0IHg9IjEwMTAiIHk9IjIyMCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI2NCIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjEwODUuMCIgeT0iMjU4LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTciIGZvbnQtd2VpZ2h0PSI3MDAiPlN1bnVjdTwvdGV4dD4KPHJlY3QgeD0iNjAiIHk9IjMzMCIgd2lkdGg9IjExMDAiIGhlaWdodD0iOTIiIHJ4PSIxNCIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI2MTAuMCIgeT0iMzgyLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPiA8L3RleHQ+Cjx0ZXh0IHg9IjgwIiB5PSIzNjYiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNi41IiBmb250LXdlaWdodD0iODAwIj5PbmF5IGdlbG1lZGVuIGhpw6diaXIga2F5xLF0IHNpbGlubWV6LjwvdGV4dD4KPHRleHQgeD0iODAiIHk9IjM5NiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI1MDAiPlN1bnVjdSByYXBvcnUgYWxkxLHEn8SxbsSxIHPDtnlsZW1lZGVuIChQVUJBQ0spIGthecSxdCB0YW1wb25kYSBrYWzEsXIuIEJlZGVsaTogYXluxLEgcmFwb3IgaWtpIGtleiBnaWRlYmlsaXI7IHN1bnVjdSBjaWhheiArIGRhbWdhIGlraWxpc2l5bGUgdGVraWxsZcWfdGlyaXIuPC90ZXh0Pgo8L3N2Zz4=" alt="Kapsama kesintisinde tamponun davranışı"><figcaption>Kapsama kesintisinde raporlar kalıcı tampona yazılır, bağlantı dönünce sırayla gönderilir.</figcaption></figure>
+
+
+      <p>Ailenin ilk ürünü olan saatte böyle bir mekanizma yoktu: WiFi yoksa rapor sessizce atlanıyordu. Bir giyilebilir cihazda kaçan ölçüm sadece eksik bir veri noktası. Araç takibinde ise <strong>eksik bir güzergâh</strong> demek. Filo ekranında araç kayboluyor ve hız, mesai, bölge raporları yanlış çalışıyor.</p>
+
+      <h3>Kaç rapor sığıyor?</h3>
+      <p>2,4 MB'lık bölüm 624 rapor alıyor. Dakikada bir rapor üreten bir araçta bu <strong>yaklaşık 10 saat</strong> demek. Park hâlinde (10 dakikada bir) çok daha uzun.</p>
+
+      <h3>Neden dosya sistemi kullanılmadı?</h3>
+      <p>Bilgisayarlardaki gibi bir dosya sistemi kurmak yerine bellek doğrudan sabit boyutlu bölmelere ayrıldı. Sebebi: dosya sistemi açılırken zaman ve bellek harcıyor, bozulma riski taşıyor, ve küçük parçaları sık sık yazmak tam olarak en kötü çalıştığı durum. Buna karşılık ihtiyacımız çok basit: sırayla dolan, sırayla boşalan sabit bölmeler. Dosya adı, klasör, boyut değiştirme hiçbiri kullanılmayacak.</p>
+
+      <h3>Elektrik kesilirse ne olur?</h3>
+      <p>Kalıcı belleğin bir özelliği var: yazma işlemi bitmeden elektrik kesilirse yarım yazılmış veri kalıyor. Bunun yarım bir raporun geçerli sanılmasına yol açmaması için sıra tersine çevrildi: <strong>önce raporun içeriği, en son "bu bölme dolu" işareti</strong> yazılıyor.</p>
+      <p>Böylece yazma ortasında elektrik kesilirse işaret hiç oluşmuyor ve bölme boş sayılıyor. Yarım rapor hiçbir zaman gönderilmiyor.</p>
+
+      <h3>Bellek dolarsa hangi rapor gidiyor?</h3>
+      <p><strong>En eskisi.</strong> Bu, araç verisi tablosundaki kararın tam tersi (orada yeni gelen atılıyor, mevcutlar korunuyor) ve çelişki değil: orada yarışan şeyler <em>farklı sinyaller</em>, hepsi gerekliydi. Burada ise <em>aynı bilginin farklı zamanları</em> yarışıyor.</p>
+      <p>Filo ekranına bakan kişi aracın şu anki yerini görmek istiyor. 10 saat önceki bir noktayı kaybetmek, güncel noktayı kaybetmekten iyidir. Yeni raporu reddetmek ise cihazı canlı veri üretemez hâle getirirdi.</p>
+
+      <h3>Silme, onay geldikten sonra</h3>
+      <p>Rapor gönderildikten hemen sonra silinmiyor; sunucunun "aldım" onayı bekleniyor. Tek adımda silseydik, tam o anda kopan bir bağlantı raporu hem göndermemiş hem silmiş olurdu.</p>
+
+      <h3>Bellek ne kadar dayanır?</h3>
+      <p>Kalıcı bellek sonsuz kez yazılamıyor; her bölme yaklaşık 100.000 kez silinebiliyor. Hesap: dakikada bir rapor = günde 1440 rapor, 624 bölme = günde 2,3 tam tur. 100.000 ÷ 2,3 ≈ <strong>43.000 gün</strong>, yani yüz yılı aşkın. Cihazın ömrü yanında yok sayılır.</p>
+
+      <h2 id="ag-ve-mqtt">Bağlantı ve gönderim</h2>
+
+      <p><strong>Kısaca:</strong> cihaz iki farklı yolla internete çıkabiliyor: sahada hücresel modem, atölyede WiFi. Üst katman hangisinin kullanıldığını bilmiyor, bu yüzden aynı yazılım her iki durumda da çalışıyor.</p>
+
+      <h3>İki bağlantı yolu, tek arayüz</h3>
+      <div class="tablewrap"><table><thead><tr><th>Yol</th><th>Nerede</th></tr></thead><tbody>
+        <tr><td>Hücresel modem</td><td>Sahada, araç içinde. Asıl yol</td></tr>
+        <tr><td>WiFi</td><td>Atölyede, geliştirme sırasında</td></tr>
+      </tbody></table></div>
+      <p>Seçim yazılımı yeniden derlemekle değil, <strong>ayarla</strong> yapılıyor. Yani aynı yazılım hem atölyede hem araçta çalışıyor; iki ayrı sürüm üretmek gerekmiyor.</p>
+
+      <div class="note"><div class="note-t">Yeniden deneme süresi giderek uzuyor</div><p>Bağlantı kurulamazsa cihaz 5 saniye sonra tekrar deniyor; olmazsa 10, sonra 20… en fazla 5 dakikaya kadar. Sabit aralık araçta yanlış olurdu: tünelde ya da kırsalda saatlerce şebeke olmayabiliyor ve saniyede bir denemek hem elektrik hem veri harcıyor.</p><p>Bu mantık bağlantı yollarının içinde değil, üstünde duruyor. Böylece WiFi ve modem aynı davranışı paylaşıyor, ikinci kez yazılmıyor.</p></div>
+
+      <h3>Uzaktan komut gönderme</h3>
+      <p>Cihaz gönderdiği raporların yanı sıra, kendisine ayrılmış bir kanalı da dinliyor. Buraya gönderilen komutlar USB'den yazılmış gibi işleniyor ve yanıt geri dönüyor.</p>
+      <p>Ekransız bir araç cihazında bu, sahada tek müdahale imkânı olabilir: araç başka şehirde, cihaz aracın altında, kimse ona ulaşamıyor.</p>
+
+      <div class="note warn"><div class="note-t">Sunucu tarafıyla anlaşma henüz kesinleşmedi</div><p>Verinin hangi adrese, hangi kanal adlarıyla ve nasıl bir kimlik doğrulamasıyla gönderileceği sunucu ekibiyle netleştirilmedi. Cihaz şu an kendi varsayımlarıyla çalışıyor. Bütün varsayımlar <strong>tek bir dosyada</strong> toplandı; anlaşma netleşince yalnız o dosya değişecek, servis kodu değişmeyecek. Ayrıntı <a href="#sunucu-tarafi">Sunucu Tarafı</a> bölümünde.</p></div>
+
+      <h2 id="konum-gnss">Konum</h2>
+
+      <p><strong>Kısaca:</strong> uydu alıcısı saniyede bir, metin satırları hâlinde konum bildiriyor. Cihaz bu satırları okuyup enlem, boylam, hız, yön ve uydu sayısını çıkarıyor. Alıcı aynı zamanda ikinci saat kaynağı.</p>
+
+      <h3>Alıcı ne gönderiyor?</h3>
+      <p>Konum alıcıları standart bir metin biçimi kullanıyor (NMEA). Her satır bir bilgi taşıyor; cihaz ikisiyle ilgileniyor:</p>
+      <div class="tablewrap"><table><thead><tr><th>Satır</th><th>İçindekiler</th></tr></thead><tbody>
+        <tr><td><strong>RMC</strong></td><td>Konum, hız, yön, <em>tarih ve saat</em>, geçerlilik</td></tr>
+        <tr><td><strong>GGA</strong></td><td>Konum, sabitleme kalitesi, <em>uydu sayısı</em></td></tr>
+      </tbody></table></div>
+      <p>İkisi de gerekli: RMC'de uydu sayısı yok, GGA'da tarih yok (yalnız saat var, dolayısıyla ondan damga üretilemez).</p>
+
+      <div class="note stop"><div class="note-t">Bozuk satır tamamen atılıyor</div><p>Her satırın sonunda bir doğrulama kodu var. Kablo üzerinde tek bir baytın bozulması <code>4807.038</code> yerine <code>4907.038</code> okutabilir, yani <strong>111 kilometrelik sıçrama</strong>. Filo tarafında bu hem hız alarmı üretir hem güzergâhı bozar, üstelik sunucunun bunu ayıklama şansı yoktur. Doğrulama kodu tutmayan satırdan <em>hiçbir</em> bilgi alınmıyor.</p></div>
+
+      <div class="note stop"><div class="note-t">Eski konum, konum yokluğundan kötüdür</div><p>Alıcı tünelde uyduları kaybettiğinde son bilinen konumu tutmaya devam etmek cazip görünüyor ama yanlış: hareket eden bir araçta 10 dakikalık eski nokta "şu anki konum" olarak gidiyor ve sunucu bunu sorgulamıyor. Sonuç, haritada duran ama gerçekte yol alan bir araç.</p><p>Bu yüzden <strong>10 saniyeden eski sabitleme geçersiz</strong> sayılıyor ve rapora "konum yok" bilgisi gidiyor.</p></div>
+
+      <h3>Boş alan sıfır demek değil</h3>
+      <p>Sabitleme henüz yokken alıcı alanları boş bırakıyor. Boşu sıfır olarak okumak aracı Gine Körfezi'ne (0 enlem, 0 boylam) koymak olurdu ve sunucu bunu geçerli bir konum sanardı. Cihaz "bu alan yok" ile "bu alan sıfır" arasındaki farkı ayrı tutuyor.</p>
+
+      <h3>Kapalı alanda konum: uydu kesilince tahminle sürdürme</h3>
+      <p>Uydu görünürken konum doğrudan uydudan alınıyor. Tünelde ya da kapalı otoparkta uydu kesildiğinde cihaz son bilinen uydu noktasından başlayıp konumu <strong>tahmin ederek sürdürüyor</strong>: ne kadar yol alındığı aracın kendi hız verisinden, ne kadar dönüldüğü jiroskoptan okunuyor. Bu yönteme "ölü hesap" deniyor ve ticari takip cihazlarının tünel çözümü budur. Uydu geri geldiğinde tahmin bırakılıyor ve bir sonraki kesinti için o taze noktadan yeniden başlanıyor; biriken hata her seferinde sıfırlanıyor.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU0MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU0MCIgZmlsbD0iIzA0MEIxQyIvPgo8ZyBvcGFjaXR5PSIxIj48Y2lyY2xlIGN4PSIxNTAiIGN5PSI3MCIgcj0iMTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjEyNiIgeTE9IjcwIiB4Mj0iMTM3IiB5Mj0iNzAiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjE2MyIgeTE9IjcwIiB4Mj0iMTc0IiB5Mj0iNzAiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9nPgo8ZyBvcGFjaXR5PSIxIj48Y2lyY2xlIGN4PSIzMzAiIGN5PSI3MCIgcj0iMTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjMwNiIgeTE9IjcwIiB4Mj0iMzE3IiB5Mj0iNzAiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjM0MyIgeTE9IjcwIiB4Mj0iMzU0IiB5Mj0iNzAiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9nPgo8ZyBvcGFjaXR5PSIxIj48Y2lyY2xlIGN4PSIxMDIwIiBjeT0iNzAiIHI9IjEzIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSI5OTYiIHkxPSI3MCIgeDI9IjEwMDciIHkyPSI3MCIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iMTAzMyIgeTE9IjcwIiB4Mj0iMTA0NCIgeTI9IjcwIiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMiIvPjwvZz4KPHRleHQgeD0iMTUwIiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjYwMCI+dXlkdSBnw7Zyw7xuw7xyPC90ZXh0Pgo8dGV4dCB4PSIxMDIwIiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjYwMCI+dXlkdSBnZXJpIGdlbGRpPC90ZXh0Pgo8cmVjdCB4PSI0MzAiIHk9IjE1MCIgd2lkdGg9IjQzMCIgaGVpZ2h0PSIxNTAiIHJ4PSIxOCIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI2NDUiIHk9IjE0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNS41IiBmb250LXdlaWdodD0iODAwIj5Uw5xORUw6IHV5ZHUgc2lueWFsaSB5b2s8L3RleHQ+CjxwYXRoIGQ9Ik02MCAyMjUgSDExNDAiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSI0MiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjU1Ii8+CjxjaXJjbGUgY3g9IjExMCIgY3k9IjIyNSIgcj0iOCIgZmlsbD0iIzAwQ0FENyIvPgo8Y2lyY2xlIGN4PSIxOTAiIGN5PSIyMjUiIHI9IjgiIGZpbGw9IiMwMENBRDciLz4KPGNpcmNsZSBjeD0iMjcwIiBjeT0iMjI1IiByPSI4IiBmaWxsPSIjMDBDQUQ3Ii8+CjxjaXJjbGUgY3g9IjM1MCIgY3k9IjIyNSIgcj0iOCIgZmlsbD0iIzAwQ0FENyIvPgo8Y2lyY2xlIGN4PSI0NzAiIGN5PSIyMjUiIHI9IjEyIiBmaWxsPSJub25lIiBzdHJva2U9IiNGNUE2MjMiIHN0cm9rZS13aWR0aD0iMS42IiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iNDcwIiBjeT0iMjI1IiByPSI2IiBmaWxsPSIjRjVBNjIzIi8+CjxjaXJjbGUgY3g9IjU1MCIgY3k9IjIyNSIgcj0iMTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI1NTAiIGN5PSIyMjUiIHI9IjYiIGZpbGw9IiNGNUE2MjMiLz4KPGNpcmNsZSBjeD0iNjMwIiBjeT0iMjI1IiByPSIyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjEuNiIgb3BhY2l0eT0iMC44Ii8+CjxjaXJjbGUgY3g9IjYzMCIgY3k9IjIyNSIgcj0iNiIgZmlsbD0iI0Y1QTYyMyIvPgo8Y2lyY2xlIGN4PSI3MTAiIGN5PSIyMjUiIHI9IjMzIiBmaWxsPSJub25lIiBzdHJva2U9IiNGNUE2MjMiIHN0cm9rZS13aWR0aD0iMS42IiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iNzEwIiBjeT0iMjI1IiByPSI2IiBmaWxsPSIjRjVBNjIzIi8+CjxjaXJjbGUgY3g9Ijc5MCIgY3k9IjIyNSIgcj0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI3OTAiIGN5PSIyMjUiIHI9IjYiIGZpbGw9IiNGNUE2MjMiLz4KPGNpcmNsZSBjeD0iOTAwIiBjeT0iMjI1IiByPSI2IiBmaWxsPSIjRjVBNjIzIi8+CjxjaXJjbGUgY3g9IjkwMCIgY3k9IjIyNSIgcj0iNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI5ODUiIGN5PSIyMjUiIHI9IjgiIGZpbGw9IiMwMENBRDciLz4KPGNpcmNsZSBjeD0iMTA2NSIgY3k9IjIyNSIgcj0iOCIgZmlsbD0iIzAwQ0FENyIvPgo8bGluZSB4MT0iOTI1IiB5MT0iMTgwIiB4Mj0iOTcwIiB5Mj0iMjEwIiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPHRleHQgeD0iMTAwMCIgeT0iMTY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiPnllbmlkZW4gdG9odW1sYW1hOjwvdGV4dD4KPHRleHQgeD0iMTAwMCIgeT0iMTg4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI2MDAiPmJpcmlrbWnFnyBoYXRhIGF0xLFsxLFyPC90ZXh0Pgo8cmVjdCB4PSI2MCIgeT0iMzMwIiB3aWR0aD0iMzMwIiBoZWlnaHQ9Ijg4IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjI1LjAiIHk9IjM4MC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj4gPC90ZXh0Pgo8dGV4dCB4PSI4MCIgeT0iMzYyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjgwMCI+VXlkdSB2YXJrZW48L3RleHQ+Cjx0ZXh0IHg9IjgwIiB5PSIzOTAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjUwMCI+S29udW0gw7Zsw6fDvGzDvHI7IGhlciBub2t0YSB0YWhtaW5lPC90ZXh0Pgo8dGV4dCB4PSI4MCIgeT0iNDA4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI1MDAiPnRhemUgYmHFn2xhbmfEscOnIG9sdXI8L3RleHQ+CjxyZWN0IHg9IjQzMCIgeT0iMzMwIiB3aWR0aD0iNDMwIiBoZWlnaHQ9Ijg4IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNjQ1LjAiIHk9IjM4MC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj4gPC90ZXh0Pgo8dGV4dCB4PSI0NTAiIHk9IjM2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRjVBNjIzIiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI4MDAiPlTDvG5lbGRlOiDDtmzDvCBoZXNhcDwvdGV4dD4KPHRleHQgeD0iNDUwIiB5PSIzOTAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjUwMCI+WW9sIGFyYWPEsW4gaMSxeiB2ZXJpc2luZGVuLCBkw7Zuw7zFnyBqaXJvc2tvcHRhbi48L3RleHQ+Cjx0ZXh0IHg9IjQ1MCIgeT0iNDA4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI1MDAiPkhhbGthIGLDvHnDvHI6IGhhdGEgcGF5xLEgcmFwb3JsYSBiaXJsaWt0ZSBnaWRlcjwvdGV4dD4KPHJlY3QgeD0iOTAwIiB5PSIzMzAiIHdpZHRoPSIyNDAiIGhlaWdodD0iODgiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIxMDIwLjAiIHk9IjM4MC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj4gPC90ZXh0Pgo8dGV4dCB4PSI5MjAiIHk9IjM2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRkY2RTZFIiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI4MDAiPlPEsW7EsXI8L3RleHQ+Cjx0ZXh0IHg9IjkyMCIgeT0iMzkwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI1MDAiPjUwMCBtIHlhIGRhIDEwIGRrIGHFn8SxbMSxcnNhPC90ZXh0Pgo8dGV4dCB4PSI5MjAiIHk9IjQwOCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNTAwIj5rb251bSBkw7xyw7xzdMOnZTogeW9rPC90ZXh0Pgo8dGV4dCB4PSI2MDAiIHk9IjQ5MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41IiBmb250LXdlaWdodD0iNjAwIj7EsHZtZcO2bMOnZXIgYmlsZXJlayBrdWxsYW7EsWxtxLF5b3I6IGhhdGFzxLEgemFtYW7EsW4ga2FyZXNpeWxlIGLDvHnDvHIgdmUgdMO8bmVsIMOnxLFrxLHFn8SxbmEgdmFybWFkYW4ga2lsb21ldHJlbGVyY2UgxZ9hxZ9hci48L3RleHQ+Cjwvc3ZnPg==" alt="Tünelde ölü hesap: büyüyen hata payı ve yeniden tohumlama"><figcaption>Tünel geçişi: konum hız + jiroskopla yürütülür, hata payı halka olarak büyür, uydu dönünce sıfırlanır.</figcaption></figure>
+
+      <div class="tablewrap"><table><thead><tr><th>Kaynak</th><th>Ne veriyor</th><th>Durum</th></tr></thead><tbody>
+        <tr><td>Aracın hız verisi (CAN)</td><td>Ne kadar yol alındığı</td><td>Uygulandı. Tek sinyal çözülüyor: tekerlek hızı</td></tr>
+        <tr><td>Jiroskop (ICM-42688-P)</td><td>Ne kadar dönüldüğü</td><td>Sürücü hazır, sensör henüz elde yok</td></tr>
+        <tr><td>WiFi ağ taraması</td><td>Kaba konum doğrulaması</td><td>Uygulandı (aşağıda ayrı bölüm)</td></tr>
+      </tbody></table></div>
+      <div class="note warn"><div class="note-t">Neden yalnız ivmeölçer yetmiyor</div><p>İvmeölçerden konum çıkarmak için ivmeyi iki kez toplamak gerekiyor ve sensörün küçük sapması bu işlemde <strong>zamanın karesiyle büyüyor</strong>. Yarım dakikada hata onlarca metreye çıkıyor, birkaç dakikada kullanılamaz hâle geliyor.</p><p>Bu yüzden mesafe bilgisi <strong>aracın kendi hız verisinden</strong> alınıyor: o ölçümün hatası mesafeyle doğrusal büyüyor ve yüzde birkaç düzeyinde kalıyor. Jiroskop yalnız yön değişimi için kullanılıyor.</p></div>
+      <p>Tahmin ölçüm değildir ve cihaz bunu saklamıyor:</p>
+      <ul>
+        <li><strong>Hata payı takip ediliyor ve raporlanıyor.</strong> Her tahmin adımında hata yarıçapı büyütülüyor ve rapora yazılıyor.</li>
+        <li><strong>Aşırı sapmış tahmin gönderilmiyor.</strong> Hata yarıçapı 500 metreyi ya da süre 10 dakikayı aşarsa rapora "konum yok" bilgisi gidiyor. "Eski konum, konum yokluğundan kötüdür" kuralının tahmine uygulanmış hâli.</li>
+        <li><strong>Hız verisi yoksa tahmin hiç başlamıyor.</strong> Jiroskop tek başına konum üretemez.</li>
+        <li><strong>Jiroskop sapması araç dururken ölçülüyor</strong> ve okumadan düşülüyor. Sapma düzeltilmezse duran araçta bile yön kayar ve tünele girildiği anda tahmin yanlış yöne gider. Jiroskop hiç yoksa yön sabit varsayılıyor ve hata payı daha hızlı büyüyor.</li>
+      </ul>
+      <div class="note stop"><div class="note-t">Tahmin, ölçümden ayırt edilebilir gidiyor</div><p>Rapora iki alan eklendi: <code>positionSource</code> (uydu için <code>"gnss"</code>, tahmin için <code>"dr"</code>, konum yoksa <code>"none"</code>) ve metre cinsinden hata yarıçapı <code>positionAccuracy</code>. Bu alanlar filo dokümanında henüz yok; <strong>sunucu tarafıyla mutabakat gerekiyor</strong>. Sunucu bu ayrımı kaydetmezse tahmini konum uydu konumu gibi işlenir ve güzergâh doğruluğu sessizce bozulur.</p></div>
+      <div class="note"><div class="note-t">"Araç verisini cihaz çözmez" kuralına sınırlı istisna</div><p>Yol bilgisi için cihaz araç hattından tek bir sinyali (tekerlek hızı) kendisi çözüyor. Ham veri yine değiştirilmeden sunucuya gidiyor; istisna bu tek sinyalle sınırlı.</p></div>
+      <p>Durum <code>pos status</code> komutuyla izleniyor: konum kaynağı, hata yarıçapı, tahminle gidilen yol, jiroskop sapması ve hız verisinin gelip gelmediği. Bu bölümün matematiği bilgisayarda testlerle sınandı; jiroskop ve CAN ara yongası henüz elde olmadığı için araçta <strong>doğrulanmadı</strong>.</p>
+
+      <h3>Kapalı alanda ek kanıt: WiFi listesi</h3>
+      <p>Tünelin çözümü yukarıdaki tahmin; uydu görmeyen diğer kapalı alanlarda (otopark, AVM, bina içi) ise bir kanıt daha var. Konum uydudan gelmediği sürece cihaz 30 saniyede bir çevredeki WiFi ağlarını tarıyor ve en güçlü 8 ağın kimliğini (MAC) + sinyal gücünü rapora ekliyor. <strong>Konumu cihaz çözmüyor</strong>: araç verisindeki kalıbın aynısı, ham liste sunucuya gidiyor ve konum orada, bilinen ağ konumları veritabanından çözülüyor.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDUwMCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzA0MEIxQyIvPgo8cmVjdCB4PSI2MCIgeT0iNzAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMjkwIiByeD0iMTYiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjcwIiB5PSIxMDIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiPktBUEFMSSBBTEFOIChvdG9wYXJrLCBBVk0sIGJpbmEgacOnaSk8L3RleHQ+CjxyZWN0IHg9IjE4MCIgeT0iMjQwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjcwLjAiIHk9IjI2OC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5DaWhhejwvdGV4dD4KPHRleHQgeD0iMjcwLjAiIHk9IjI5Mi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPnV5ZHUgeW9rLCB0YXJhbWEgdmFyPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIxNjAiIHI9IjciIGZpbGw9IiNGNUE2MjMiLz4KPHBhdGggZD0iTTExNiAxNjAgYTE0IDE0IDAgMCAxIDI4IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG9wYWNpdHk9IjAuNiIvPgo8cGF0aCBkPSJNMTA4IDE2MCBhMjIgMjIgMCAwIDEgNDQgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjEuNiIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSIxMzAiIHkxPSIxNzAiIHgyPSIyNjIiIHkyPSIyMzgiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYXJBKSIvPgo8Y2lyY2xlIGN4PSIyODAiIGN5PSIxNTAiIHI9IjciIGZpbGw9IiNGNUE2MjMiLz4KPHBhdGggZD0iTTI2NiAxNTAgYTE0IDE0IDAgMCAxIDI4IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG9wYWNpdHk9IjAuNiIvPgo8cGF0aCBkPSJNMjU4IDE1MCBhMjIgMjIgMCAwIDEgNDQgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjEuNiIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSIyODAiIHkxPSIxNjAiIHgyPSIyNjIiIHkyPSIyMzgiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYXJBKSIvPgo8Y2lyY2xlIGN4PSI0MjAiIGN5PSIxOTAiIHI9IjciIGZpbGw9IiNGNUE2MjMiLz4KPHBhdGggZD0iTTQwNiAxOTAgYTE0IDE0IDAgMCAxIDI4IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG9wYWNpdHk9IjAuNiIvPgo8cGF0aCBkPSJNMzk4IDE5MCBhMjIgMjIgMCAwIDEgNDQgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjEuNiIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSI0MjAiIHkxPSIyMDAiIHgyPSIyNjIiIHkyPSIyMzgiIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYXJBKSIvPgo8dGV4dCB4PSIyNzAiIHk9IjM0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0Y1QTYyMyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCI+ZW4gZ8O8w6dsw7wgOCBhxJ/EsW4ga2ltbGnEn2kgKE1BQykgKyBzaW55YWwgZ8O8Y8O8PC90ZXh0Pgo8bGluZSB4MT0iNDgwIiB5MT0iMjUwIiB4Mj0iNjEwIiB5Mj0iMjUwIiBzdHJva2U9IiM5M0FFQzciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyKSIvPgo8cmVjdCB4PSI2MTAiIHk9IjE5NiIgd2lkdGg9IjMwMCIgaGVpZ2h0PSIxMDgiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI3NjAiIHk9IjIzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+UmFwb3I8L3RleHQ+Cjx0ZXh0IHg9Ijc2MCIgeT0iMjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIj53aWZpIGxpc3Rlc2kga2F5ZGEgZ2lyZXI7PC90ZXh0Pgo8dGV4dCB4PSI3NjAiIHk9IjI4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjYwMCI+xZ9lYmVrZSB5b2tzYSB0YW1wb25kYSBiZWtsZXI8L3RleHQ+CjxsaW5lIHgxPSI5MTAiIHkxPSIyNTAiIHgyPSI5NTAiIHkyPSIyNTAiIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXJUKSIvPgo8cmVjdCB4PSI5NTAiIHk9IjEyMCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyNjAiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIxMDUwLjAiIHk9IjI1Ni4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj4gPC90ZXh0Pgo8dGV4dCB4PSIxMDUwIiB5PSIxNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjgwMCI+U1VOVUNVPC90ZXh0Pgo8dGV4dCB4PSIxMDUwIiB5PSIxOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjYwMCI+YmlsaW5lbiBhxJ8ga29udW1sYXLEsTwvdGV4dD4KPHRleHQgeD0iMTA1MCIgeT0iMjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI2MDAiPnZlcml0YWJhbsSxPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMDUwIiBjeT0iMjY4IiByPSIxMSIgZmlsbD0iIzAwQ0FENyIvPgo8cGF0aCBkPSJNMTA1MCAyNzkgTDEwNDAgMzAwIEgxMDYwIFoiIGZpbGw9IiMwMENBRDciLz4KPHRleHQgeD0iMTA1MCIgeT0iMzMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIj7Dp8O2esO8bGVuIGtvbnVtPC90ZXh0Pgo8dGV4dCB4PSIxMDUwIiB5PSIzNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCI+KHRhaG1pbmluIGRvxJ9ydWxhbWFzxLEpPC90ZXh0Pgo8cmVjdCB4PSI2MCIgeT0iNDAwIiB3aWR0aD0iMTA5MCIgaGVpZ2h0PSI2NiIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjYwNS4wIiB5PSI0MzkuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+IDwvdGV4dD4KPHRleHQgeD0iODAiIHk9IjQyOCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI4MDAiPkNpaGF6IGtvbnVtdSDDh8OWWk1FWiwgbGlzdGV5aSBpbGV0aXIuPC90ZXh0Pgo8dGV4dCB4PSI4MCIgeT0iNDUyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI1MDAiPsOHw7Z6w7xtIHN1bnVjdWRhIHlhcMSxbMSxcjsgaW50ZXJuZXQgY2loYXpkYSBkZcSfaWwgc3VudWN1ZGEgZ2VyZWtpci4gUmFwb3IgZ8O8bmxlciBzb25yYSBnZWxzZSBiaWxlIGtvbnVtIGdlcml5ZSBkw7Zuw7xrIMOnw7Z6w7xsZWJpbGlyLjwvdGV4dD4KPC9zdmc+" alt="WiFi listesiyle kapalı alan konumlaması"><figcaption>Kapalı alanda WiFi listesi rapora eklenir; konumu sunucu çözer, cihazın internete ihtiyacı olmaz.</figcaption></figure>
+
+      <ul>
+        <li><strong>Cihazın internete ihtiyacı yok.</strong> Liste raporla birlikte tamponda bekliyor; şebekesiz kapalı alanda üretilen rapor sonradan gönderildiğinde konum geriye dönük çözülüyor.</li>
+        <li><strong>Aile içinde hazır altyapı.</strong> Saat ürünü konumu aynı yöntemle buluyor ve sunucu tarafındaki çözücü servis yazılmış durumda (varsayılan beaconDB, tek ayarla Google'a geçiyor). Drive için yeniden yazılması gerekmiyor.</li>
+      </ul>
+      <div class="note"><div class="note-t">Bayat liste rapora girmiyor</div><p>Son taramanın üzerinden 2 dakikadan fazla geçtiyse liste rapora eklenmiyor. Araç ilerlemişken iki dakika önce çıkılan kapalı alanın ağlarını "şu an buradayım" diye göndermek sunucuyu yanıltırdı. Bayat sabitleme kuralının bir uygulaması daha.</p></div>
+      <p>Sınırı da açık: tünelde WiFi yok, orada bu listenin katkısı olmaz. Baz istasyonu bilgisiyle kaba doğrulama modem donanımı gelince değerlendirilecek. Tarama <code>wifi scan</code> komutuyla elle de çalıştırılıyor; modül olmayan ortamda <code>wifi inject</code> ile liste beslenip kayıt yolu uçtan uca sürülebiliyor.</p>
+
+      <h3>İki haneli yıl sorunu</h3>
+      <p>Alıcı yılı iki haneli gönderiyor: <code>26</code>. Bu 2026 mı 1926 mı? "80'den büyükse 19xx" gibi bir varsayım kurmadık, çünkü arızalı bir alıcı yaklaşık 19,6 yıl geçmişte bir tarih üretebiliyor ve böyle bir varsayım o hatayı <strong>makul bir tarihe çevirip gizlerdi</strong>.</p>
+      <p>Bunun yerine çözücü dürüst kalıyor (2000'i ekliyor) ve makullük kontrolü saati kuran yerde yapılıyor: 2020 öncesi her tarih reddediliyor ve reddedilenler sayılıyor.</p>
+
+      <h2 id="ota">Kablosuz güncelleme</h2>
+
+      <p><strong>Kısaca:</strong> cihaz yazılımını kendi kendine güncelleyebiliyor. Mekanizma ailenin ilk ürünüyle aynı ama <em>politika</em> tamamen farklı, ve bunun tek bir sebebi var: <strong>bu cihaza kimse fiziksel olarak ulaşamıyor.</strong> Saatte bozuk bir güncelleme kullanıcıyı rahatsız eder, kullanıcı cihazı bilgisayara takar. Araç cihazı ise aracın altında, ekransız, belki başka şehirde.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU2MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU2MCIgZmlsbD0iIzA0MEIxQyIvPgo8cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSIzMDAiIGhlaWdodD0iOTAiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMDBDQUQ3IiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIyMzAuMCIgeT0iMTIxLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkLDtmzDvG0gQTwvdGV4dD4KPHRleHQgeD0iMjMwLjAiIHk9IjE0NS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPsOnYWzEscWfYW4geWF6xLFsxLFtIHYxLjA8L3RleHQ+CjxyZWN0IHg9IjgwIiB5PSIyMjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iOTAiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSIyMzAuMCIgeT0iMjYxLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkLDtmzDvG0gQjwvdGV4dD4KPHRleHQgeD0iMjMwLjAiIHk9IjI4NS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPmJvxZ8gLyBlc2tpIHPDvHLDvG08L3RleHQ+CjxsaW5lIHgxPSIyMzAiIHkxPSIxNzAiIHgyPSIyMzAiIHkyPSIyMjAiIHN0cm9rZT0iIzkzQUVDNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYXIpIi8+Cjx0ZXh0IHg9IjQxMCIgeT0iMTIwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPjEuIFllbmkgc8O8csO8bSAodjEuMSkgc3VudWN1ZGFuPC90ZXh0Pgo8dGV4dCB4PSI0MTAiIHk9IjE0MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNTAwIj5CT8WeVEFLxLAgYsO2bMO8bWUgKEIpIHlhesSxbMSxcjs8L3RleHQ+Cjx0ZXh0IHg9IjQxMCIgeT0iMTYyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI1MDAiPsOnYWzEscWfYW4gQSd5YSBkb2t1bnVsbWF6PC90ZXh0Pgo8bGluZSB4MT0iMzgwIiB5MT0iMjY1IiB4Mj0iNjYwIiB5Mj0iMjY1IiBzdHJva2U9IiM5M0FFQzciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyKSIvPgo8dGV4dCB4PSI0MTAiIHk9IjI5NiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI3MDAiPjIuIEFyYcOnIHBhcmsgaMOibGluZGV5a2VuIHllbmlkZW48L3RleHQ+Cjx0ZXh0IHg9IjQxMCIgeT0iMzE2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI1MDAiPmJhxZ9sYXTEsWzEsXAgQiBkZW5lbmlyPC90ZXh0Pgo8cG9seWdvbiBwb2ludHM9Ijc2MCwyMTUgODgwLDI2NSA3NjAsMzE1IDY0MCwyNjUiIGZpbGw9IiMwRjJGNTgiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iNzYwIiB5PSIyNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTUuNSIgZm9udC13ZWlnaHQ9IjcwMCI+djEuMSBrZW5kaW5pPC90ZXh0Pgo8dGV4dCB4PSI3NjAiIHk9IjI4MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNS41IiBmb250LXdlaWdodD0iNzAwIj5rYW7EsXRsYWTEsSBtxLE/PC90ZXh0Pgo8dGV4dCB4PSI3OTAiIHk9IjM1MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI2MDAiPmthbsSxdDogYmlyIHJhcG9yIHN1bnVjdSBvbmF5xLEgYWxkxLE8L3RleHQ+Cjx0ZXh0IHg9Ijc5MCIgeT0iMzcxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjYwMCI+WUEgREEgNSBkayDDp8O2a21lZGVuIMOnYWzEscWfdMSxPC90ZXh0Pgo8bGluZSB4MT0iODgwIiB5MT0iMjY1IiB4Mj0iOTYwIiB5Mj0iMjY1IiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPHRleHQgeD0iOTE4IiB5PSIyNTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiPmV2ZXQ8L3RleHQ+CjxyZWN0IHg9Ijk2MCIgeT0iMjI1IiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjgwIiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMTA1NS4wIiB5PSIyNjEuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+QiBrYWzEsWPEsSBvbHVyPC90ZXh0Pgo8dGV4dCB4PSIxMDU1LjAiIHk9IjI4NS4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPmNpaGF6IGFydMSxayB2MS4xPC90ZXh0Pgo8bGluZSB4MT0iNzYwIiB5MT0iMzE1IiB4Mj0iNzYwIiB5Mj0iNDAwIiBzdHJva2U9IiNGRjZFNkUiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyUikiLz4KPHRleHQgeD0iNzQyIiB5PSIzNjgiIHRleHQtYW5jaG9yPSJlbmQiIGZpbGw9IiNGRjZFNkUiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiPmhhecSxcjwvdGV4dD4KPHJlY3QgeD0iNTYwIiB5PSI0MDAiIHdpZHRoPSI0MDAiIGhlaWdodD0iODQiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjRkY2RTZFIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI3NjAuMCIgeT0iNDM4LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGRjZFNkUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkJvb3Rsb2FkZXIgQSd5YSBnZXJpIGTDtm5lcjwvdGV4dD4KPHRleHQgeD0iNzYwLjAiIHk9IjQ2Mi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiPmJvenVrIGfDvG5jZWxsZW1lIGtlbmRpbmkgZ2VyaSBhbMSxcjsgY2loYXphIGdpdG1layBnZXJla21lejwvdGV4dD4KPHBhdGggZD0iTTU2MCA0NDIgQyAzMDAgNDQyIDIzMCA0MDAgMjMwIDMxNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkY2RTZFIiBzdHJva2Utd2lkdGg9IjIuMiIgbWFya2VyLWVuZD0idXJsKCNhclIpIiBzdHJva2UtZGFzaGFycmF5PSI2IDYiLz4KPHRleHQgeD0iNjAwIiB5PSI1MzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiPsOWbMOnw7x0IGJpbGluw6dsaSBvbGFyYWsgxLBLxLBMxLA6IHlhbG7EsXogb25heSBvbHNheWTEsSBzdW51Y3UgYmFrxLFtxLEgc29uc3V6IGTDtm5nw7wgeWFyYXTEsXJkxLE7IHlhbG7EsXogc8O8cmUgb2xzYXlkxLEgYcOnxLFsYW4gYW1hIGnFn2xldnNpeiB5YXrEsWzEsW0gc2HEn2xhbSBzYXnEsWzEsXJkxLEuPC90ZXh0Pgo8L3N2Zz4=" alt="A/B bölüm ve geri alma akışı"><figcaption>A/B bölüm ve geri alma: kendini kanıtlayamayan güncelleme eski sürüme döner.</figcaption></figure>
+
+
+      <h3>Bozuk güncelleme kendini geri alıyor</h3>
+      <p>Güncelleme boştaki yazılım bölümüne yazılıyor ve cihaz ona geçiyor. Yeni yazılım <strong>kendini "sağlam" ilan etmezse</strong>, bir sonraki açılışta cihaz eski sürüme dönüyor.</p>
+      <p>Peki "sağlam" ne demek? İki koşuldan biri yeterli, hangisi önce gerçekleşirse:</p>
+      <ol>
+        <li><strong>Bir rapor gönderilip sunucudan onay alındı</strong>. Bütün zincir çalışıyor demek, en güçlü kanıt</li>
+        <li><strong>Yazılım 5 dakika boyunca çökmeden çalıştı</strong></li>
+      </ol>
+      <p>Neden ikisi birden? Yalnız birincisi olsaydı, sunucu bakımdayken güncellenen bir cihaz kendini asla sağlam ilan edemez, ilk elektrik kesintisinde eski sürüme döner ve <strong>sonsuz güncelleme döngüsüne</strong> girerdi. Sunucu arızası yazılım hatası değil. Yalnız ikincisi olsaydı, açılan ama işe yaramayan bir yazılım sağlam sayılırdı.</p>
+
+      <h3>Güncelleme ne zaman kuruluyor?</h3>
+      <p><strong>Araç park hâlindeyken.</strong> Yol ortasında yeniden başlatmak takibi yaklaşık 30 saniye kesiyor ve filo ekranında araç kayboluyor.</p>
+      <p>Saatte bunun karşılığı "gece, kullanıcı uyurken"di. Araçta daha iyi bir sinyal var: kontak.</p>
+      <p>Sunucu bir güncellemeyi "acil" işaretleyebiliyor; o durumda park saati beklenmiyor. Kritik bir güvenlik yaması için ayrılmış bir yol.</p>
+      <div class="note"><div class="note-t">Kurulum sırasında kontak açılırsa?</div><p>Sorun olmuyor. Güncelleme boştaki bölüme yazıldığı için yarım kalan yazma hiç devreye alınmıyor; cihaz eski yazılımla çalışmaya devam ediyor.</p></div>
+
+      <h3>Sürüm karşılaştırması</h3>
+      <p>Cihaz sunucudan gelen sürüm numarasını kendisiyle karşılaştırıyor. Karşılaştırma metin olarak değil <strong>sayı olarak</strong> yapılıyor, çünkü metin karşılaştırmasında <code>"0.10.0"</code> <code>"0.2.0"</code>'dan küçük çıkıyor, bu da güncellemede yanlış yöne gitmek demek.</p>
+      <p>Sunucu yanlışlıkla eski bir sürüm bildirirse kurulum yapılmıyor; sahadaki araçlar geri düşürülmüyor.</p>
+
+      <h2 id="sunucu-tarafi">Sunucu tarafı</h2>
+
+      <p><strong>Kısaca:</strong> cihaz tek başına işe yaramaz. Karşısında iki servis olmalı: raporları alıp veritabanına yazan servis ve yazılım güncellemesi bildiren servis. Bu bölüm sunucu ekibinin ne yapması gerektiğini anlatıyor.</p>
+
+      <div class="note warn"><div class="note-t">Aşağıdakiler cihazın şu anki varsayımı</div><p>Sunucu ekibiyle mutabık kalınmış hâli değil. Adresler, kanal adları ve kimlik doğrulama netleşince cihazda <strong>tek bir dosya</strong> değişecek. Netleşmesi gereken maddeler bölümün sonunda listeli.</p></div>
+
+      <h3>Mesaj kanalları</h3>
+      <p>Cihaz MQTT adlı bir mesajlaşma protokolü kullanıyor. Mesajlar "kanal" (topic) adı verilen adreslere gönderiliyor. Kanal adı <code>narrtos/drive</code> ile başlıyor, ardından cihazın IMEI numarası geliyor:</p>
+      <div class="tablewrap"><table><thead><tr><th>Kanal</th><th>Yön</th><th>İçerik</th></tr></thead><tbody>
+        <tr><td><code>narrtos/drive/&lt;imei&gt;/telemetry</code></td><td>cihaz → sunucu</td><td>Rapor</td></tr>
+        <tr><td><code>narrtos/drive/&lt;imei&gt;/status</code></td><td>cihaz → sunucu</td><td><code>online</code> / <code>offline</code></td></tr>
+        <tr><td><code>narrtos/drive/&lt;imei&gt;/cmd</code></td><td>sunucu → cihaz</td><td>Komut</td></tr>
+        <tr><td><code>narrtos/drive/&lt;imei&gt;/cmd/reply</code></td><td>cihaz → sunucu</td><td>Komut yanıtı</td></tr>
+      </tbody></table></div>
+
+      <div class="note"><div class="note-t">"Cihaz sustu" ile "araç durdu" nasıl ayırt ediliyor?</div><p>Cihaz bağlanırken sunucuya bir vasiyet bırakıyor: "bağlantım beklenmedik şekilde koparsa benim adıma <code>offline</code> yaz." Mesajlaşma sunucusu kopmayı fark ettiğinde bunu kendisi yayınlıyor.</p><p>Böylece filo ekranı "araç park etti, rapor göndermiyor" ile "cihaza erişilemiyor" arasındaki farkı ek bir zaman aşımı mantığı kurmadan görebiliyor.</p><p>Güç yönetimi açık cihaz park hâlinde <strong>bilerek</strong> uyur: uyumadan önce <code>offline</code> yayınlar, park raporu periyodunda kısaca uyanıp raporunu gönderir ve tekrar uyur. Yani park hâlindeki cihazın çoğunlukla offline görünmesi arıza değildir.</p></div>
+
+      <h3>Rapor alan servis ne yapmalı</h3>
+      <ol>
+        <li><code>narrtos/drive/+/telemetry</code> kanalına <strong>onaylı teslim</strong> (QoS 1) ile abone ol. Cihaz onay gelmeden raporu silmiyor; onay vermeyen bir alıcı cihazın belleğini doldurur.</li>
+        <li>Gelen raporu doğrula: içindeki IMEI kanal adındaki IMEI ile aynı olmalı.</li>
+        <li>Ham araç verisini tanım dosyasıyla çöz. Cihaz işlenmemiş veri gönderiyor.</li>
+        <li>Zaman damgasını metin biçiminden tarih tipine çevir, çünkü veritabanı sorguları tarih karşılaştırması yapıyor.</li>
+        <li>Raporu ilgili araç koleksiyonuna yaz.</li>
+        <li>Türetilmiş bilgileri hesapla: araç durumu, rölanti süresi, çalışma süresi. Cihaz bunları göndermiyor.</li>
+      </ol>
+
+      <div class="note"><div class="note-t">Rapordaki <code>wifi</code> listesi nasıl çözülür?</div><p>Kapalı alanda üretilen raporlarda <code>wifi</code> alanı olabilir: çevredeki ağların MAC + sinyal listesi. Ailenin saat ürününün sunucu yazılımında bu listeyi konuma çeviren hazır bir servis var (geolocation.service.js): Ichnaea/beaconDB uyumlu, <code>GEOLOCATE_URL</code> ve <code>GEOLOCATE_KEY</code> ayarlarıyla Google Geolocation API'ye geçiyor, sonuçları önbellekliyor. Çözülen konum tahmini konumun <em>doğrulaması</em> olarak kullanılmalı, ölçülmüş konum olarak değil.</p></div>
+
+      <div class="note stop"><div class="note-t">Aynı rapor iki kez gelebilir</div><p>Onay zamanında gelmezse cihaz raporu <strong>silmeyip tekrar gönderiyor</strong>. Kaybetmek yerine tekrarlamak tercih edildi. Alan servis, cihaz kimliği ve zaman damgası ikilisiyle tekilleştirme yapmalı. Yoksa güzergâhta çift noktalar oluşur.</p></div>
+
+      <div class="note warn"><div class="note-t">Raporlar gecikmeli gelebilir</div><p>Şebeke kesintisi sonrası tampon boşalırken saatler önce üretilmiş raporlar arka arkaya düşüyor. Rapordaki zaman damgası <strong>üretim anıdır, geliş anı değil</strong>. Alan servis "şimdi geldi = şimdi oldu" varsayamaz; sıralamayı damgaya göre yapmalı.</p></div>
+
+      <h3>Güncelleme bildiren servis</h3>
+      <p>Cihaz 6 saatte bir soruyor:</p>
+      <pre><code>GET &lt;adres&gt;?device_id=&lt;imei&gt;&amp;current=&lt;sürüm&gt;&amp;product=drive</code></pre>
+      <p>Beklenen yanıt:</p>
+      <pre><code>{
+  <span class="c-str">"version"</span>: <span class="c-str">"0.2.0"</span>,
+  <span class="c-str">"version_code"</span>: 200,
+  <span class="c-str">"url"</span>: <span class="c-str">"https://ota.ornek.com/drive/0.2.0.bin"</span>,
+  <span class="c-str">"size"</span>: 924235,
+  <span class="c-str">"notes"</span>: <span class="c-str">"CAN tablosu düzeltmesi"</span>,
+  <span class="c-str">"forced"</span>: false
+}</code></pre>
+      <div class="tablewrap"><table><thead><tr><th>Alan</th><th>Zorunlu</th><th>Davranış</th></tr></thead><tbody>
+        <tr><td><code>version_code</code></td><td>evet</td><td>Cihazdakinden <strong>büyükse</strong> kurulur; eşit veya küçükse kurulmaz</td></tr>
+        <tr><td><code>url</code></td><td>evet</td><td>Yazılım dosyasının adresi</td></tr>
+        <tr><td><code>version</code>, <code>size</code>, <code>notes</code></td><td>hayır</td><td>Bilgi amaçlı</td></tr>
+        <tr><td><code>forced</code></td><td>hayır</td><td><code>true</code> ise park beklenmez</td></tr>
+      </tbody></table></div>
+      <p>Zorunlu alanı eksik bir yanıt reddediliyor, çünkü yarım bir bildirim kurulum başlatmamalı.</p>
+
+      <div class="note stop"><div class="note-t">Güncelleme adresi diğer ürününkinden ayrı olmalı</div><p>Aynı adres paylaşılırsa saate araç yazılımı iner. Cihaz ayırt edilebilmek için <code>product=drive</code> gönderiyor, ama <strong>güvenilir ayrım sunucu tarafında</strong> yapılmalı: ayrı bir adres ya da bu parametreye göre zorunlu filtre.</p></div>
+
+      <div class="note warn"><div class="note-t">"Acil" işareti dikkatli kullanılmalı</div><p><code>forced: true</code> aracı <strong>yol ortasında</strong> yeniden başlatabilir ve takip yaklaşık 30 saniye kesilir. Yalnız gerçek kritik yamalarda kullanılmalı.</p></div>
+
+      <h3>Sunucu ekibiyle netleşmesi gerekenler</h3>
+      <ol>
+        <li><strong>Sunucu adresi ve portu.</strong> Şifreli bağlantı kullanılacak mı? Kullanılacaksa sertifika nasıl sağlanacak?</li>
+        <li><strong>Kimlik doğrulama.</strong> Kullanıcı adı/şifre mi, sertifika mı, jeton mu? Cihazda alanlar hazır ama boş.</li>
+        <li><strong>Kanal adları.</strong> Yukarıdaki isimler cihazın varsayımı.</li>
+        <li><strong>Cihaz kimliği</strong> olarak IMEI kabul edilecek mi?</li>
+        <li><strong>Toplu gönderim.</strong> Tampon boşalırken raporlar tek tek gidiyor. Sunucu liste hâlinde kabul ederse çok daha verimli olur.</li>
+        <li><strong>Güncelleme adresi</strong> ve yazılım dosyalarının barındırılacağı yer.</li>
+      </ol>
+
+      <div class="note"><div class="note-t">Sunucu ekibine iletilmesi gereken bir bulgu</div><p>Sunucudaki araç verisi eşleştirmesi, mesajın <strong>öncelik bilgisine duyarlı</strong>. Aynı sinyali farklı öncelikle yayınlayan bir araçta veri çözülmüyor ve bu <em>sessizce</em> oluyor. Sunucu hata vermiyor. Cihaz kimliği hiç değiştirmeden gönderdiği için sorun cihazda değil; ama sahada "sinyal gelmiyor" olarak görüleceği için tanım dosyası tarafında öncelikten bağımsız eşleştirme değerlendirilmeli.</p></div>
+
+      <h2 id="guvenlik">Güvenlik durumu</h2>
+
+      <p><strong>Kısaca:</strong> bu bölüm neyin korunduğunu değil, <strong>şu an neyin korunmadığını</strong> anlatıyor. Cihaz geliştirme aşamasında ve güvenlik katmanı henüz yazılmadı. Sahaya çıkmadan kapatılması gerekenler aşağıda.</p>
+
+      <h3>Kanallar</h3>
+      <div class="tablewrap"><table><thead><tr><th>Kanal</th><th>Şifreleme</th><th>Kimlik doğrulama</th><th>Risk</th></tr></thead><tbody>
+        <tr><td>USB konsolu</td><td>yok</td><td>yok</td><td>Fiziksel erişim gerekiyor; cihaz araç içinde</td></tr>
+        <tr><td>Rapor gönderimi</td><td><span class="badge b-no">yok</span></td><td>yok</td><td>Konum ve araç verisi açık metin akıyor</td></tr>
+        <tr><td>Uzaktan komut</td><td><span class="badge b-no">yok</span></td><td>yok</td><td><strong>En ciddi açık.</strong> Aşağıya bakın</td></tr>
+        <tr><td>Yazılım güncelleme</td><td><span class="badge b-no">yok</span></td><td>yok</td><td>İmzasız yazılım indirme</td></tr>
+        <tr><td>Cihazdaki ayarlar</td><td><span class="badge b-no">yok</span></td><td>geçerli değil</td><td>Bellek okunursa şifreler açık metin</td></tr>
+      </tbody></table></div>
+
+      <div class="note stop"><div class="note-t">Uzaktan komut kanalı korumasız</div><p>Mesajlaşma sunucusuna bağlanabilen <strong>herkes</strong> cihaza komut gönderebiliyor. Kanal adında IMEI olması adresleme sağlıyor, güvenlik sağlamıyor.</p><p>Kötü niyetli biri cihazı fabrika ayarına döndürebilir, raporları başka bir sunucuya yönlendirebilir ya da sürekli yeniden başlatarak takibi kesebilir. Kimlik doğrulama eklenene kadar bu kanal yalnız güvenilir bir ağda kullanılmalı.</p></div>
+
+      <div class="note stop"><div class="note-t">Yazılım güncellemesi imzasız</div><p>Yazılım şifresiz bir bağlantı üzerinden, imza kontrolü olmadan indiriliyor. Araya girebilen biri kendi yazılımını yükletebilir.</p><p>Geri alma mekanizması bunu <strong>engellemiyor</strong>: geri alma açılışta çöken yazılıma karşı koruma sağlıyor, kötü niyetli ama çalışan bir yazılım kendini sağlam ilan eder. Gereken şifreli bağlantı <em>ve</em> imza doğrulaması.</p></div>
+
+      <h3>Şu an var olan korumalar</h3>
+      <ul>
+        <li><strong>Cihaz aracın veri yoluna yazmıyor.</strong> Yazma yeteneği hiç kurulmuyor, yani cihaz ele geçse bile araca müdahale edilemez. Listedeki en değerli koruma.</li>
+        <li><strong>Şifreler konsola basılmıyor.</strong> Konsol çıktısı loglara ve destek yazışmalarına düşüyor.</li>
+        <li><strong>Geri alma</strong>: açılışta çöken güncellemeye karşı (kötü niyetliye karşı değil).</li>
+        <li><strong>Sürüm düşürme engeli</strong>: sunucu eski sürüm bildirirse kurulmuyor.</li>
+      </ul>
+
+      <h3>Kapatılması gerekenler</h3>
+      <ol>
+        <li><strong>Şifreli bağlantı</strong>: hem rapor gönderimi hem güncelleme için</li>
+        <li><strong>Sunucu kimlik doğrulaması</strong>: cihazda alanlar hazır, boş duruyor</li>
+        <li><strong>Yazılım imzası</strong></li>
+        <li><strong>Ayarların şifrelenmesi</strong></li>
+        <li><strong>Komut yetkilendirmesi</strong>: en azından yıkıcı komutların uzaktan kapatılabilmesi</li>
+      </ol>
+      <p>İlk ikisi sıradaki iş olarak planlandı.</p>
+
+      <h2 id="komut-arayuzu">Komut arayüzü</h2>
+
+      <p><strong>Kısaca:</strong> cihaz metin komutlarıyla sürülüyor. Aynı komutlar iki yerden gönderilebiliyor: USB kablosuyla bilgisayardan, ya da bağlantı varken uzaktan.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU0MSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU0MSIgZmlsbD0iIzA0MEIxQyIvPgo8cmVjdCB4PSI0MCIgeT0iMjQiIHdpZHRoPSIxMTIwIiBoZWlnaHQ9IjQ3NyIgcng9IjE2IiBmaWxsPSIjMDIwNjBGIiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+CjxjaXJjbGUgY3g9Ijc0IiBjeT0iNTYiIHI9IjcuNSIgZmlsbD0iI0ZGNkU2RSIgb3BhY2l0eT0iMC44NSIvPgo8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1NiIgcj0iNy41IiBmaWxsPSIjRjVBNjIzIiBvcGFjaXR5PSIwLjg1Ii8+CjxjaXJjbGUgY3g9IjEyNiIgY3k9IjU2IiByPSI3LjUiIGZpbGw9IiMyRUNDNzEiIG9wYWNpdHk9IjAuODUiLz4KPHRleHQgeD0iNjAwLjAiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0LjUiIGZvbnQtd2VpZ2h0PSI3MDAiPlVTQiBzZXJpIGtvbnNvbCDCtyB0w7xuZWxkZSBrb251bSB0ZcWfaGlzaTwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjEwNCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPiZndDsgPC90ZXh0Pgo8dGV4dCB4PSIxMDAiIHk9IjEwNCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMDBDQUQ3IiBmb250LXNpemU9IjE1LjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPnBvcyBzdGF0dXM8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIxMzEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0Y1QTYyMyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0ga2F5bmFrICAgICAgOiB0YWhtaW48L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIxNTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gYmVsaXJzaXpsaWsgOiA0MiBtIChzxLFuxLFyIDUwMCk8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIxODUiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gdXlkdSAgICAgICAgOiAxMTggdHVyIGtvbnVtIGFsxLFuZMSxPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMjEyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIHRhaG1pbiAgICAgIDogNjMgYWTEsW0sIDIga2V6IGTDvMWfw7xsZMO8LCAwIGtleiBzxLFuxLFyIGHFn8SxbGTEsTwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjIzOSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSB0YWhtaW4geW9sdSA6IDg0MCBtIChzb24gdG9odW1sYW1hZGFuIGJlcmkpPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMjY2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIGFyYcOnIGjEsXrEsSAgIDogQ0FOJ2RlbiBnZWxpeW9yPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMjkzIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIGppcm9za29wICAgIDogdmFyLCBzYXBtYSAtMC4zIGRlcmVjZS9zbiAoZHVydcWfdGEgw7Zsw6fDvGzDvHIpPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iMzIwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIHdpZmkgICAgICAgIDogNSBhxJ8sIDEyIHNuIMO2bmNlIChyYXBvcmEgZ2lybWUgc8SxbsSxcsSxIDEyMCBzbik8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIzNDciIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzAwQ0FENyIgZm9udC1zaXplPSIxNS41IiBmb250LXdlaWdodD0iNzAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj4mZ3Q7IDwvdGV4dD4KPHRleHQgeD0iMTAwIiB5PSIzNDciIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzAwQ0FENyIgZm9udC1zaXplPSIxNS41IiBmb250LXdlaWdodD0iNzAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5wb3dlciBzdGF0dXM8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSIzNzQiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gdXlrdSBheWFyxLEgIDogYcOnxLFrPC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iNDAxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIGthcmFyICAgICAgIDoga29udGFrIGHDp8SxazwvdGV4dD4KPHRleHQgeD0iNzYiIHk9IjQyOCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNTAwIiBmb250LWZhbWlseT0iTWVubG8sQ29uc29sYXMsbW9ub3NwYWNlIj5bY21kXSB1eWFubWEgICAgICA6IGtvbnRhayBhw6fEsWxkxLE8L3RleHQ+Cjx0ZXh0IHg9Ijc2IiB5PSI0NTUiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjUwMCIgZm9udC1mYW1pbHk9Ik1lbmxvLENvbnNvbGFzLG1vbm9zcGFjZSI+W2NtZF0gdXlrdSBzYXnEsXPEsSA6IDQ3PC90ZXh0Pgo8dGV4dCB4PSI3NiIgeT0iNDgyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZvbnQtZmFtaWx5PSJNZW5sbyxDb25zb2xhcyxtb25vc3BhY2UiPltjbWRdIGtvbnRhayAgICAgIDogYcOnxLFrPC90ZXh0Pgo8L3N2Zz4=" alt="Seri konsolda pos status ve power status çıktıları"><figcaption>Sahada teşhis: pos status tünelde tahmine geçildiğini, power status uyku kararını gösteriyor.</figcaption></figure>
+
+
+      <h3>Ayar komutları</h3>
+      <div class="tablewrap"><table><thead><tr><th>Komut</th><th>Ne yapar</th></tr></thead><tbody>
+        <tr><td><code>set imei &lt;numara&gt;</code></td><td>Cihaz kimliği</td></tr>
+        <tr><td><code>set mqtt host|port|user|pass</code></td><td>Sunucu ayarları</td></tr>
+        <tr><td><code>set wifi ssid|pass</code></td><td>Atölye WiFi'si (boşluklu isim yazılabilir)</td></tr>
+        <tr><td><code>set net backend</code></td><td>Modem mi WiFi mi kullanılacak</td></tr>
+        <tr><td><code>set apn &lt;ad&gt;</code></td><td>Operatörün veri ağı adı</td></tr>
+        <tr><td><code>set power sleep &lt;0|1&gt;</code></td><td>Kontak kapanınca derin uyku (sahada 1 olmalı)</td></tr>
+        <tr><td><code>set ota url &lt;adres&gt;</code></td><td>Güncelleme adresi (boş = güncelleme kapalı)</td></tr>
+        <tr><td><code>set can bitrate &lt;hız&gt;</code></td><td>Araç hattı hızı</td></tr>
+        <tr><td><code>set gnss baud &lt;hız&gt;</code></td><td>Uydu alıcısı hızı</td></tr>
+        <tr><td><code>get config</code></td><td>Bütün ayarları göster</td></tr>
+        <tr><td><code>config clear</code></td><td>Fabrika ayarlarına dön</td></tr>
+      </tbody></table></div>
+
+      <h3>Durum komutları</h3>
+      <div class="tablewrap"><table><thead><tr><th>Komut</th><th>Ne gösterir</th></tr></thead><tbody>
+        <tr><td><code>info</code></td><td>Sürüm, çalışma süresi, bellek, ağ, tampon durumu</td></tr>
+        <tr><td><code>net status</code></td><td>Bağlantı durumu</td></tr>
+        <tr><td><code>net modem</code></td><td>Modem hangi adımda, sinyal gücü, IMEI</td></tr>
+        <tr><td><code>mqtt status</code></td><td>Sunucu bağlantısı ve sayaçlar</td></tr>
+        <tr><td><code>time status</code></td><td>Saat ve nereden öğrenildiği</td></tr>
+        <tr><td><code>gnss status</code></td><td>Sabitleme, uydu sayısı, sayaçlar</td></tr>
+        <tr><td><code>pos status</code></td><td>Konum kaynağı (uydu/tahmin), hata yarıçapı, jiroskop</td></tr>
+        <tr><td><code>wifi scan</code> · <code>wifi status</code></td><td>Çevredeki ağları tara / tarama sayaçları</td></tr>
+        <tr><td><code>sf stats</code></td><td>Tampon doluluğu ve kalan süre</td></tr>
+        <tr><td><code>can stats</code> · <code>can dump</code></td><td>Araç verisi tablosu</td></tr>
+        <tr><td><code>telemetry status</code></td><td>Rapor sıklığı, kontak durumu</td></tr>
+        <tr><td><code>ota status</code></td><td>Sürüm ve güncelleme durumu</td></tr>
+        <tr><td><code>power status</code></td><td>Uyku kararı, uyanma sebebi, uyku sayısı</td></tr>
+        <tr><td><code>led status</code></td><td>LED ne gösteriyor</td></tr>
+        <tr><td><code>selftest</code></td><td>Donanım checklist'i — tüm çevrebirimleri sırayla sınar (bkz. Test ve doğrulama)</td></tr>
+      </tbody></table></div>
+
+      <h3>Donanımsız test komutları</h3>
+      <p>CAN ara yongası, uydu alıcısı ve modem elimizde yok. Bu komutlar <strong>sürücü katmanını tamamen atlayıp</strong> doğrudan servise veri veriyor. Yani gerçek veriyle elle beslenen veri, sistemin içinde ayırt edilemiyor.</p>
+      <pre><code>can inject 0x18FEE500,01,02,03,04,05,06,07,08   <span class="c-cmt"># araç verisi</span>
+gnss inject $GPRMC,...*XX                       <span class="c-cmt"># konum</span>
+telemetry ignition 1        <span class="c-cmt"># kontağı aç, anında rapor üretilir</span>
+telemetry now               <span class="c-cmt"># hemen bir rapor üret</span>
+sf peek                     <span class="c-cmt"># gidecek raporu göster</span>
+net offline 1               <span class="c-cmt"># şebeke kaybını taklit et</span>
+sf stats                    <span class="c-cmt"># tampon doluyor mu?</span>
+net offline 0               <span class="c-cmt"># şebeke döndü, tampon boşalır</span></code></pre>
+
+      <h2 id="durum-led">Durum LED'i</h2>
+
+      <p><strong>Kısaca:</strong> ekran yok, buton yok, ses yok. Kablo takılıyken konsol var, bağlantı varken uzaktan komut var. Ama kurulumcu aracın altında ve cihaz henüz ağa girmemişken ikisinden de yararlanamıyor. Tek yerel gösterge bu LED.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU2MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU2MCIgZmlsbD0iIzA0MEIxQyIvPgo8dGV4dCB4PSI3MCIgeT0iNTIiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCI+RGVzZW48L3RleHQ+Cjx0ZXh0IHg9IjMzMCIgeT0iNTIiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjgwMCI+NiBzYW5peWVsaWsgcGVuY2VyZTwvdGV4dD4KPHRleHQgeD0iOTE1IiB5PSI1MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iODAwIj5BbmxhbcSxPC90ZXh0Pgo8bGluZSB4MT0iMzMwIiB5MT0iNjYiIHgyPSIzMzAiIHkyPSI1MDAiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIwLjciIG9wYWNpdHk9IjAuNSIvPgo8dGV4dCB4PSIzMzQiIHk9IjUxNSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPjAgc248L3RleHQ+CjxsaW5lIHgxPSI0MjMiIHkxPSI2NiIgeDI9IjQyMyIgeTI9IjUwMCIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjAuNyIgb3BhY2l0eT0iMC41Ii8+Cjx0ZXh0IHg9IjQyNyIgeT0iNTE1IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjUwMCI+MSBzbjwvdGV4dD4KPGxpbmUgeDE9IjUxNiIgeTE9IjY2IiB4Mj0iNTE2IiB5Mj0iNTAwIiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMC43IiBvcGFjaXR5PSIwLjUiLz4KPHRleHQgeD0iNTIwIiB5PSI1MTUiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNTAwIj4yIHNuPC90ZXh0Pgo8bGluZSB4MT0iNjA5IiB5MT0iNjYiIHgyPSI2MDkiIHkyPSI1MDAiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIwLjciIG9wYWNpdHk9IjAuNSIvPgo8dGV4dCB4PSI2MTMiIHk9IjUxNSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPjMgc248L3RleHQ+CjxsaW5lIHgxPSI3MDIiIHkxPSI2NiIgeDI9IjcwMiIgeTI9IjUwMCIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjAuNyIgb3BhY2l0eT0iMC41Ii8+Cjx0ZXh0IHg9IjcwNiIgeT0iNTE1IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjUwMCI+NCBzbjwvdGV4dD4KPGxpbmUgeDE9Ijc5NSIgeTE9IjY2IiB4Mj0iNzk1IiB5Mj0iNTAwIiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMC43IiBvcGFjaXR5PSIwLjUiLz4KPHRleHQgeD0iNzk5IiB5PSI1MTUiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNTAwIj41IHNuPC90ZXh0Pgo8bGluZSB4MT0iODg4IiB5MT0iNjYiIHgyPSI4ODgiIHkyPSI1MDAiIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIwLjciIG9wYWNpdHk9IjAuNSIvPgo8dGV4dCB4PSI4OTIiIHk9IjUxNSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPjYgc248L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIxMDEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCI+U8O8cmVrbGkgeWFuxLFrPC90ZXh0Pgo8cmVjdCB4PSIzMzAiIHk9IjgwIiB3aWR0aD0iNTYwIiBoZWlnaHQ9IjMwIiByeD0iNyIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEiLz4KPHJlY3QgeD0iMzMwIiB5PSI4NSIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGRjZFNkUiLz4KPHRleHQgeD0iOTE1IiB5PSIxMDEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNTAwIj5pxZ9pbmkgeWFwYW3EsXlvciAodGFtcG9uIHlvayk8L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIxNzEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCI+SMSxemzEsSB5YW7EsXAgc8O2bm1lPC90ZXh0Pgo8cmVjdCB4PSIzMzAiIHk9IjE1MCIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzMCIgcng9IjciIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxyZWN0IHg9IjMzMCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjM3NiIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjQyMiIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjQ2OCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjUxNCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjU2MCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjYwNiIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjY1MiIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjY5OCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9Ijc0NCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9Ijc5MCIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjgzNiIgeT0iMTU1IiB3aWR0aD0iMjMiIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+Cjx0ZXh0IHg9IjkxNSIgeT0iMTcxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+YXlhciBla3NpayAoSU1FSSB5YSBkYSBhxJ8pPC90ZXh0Pgo8dGV4dCB4PSI3MCIgeT0iMjQxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPlV6dW4gZmxhxZ8gLyAyIHNuPC90ZXh0Pgo8cmVjdCB4PSIzMzAiIHk9IjIyMCIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzMCIgcng9IjciIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxyZWN0IHg9IjMzMCIgeT0iMjI1IiB3aWR0aD0iNDciIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjUxNiIgeT0iMjI1IiB3aWR0aD0iNDciIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+CjxyZWN0IHg9IjcwMiIgeT0iMjI1IiB3aWR0aD0iNDciIGhlaWdodD0iMjAiIHJ4PSI0IiBmaWxsPSIjRjVBNjIzIi8+Cjx0ZXh0IHg9IjkxNSIgeT0iMjQxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjUwMCI+eWHFn8SxeW9yLCBiYcSfbGFudMSxIHlvazwvdGV4dD4KPHRleHQgeD0iNzAiIHk9IjMxMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj7Dh2lmdCBrxLFzYSAvIDIgc248L3RleHQ+CjxyZWN0IHg9IjMzMCIgeT0iMjkwIiB3aWR0aD0iNTYwIiBoZWlnaHQ9IjMwIiByeD0iNyIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEiLz4KPHJlY3QgeD0iMzMwIiB5PSIyOTUiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGNUE2MjMiLz4KPHJlY3QgeD0iMzYyIiB5PSIyOTUiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGNUE2MjMiLz4KPHJlY3QgeD0iNTE2IiB5PSIyOTUiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGNUE2MjMiLz4KPHJlY3QgeD0iNTQ4IiB5PSIyOTUiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGNUE2MjMiLz4KPHJlY3QgeD0iNzAyIiB5PSIyOTUiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGNUE2MjMiLz4KPHJlY3QgeD0iNzM0IiB5PSIyOTUiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiNGNUE2MjMiLz4KPHRleHQgeD0iOTE1IiB5PSIzMTEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNTAwIj5hxJ8gdmFyLCBzdW51Y3V5YSBiYcSfbGFuYW3EsXlvcjwvdGV4dD4KPHRleHQgeD0iNzAiIHk9IjM4MSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj7Dh29rIGvEsXNhIGvEsXJwbWEgLyAzIHNuPC90ZXh0Pgo8cmVjdCB4PSIzMzAiIHk9IjM2MCIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzMCIgcng9IjciIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzFCNDU3MCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxyZWN0IHg9IjMzMCIgeT0iMzY1IiB3aWR0aD0iOCIgaGVpZ2h0PSIyMCIgcng9IjQiIGZpbGw9IiMwMENBRDciLz4KPHJlY3QgeD0iNjA5IiB5PSIzNjUiIHdpZHRoPSI4IiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iIzAwQ0FENyIvPgo8dGV4dCB4PSI5MTUiIHk9IjM4MSIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI1MDAiPmhlciDFn2V5IHlvbHVuZGE8L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSI0NTEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCI+SGnDpyB5YW5txLF5b3I8L3RleHQ+CjxyZWN0IHg9IjMzMCIgeT0iNDMwIiB3aWR0aD0iNTYwIiBoZWlnaHQ9IjMwIiByeD0iNyIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEiLz4KPHRleHQgeD0iOTE1IiB5PSI0NTEiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNTAwIj5iZXNsZW1lIHlvaywgYXLEsXphIHlhIGRhIGRlcmluIHV5a3U8L3RleHQ+Cjx0ZXh0IHg9IjYwMCIgeT0iNTQ1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIj5LdXJhbDogbmUga2FkYXIgw6dvayDEscWfxLFrLCBvIGthZGFyIGvDtnTDvC4gU2HEn2zEsWtsxLEgY2loYXogMyBzYW5peWVkZSBiaXIgemFyIHpvciBnw7Zyw7xuZW4gdGVrIGvEsXJwbWEgeWFwYXIuPC90ZXh0Pgo8L3N2Zz4=" alt="LED desenleri ve anlamları"><figcaption>LED desenleri: ne kadar çok ışık, o kadar kötü. Sağlıklı cihaz 3 saniyede bir tek kırpma yapar.</figcaption></figure>
+
+
+      <p>Desen dili tek bir kurala dayanıyor: <strong>ne kadar çok ışık, o kadar kötü.</strong></p>
+      <div class="tablewrap"><table><thead><tr><th>Desen</th><th>Anlamı</th></tr></thead><tbody>
+        <tr><td>Sürekli yanık</td><td>Cihaz işini yapamıyor (belleğinde sorun var)</td></tr>
+        <tr><td>Hızlı yanıp sönme</td><td>Ayar eksik</td></tr>
+        <tr><td>Uzun tek flaş / 2 sn</td><td>Çalışıyor ama şebeke yok</td></tr>
+        <tr><td>Çift kısa flaş / 2 sn</td><td>Şebeke var, sunucuya bağlanamıyor</td></tr>
+        <tr><td>Çok kısa kırpma / 3 sn</td><td>Her şey yolunda</td></tr>
+        <tr><td>Hiç yanmıyor</td><td>Elektrik yok, cihaz arızalı ya da derin uykuda (uyku açıksa park hâlinde normaldir)</td></tr>
+      </tbody></table></div>
+
+      <div class="note"><div class="note-t">Sağlıklı durumda da kırpıyor</div><p>Bu sayede "hiç yanmıyor" tek başına arıza sinyali oluyor, üstelik ek bir maliyet olmadan. Sağlıklı durumu "sürekli yanık" yapan tasarımlarda bu ayrım kayboluyor: yanmayan LED ile arızalı cihaz aynı görünüyor.</p></div>
+
+      <p><strong>"Şebeke var ama sunucuya bağlanamıyor" ayrı bir desen</strong>, çünkü kurulumcuyu antene değil sunucu adresine bakmaya yönlendiriyor.</p>
+
+      <p>Aynı anda birden çok sorun olabilir; en derindeki gösteriliyor. Ayarı eksik bir cihaz aynı zamanda şebekesizdir, ama "şebeke yok" göstermek kurulumcuyu anten aramaya iterdi. Oysa sorun kendi girmediği ayarda.</p>
+
+      <h2 id="guc-yonetimi">Güç yönetimi</h2>
+
+      <p><strong>Kısaca:</strong> kontak kapanınca cihaz bekleyen işlerini bitirip <strong>derin uykuya</strong> geçebiliyor. Uykuda tüketim binlerce kat düşüyor; araç haftalarca park etse de akü cihaz yüzünden bitmiyor. Özellik varsayılan olarak kapalı geliyor ve sahaya çıkan cihazda <code>set power sleep 1</code> ile açılıyor.</p>
+      <figure><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDU0MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sJ1NlZ29lIFVJJyxSb2JvdG8sc2Fucy1zZXJpZiI+CjxkZWZzPjxtYXJrZXIgaWQ9ImFyIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiM5M0FFQzciLz48L21hcmtlcj48bWFya2VyIGlkPSJhclQiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjciIG1hcmtlckhlaWdodD0iNyIgb3JpZW50PSJhdXRvLXN0YXJ0LXJldmVyc2UiPjxwYXRoIGQ9Ik0wIDBMMTAgNUwwIDEweiIgZmlsbD0iIzAwQ0FENyIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFyUiIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNyIgbWFya2VySGVpZ2h0PSI3IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEwxMCA1TDAgMTB6IiBmaWxsPSIjRkY2RTZFIi8+PC9tYXJrZXI+PG1hcmtlciBpZD0iYXJBIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0by1zdGFydC1yZXZlcnNlIj48cGF0aCBkPSJNMCAwTDEwIDVMMCAxMHoiIGZpbGw9IiNGNUE2MjMiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjU0MCIgZmlsbD0iIzA0MEIxQyIvPgo8cmVjdCB4PSI4MCIgeT0iOTAiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTAwIiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iIzAwQ0FENyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMjI1LjAiIHk9IjEzNi4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5Lb250YWsgYcOnxLFrPC90ZXh0Pgo8dGV4dCB4PSIyMjUuMCIgeT0iMTYwLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+dGFtIMOnYWzEscWfbWE6IHJhcG9yIGRha2lrYWRhIGJpcjwvdGV4dD4KPGxpbmUgeDE9IjM3MCIgeTE9IjE0MCIgeDI9IjQ4MCIgeTI9IjE0MCIgc3Ryb2tlPSIjOTNBRUM3IiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhcikiLz4KPHRleHQgeD0iNDI1IiB5PSIxMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCI+a29udGFrPC90ZXh0Pgo8dGV4dCB4PSI0MjUiIHk9IjE2OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIj5rYXBhbmTEsTwvdGV4dD4KPHJlY3QgeD0iNDgwIiB5PSI5MCIgd2lkdGg9IjMzMCIgaGVpZ2h0PSIxMDAiIHJ4PSIxMiIgZmlsbD0iIzBBMjQ0NyIgc3Ryb2tlPSIjMUI0NTcwIiBzdHJva2Utd2lkdGg9IjEuNiIvPgo8dGV4dCB4PSI2NDUuMCIgeT0iMTM2LjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNFNEYwRUUiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSI3MDAiPkJla2xlbWUgKDUgZGspPC90ZXh0Pgo8dGV4dCB4PSI2NDUuMCIgeT0iMTYwLjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5M0FFQzciIGZvbnQtc2l6ZT0iMTQuNSI+dGFtcG9uIGJvxZ9hbHTEsWzEsXIsIGhhesSxciBnw7xuY2VsbGVtZSBrdXJ1bHVyPC90ZXh0Pgo8bGluZSB4MT0iODEwIiB5MT0iMTQwIiB4Mj0iOTAwIiB5Mj0iMTQwIiBzdHJva2U9IiM5M0FFQzciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyKSIvPgo8dGV4dCB4PSI4NTUiIHk9IjEyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIj5pxZ8gYml0dGk8L3RleHQ+CjxyZWN0IHg9IjkwMCIgeT0iOTAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMTAwIiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iMTAyMC4wIiB5PSIxMzYuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0Y1QTYyMyIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+RGVyaW4gdXlrdTwvdGV4dD4KPHRleHQgeD0iMTAyMC4wIiB5PSIxNjAuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij50w7xrZXRpbSBiaW5sZXJjZSBrYXQgZMO8xZ9lcjwvdGV4dD4KPHBhdGggZD0iTTEwMjAgMTkwIEMgMTAyMCAzMDAgNDAwIDMwMCAyNjAgMTk1IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMENBRDciIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FyVCkiLz4KPHRleHQgeD0iNjUwIiB5PSIzMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMENBRDciIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPmtvbnRhayBhw6fEsWxkxLE6IEFOSU5EQSB1eWFuxLFyPC90ZXh0Pgo8cGF0aCBkPSJNMTA4MCAxOTAgQyAxMTQwIDI2MCAxMTQwIDMzMCAxMDQwIDM2NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhckEpIi8+CjxyZWN0IHg9IjY2MCIgeT0iMzMwIiB3aWR0aD0iMzgwIiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiMwQTI0NDciIHN0cm9rZT0iI0Y1QTYyMyIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPHRleHQgeD0iODUwLjAiIHk9IjM3NC4wIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjRTRGMEVFIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIj5QYXJrIHJhcG9ydSBwZW5jZXJlc2k8L3RleHQ+Cjx0ZXh0IHg9Ijg1MC4wIiB5PSIzOTguMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzkzQUVDNyIgZm9udC1zaXplPSIxNC41Ij51eWFuxLFyLCByYXBvciDDvHJldGlyLCAyIGRrIGnDp2luZGUgdXl1cjwvdGV4dD4KPHBhdGggZD0iTTY2MCAzNzggQyA1NjAgMzc4IDUyMCAyOTAgNTkwIDIxNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBNjIzIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhckEpIiBzdHJva2UtZGFzaGFycmF5PSI2IDYiLz4KPHRleHQgeD0iNDU1IiB5PSIzNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGNUE2MjMiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiPmnFnyBiaXRpbmNlIHRla3JhciB1eXVyPC90ZXh0Pgo8dGV4dCB4PSI4NTAiIHk9IjQ1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0Y1QTYyMyIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNjAwIj56YW1hbmxhecSxY8SxOiBwYXJrIHJhcG9ydSBwZXJpeW9kdSAoMTAgZGspPC90ZXh0Pgo8cmVjdCB4PSI2MCIgeT0iNDcwIiB3aWR0aD0iMTA5MCIgaGVpZ2h0PSI2MCIgcng9IjEyIiBmaWxsPSIjMEEyNDQ3IiBzdHJva2U9IiMxQjQ1NzAiIHN0cm9rZS13aWR0aD0iMS42Ii8+Cjx0ZXh0IHg9IjYwNS4wIiB5PSI1MDYuMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0U0RjBFRSIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjcwMCI+IDwvdGV4dD4KPHRleHQgeD0iODAiIHk9IjUwNiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjOTNBRUM3IiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNTAwIj5VeXVtYXnEsSBlcnRlbGV5ZW5sZXI6IGfDvG5jZWxsZW1lIGnFn2kgc8O8csO8eW9yIMK3IHRhbXBvbiBib8WfYWzEsXlvciAoYcSfIHZhcnNhKSDCtyBrb250YWsgeWVuaSBrYXBhbmTEsS4gQcSfIHlva3NhIGJla2xlbm1lejoga2F5xLF0bGFyIGthbMSxY8SxIGJlbGxla3RlIHV5dXIuPC90ZXh0Pgo8L3N2Zz4=" alt="Güç yönetimi durum döngüsü"><figcaption>Güç döngüsü: bekleme, derin uyku ve iki uyanma yolu.</figcaption></figure>
+
+
+      <h3>Neden var?</h3>
+      <p>Cihaz aracın aküsünden besleniyor ve kontak kapalıyken de tam güçte çalışırsa aküyü yavaş yavaş boşaltıyor. Uzun parkta (havalimanı, servis, tatil) bunun sahadaki adı "takip cihazı aracımı çalışmaz yaptı"dır ve bir takip ürünü için bundan kötü şöhret olmaz.</p>
+
+      <h3>Kontak kapanınca ne oluyor?</h3>
+      <ol>
+        <li>Cihaz hemen uyumuyor: <strong>5 dakika</strong> bekliyor. Bu süre kontak raporunun ve tamponda bekleyenlerin gönderilmesine, hazır bir güncelleme varsa kurulmasına yetiyor. Kısa duraklamalarda (market, trafik) gereksiz uyu/uyan döngüsü de böylece önleniyor.</li>
+        <li>Bekleme dolunca ve iş kalmayınca sunucuya <code>offline</code> bilgisi bırakılıp derin uykuya geçiliyor.</li>
+        <li>Uykudan iki şey uyandırıyor: <strong>kontak açılırsa anında</strong>; ya da park raporu zamanı gelince <strong>zamanlayıcıyla</strong>. Zamanlayıcı uyanışında cihaz bir park raporu üretip kısa bir pencere içinde işini bitiriyor ve tekrar uyuyor.</li>
+      </ol>
+
+      <h3>Uyumayı erteleyen ve uyuduran hâller</h3>
+      <div class="tablewrap"><table><thead><tr><th>Durum</th><th>Karar</th></tr></thead><tbody>
+        <tr><td>Kontak açık ya da yeni kapandı</td><td>uyumaz</td></tr>
+        <tr><td>Güncelleme iniyor ya da kurulum bekliyor (ağ varsa)</td><td>uyumaz</td></tr>
+        <tr><td>Tampon boşalıyor (ağ varsa)</td><td>uyumaz, tavana kadar</td></tr>
+        <tr><td>İş kalmadı</td><td>uyur</td></tr>
+        <tr><td>Ağ yok (tampon dolu olsa bile)</td><td>uyur; kayıtlar kalıcı bellekte bekler</td></tr>
+        <tr><td>Tampon boşalmıyor, tavan doldu</td><td>uyur</td></tr>
+      </tbody></table></div>
+      <p>Karar mantığı ayrı ve saf bir modülde duruyor ve bilgisayarda testle sınanıyor, çünkü iki yönde de hata pahalı: gereksiz uyanık kalmak akü bitirir, erken uyumak rapor ve güncelleme kaçırır.</p>
+
+      <div class="note"><div class="note-t">Saat uykuda kaybolmuyor</div><p>Cihazın saat tutan devresi (RTC) derin uykuda çalışmaya devam ediyor. Uyanan cihaz saati yeniden öğrenmek zorunda kalmıyor; park raporunun zaman damgası uyanır uyanmaz üretilebiliyor.</p></div>
+
+      <div class="note warn"><div class="note-t">İki bilinen sınır</div><p><strong>1.</strong> Damgasız kayıtlar uykudan sonra düşer: saat hiç öğrenilmemişse tampondaki kayıtlar zaten hiçbir yeniden başlatmadan sağ çıkamıyordu (bkz. zaman damgası bölümü); uyku bu durumu yaratmıyor, kesinleştiriyor. Saat gelmeden uyumamak ise garajda unutulan aracın aküsünü bitirirdi.</p><p><strong>2.</strong> Uykuda USB konsolu kapanır. Masadaki geliştirme cihazında özellik bu yüzden kapalı tutulmalı; uyuyakalan cihaz "bozuldu" sanılıyor.</p></div>
+
+      <h2 id="sinirlar">Sınırlar ve kaynak kullanımı</h2>
+
+      <p>Hepsi tek bir yapılandırma dosyasında tanımlı ve derleme sırasında değiştirilebiliyor.</p>
+
+      <h3>Veri sınırları</h3>
+      <div class="tablewrap"><table><thead><tr><th>Sınır</th><th>Değer</th><th>Aşılırsa</th></tr></thead><tbody>
+        <tr><td>Aynı anda izlenen araç sinyali</td><td>96</td><td>Yeni sinyal atılır ve sayılır</td></tr>
+        <tr><td>Rapor başına araç mesajı</td><td>64</td><td>En güncel 64 tanesi gider</td></tr>
+        <tr><td>Tampon kapasitesi</td><td>624 rapor (~10 saat)</td><td>En eski rapor silinir ve sayılır</td></tr>
+        <tr><td>Rapor boyutu (sıkıştırılmış)</td><td>en çok 933 bayt (WiFi listesi dahil)</td><td>sınır yok</td></tr>
+        <tr><td>Rapor boyutu (metin)</td><td>~2.900 bayt</td><td>3.456 baytlık alana sığıyor (ölçüldü)</td></tr>
+        <tr><td>Aynı anda gönderimde olan rapor</td><td>1</td><td>Sıra korunur; birikmiş tampon yavaş boşalır</td></tr>
+        <tr><td>Onay bekleme süresi</td><td>15 saniye</td><td>Rapor korunur, yeniden denenir</td></tr>
+        <tr><td>Komut satırı uzunluğu</td><td>256 bayt (USB) / 192 (uzaktan)</td><td>Satır atılır</td></tr>
+      </tbody></table></div>
+
+      <h3>Süreler</h3>
+      <div class="tablewrap"><table><thead><tr><th>Ne</th><th>Süre</th></tr></thead><tbody>
+        <tr><td>Rapor sıklığı (çalışıyor / park)</td><td>1 dakika / 10 dakika</td></tr>
+        <tr><td>Bağlantı yeniden deneme</td><td>5 saniye → 5 dakika (giderek uzuyor)</td></tr>
+        <tr><td>Konum tazelik sınırı</td><td>10 saniye</td></tr>
+        <tr><td>Güncelleme kontrolü</td><td>6 saat</td></tr>
+        <tr><td>Yeni yazılımın sağlamlık süresi</td><td>5 dakika</td></tr>
+        <tr><td>Takılan işi yakalayan sayaç</td><td>10 saniye</td></tr>
+      </tbody></table></div>
+
+      <h3>Bellek</h3>
+      <div class="tablewrap"><table><thead><tr><th>Kaynak</th><th>Kullanılan</th><th>Toplam</th></tr></thead><tbody>
+        <tr><td>Çalışma belleği (RAM)</td><td>58 KB</td><td>320 KB (%18)</td></tr>
+        <tr><td>Yazılım boyutu</td><td>952 KB</td><td>2,8 MB (%33)</td></tr>
+      </tbody></table></div>
+      <p>Ek bellek yongası (PSRAM) <strong>kullanılmıyor</strong>: ekran olmadığı için gerekmiyor ve tampon kalıcı bellekte duruyor.</p>
+
+      <h2 id="test-ve-dogrulama">Test ve doğrulama</h2>
+
+      <p><strong>Kısaca:</strong> cihazın donanımı büyük ölçüde elimizde yok. Buna rağmen yazılımın büyük kısmı doğrulanabiliyor, çünkü kritik parçalar donanım bilmeyecek şekilde yazıldı. Geliştirme bilgisayarında çalıştırılıp sınanıyorlar.</p>
+
+      <h3>Otomatik testler</h3>
+      <pre><code>tools/host-test/run.sh</code></pre>
+      <p>Test edilen kod, cihaza yüklenen kodun <strong>aynısı</strong>, kopyalanmış bir taklit değil.</p>
+      <div class="tablewrap"><table><thead><tr><th>Ne test ediliyor</th><th>Kontrol</th><th>Neyi kanıtlıyor</th></tr></thead><tbody>
+        <tr><td>Araç verisi tablosu</td><td>22</td><td>Sinyal birleştirme, tablo dolması</td></tr>
+        <tr><td>Tampon</td><td>67</td><td>Elektrik kesintisi, bellek kuralları</td></tr>
+        <tr><td>Rapor biçimi</td><td>47</td><td>Alan adları, zaman damgası hesabı, WiFi kuyruğu</td></tr>
+        <tr><td>Konum çözücü</td><td>41</td><td>Koordinat dönüşümü, bozuk satır</td></tr>
+        <tr><td>Güncelleme bildirimi</td><td>28</td><td>Sürüm karşılaştırması</td></tr>
+        <tr><td>Modem yanıtları</td><td>37</td><td>Komut akışı, saat dilimi dönüşümü</td></tr>
+        <tr><td>Araç hız sinyali</td><td>12</td><td>Tekerlek hızının CAN'den çözümü</td></tr>
+        <tr><td>Ölü hesap</td><td>20</td><td>Konum yürütme, belirsizlik büyümesi, sınırlar</td></tr>
+        <tr><td>Uyku kararı</td><td>16</td><td>Uyku/uyanıklık politikasının iki yönü</td></tr>
+        <tr><td><strong>Toplam</strong></td><td><strong>290</strong></td><td></td></tr>
+      </tbody></table></div>
+
+      <p>Testlerde kalıcı bellek taklit ediliyor ve <strong>gerçek belleğin kuralları zorlanıyor</strong>: yanlış bir yazma girişimi ihlal olarak sayılıyor. Elektrik kesintisi de taklit edilebiliyor: yazma ortasında "elektrik kesiliyor" ve sonrasında verinin ne olduğu kontrol ediliyor.</p>
+
+      <h3>Cihaz üstü self-test (<code>selftest</code> komutu)</h3>
+      <p>Host testleri yazılımın <strong>mantığını</strong> doğruluyor; <code>selftest</code> komutu ise <strong>gerçek donanımı</strong> cihazın üstünde sınıyor. Seri konsola <code>selftest</code> (ya da <code>test</code>) yazınca bir checklist çalışır ve her satır PASS / FAIL / UYARI / ATLA olarak döner.</p>
+      <div class="tablewrap"><table><thead><tr><th>Satır</th><th>Ne sınar</th></tr></thead><tbody>
+        <tr><td>Kart bilgisi</td><td>Yonga, MAC, sürüm, boş bellek</td></tr>
+        <tr><td>Bellek</td><td>Flash / PSRAM / boş heap</td></tr>
+        <tr><td>Store &amp; forward</td><td><code>buffer</code> bölümü, slot sayısı, bozuk kayıt</td></tr>
+        <tr><td>IMU · CAN · GNSS · Modem</td><td>İlgili çevrebirim (donanımı/derlemesi yoksa ATLA)</td></tr>
+        <tr><td>Wi-Fi tarama</td><td>Çevredeki ağ sayısı ve en iyi sinyal</td></tr>
+        <tr><td>Kontak · Durum LED</td><td>Kontak girişi; LED'i kısa süre yakar</td></tr>
+      </tbody></table></div>
+      <p>Test <strong>açılışta değil, komutla</strong> çalışır — araçtaki çalışmayı hiç etkilemez. Yalnız salt-okunur durum sorguları ve zaten var olan güvenli eylemler (Wi-Fi taraması, LED testi) kullanılır; çalışan hiçbir servis durdurulmaz. Donanımı henüz olmayan çevrebirimler <strong>ATLA</strong> görünür — çerçeve hazırdır, kart gelince kendiliğinden koşar.</p>
+
+      <h3>Gerçek cihazda doğrulanan / doğrulanmayan</h3>
+      <div class="tablewrap"><table><thead><tr><th>Yol</th><th>Durum</th></tr></thead><tbody>
+        <tr><td>USB konfigürasyonu, ayarların kalıcılığı</td><td><span class="badge b-ok">doğrulandı</span></td></tr>
+        <tr><td>WiFi, saat, rapor gönderimi ve onay</td><td><span class="badge b-ok">doğrulandı</span></td></tr>
+        <tr><td>Tampon ve zaman damgası hesabı</td><td><span class="badge b-ok">doğrulandı</span></td></tr>
+        <tr><td>Uzaktan komut</td><td><span class="badge b-ok">doğrulandı</span></td></tr>
+        <tr><td>Araç hattı (CAN)</td><td><span class="badge b-no">ara yonga yok</span></td></tr>
+        <tr><td>Uydu alıcısı</td><td><span class="badge b-no">modül yok</span></td></tr>
+        <tr><td>Modem</td><td><span class="badge b-no">modem yok</span></td></tr>
+        <tr><td>Güncelleme geri alma</td><td><span class="badge b-no">sunucu yok</span></td></tr>
+        <tr><td>Jiroskop (ölü hesap)</td><td><span class="badge b-no">sensör yok; matematik bilgisayarda test edildi</span></td></tr>
+        <tr><td>WiFi taraması</td><td><span class="badge b-gray">kart takılınca masada doğrulanabilir, bekliyor</span></td></tr>
+        <tr><td>Derin uyku ve uyanma</td><td><span class="badge b-gray">masa doğrulaması bekliyor</span></td></tr>
+      </tbody></table></div>
+
+      <h3>Uçtan uca doğrulama</h3>
+      <p>Cihazın gerçekten gönderdiği bir rapor, filo sisteminin kendi çözücüsünden geçirildi: <strong>30 araç sinyali</strong> doğru şekilde çözüldü (motor devri, çalışma saati, araç hızı dahil), zaman damgası geçerli bir tarihe dönüştü ve "bilinmiyor" değerleri sunucunun beklediği gibi okundu.</p>
+
+      <h2 id="sorun-giderme">Sorun giderme</h2>
+
+      <h3>Cihaz bağlanmıyor</h3>
+      <div class="tablewrap"><table><thead><tr><th>Belirti</th><th>Sebep / Çözüm</th></tr></thead><tbody>
+        <tr><td><code>net status</code> → "ayarsız"</td><td>SIM ya da WiFi ayarı girilmemiş. Ağ donanımı bilinçli olarak hiç açılmıyor</td></tr>
+        <tr><td>Şebeke var ama <code>mqtt status</code> → bağlı değil</td><td>Sunucu adresi/portu yanlış ya da sunucu kapalı. LED çift flaş atar</td></tr>
+        <tr><td>Sunucu adresini değiştirdim, etkisi yok</td><td>Artık anında etki ediyor. Eski sürümlerde yeniden başlatma gerekiyordu</td></tr>
+        <tr><td>Modem takılıyor</td><td><code>net modem</code> hangi adımda kaldığını söyler: SIM yok mu, şebeke mi bulunamıyor, ayar mı reddedildi</td></tr>
+      </tbody></table></div>
+
+      <h3>Rapor gitmiyor</h3>
+      <div class="tablewrap"><table><thead><tr><th>Belirti</th><th>Sebep / Çözüm</th></tr></thead><tbody>
+        <tr><td><code>sf peek</code> → "saat henüz yok"</td><td>Beklenen davranış. Saat gelince kendiliğinden gönderilir</td></tr>
+        <tr><td><code>sf peek</code> → "çözülemiyor"</td><td>Önceki açılıştan kalan damgasız rapor. Sırası gelince düşürülür</td></tr>
+        <tr><td>Tampon doluyor</td><td>Bağlantıyı ve sunucu erişimini kontrol edin</td></tr>
+        <tr><td>"Silinen" sayacı artıyor</td><td>Tampon dolduğu için en eski raporlar düşüyor. Uzun süredir bağlantı yok</td></tr>
+      </tbody></table></div>
+
+      <h3>Konum gelmiyor</h3>
+      <div class="tablewrap"><table><thead><tr><th>Belirti</th><th>Sebep / Çözüm</th></tr></thead><tbody>
+        <tr><td>Raporda konum sıfır</td><td>Sabitleme yok ya da 10 saniyeden eski. <code>gnss status</code> ile uydu sayısına bakın</td></tr>
+        <tr><td>Bozuk satır sayısı artıyor</td><td>Kablo gürültülü ya da alıcı hızı yanlış ayarlanmış</td></tr>
+        <tr><td>Uydu görünüyor ama sabitleme yok</td><td>Anten gökyüzünü göremiyor; kapalı alanda normal</td></tr>
+      </tbody></table></div>
+
+      <h3>Araç verisi çözülmüyor</h3>
+      <div class="tablewrap"><table><thead><tr><th>Belirti</th><th>Sebep / Çözüm</th></tr></thead><tbody>
+        <tr><td>Sunucuda hiç sinyal yok</td><td>Kimlik biçimi tam 8 haneli olmalı. <code>can dump</code> ile kontrol edin</td></tr>
+        <tr><td>Bazı sinyaller çözülüyor, bazıları değil</td><td>Mesaj öncelik bilgisi. Sunucudaki tanım dosyasıyla eşleşmiyor. Sunucu ekibine bildirin</td></tr>
+        <tr><td><code>can stats</code> → gelen mesaj 0</td><td>Ara yonga bağlı değil ya da CAN derleme dışı</td></tr>
+        <tr><td>"Atılan" sayacı artıyor</td><td>Araç 96'dan fazla sinyal yayınlıyor; tablo büyütülmeli</td></tr>
+      </tbody></table></div>
+
+      <h3>Geliştiricilere özel iki tuzak</h3>
+      <div class="note warn"><div class="note-t">Derleme ayarı ekledikten sonra kontrol edin</div><p>Derleme sisteminin varsayılan ayar dosyası, üretilmiş ayar dosyası <strong>zaten varsa</strong> yeni eklenen ayarı yok sayıyor. Kod doğru görünüyor, ayar hiç devreye girmiyor. Çözüm: üretilmiş dosyaları silip yeniden ürettirmek ve ayarın gerçekten geçtiğini kontrol etmek.</p></div>
+      <div class="note"><div class="note-t">İlk derleme boşa düşebiliyor</div><p>Derleme ayarı değiştirdikten sonraki <em>ilk</em> çalıştırma yapılandırma aşamasında hata verebiliyor, ikincide geçiyor. Engelleyici değil, komutu tekrar çalıştırın.</p></div>
+
+      <h2 id="yol-haritasi">Durum ve yol haritası</h2>
+
+      <div class="tablewrap"><table><thead><tr><th>Aşama</th><th>Kapsam</th><th>Durum</th></tr></thead><tbody>
+        <tr><td>1</td><td>Proje iskeleti, bellek bölümleri</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>2</td><td>Ayar deposu, komut arayüzü</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>3</td><td>Araç verisi toplama</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>4</td><td>Tampon, ağ, rapor gönderimi</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>5</td><td>Rapor biçimi, saat</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>6</td><td>Konum, durum LED'i</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>7</td><td>Kablosuz güncelleme (geri alma korumalı)</td><td><span class="badge b-ok">tamam</span></td></tr>
+        <tr><td>8</td><td>Modem</td><td><span class="badge b-gray">kod tamam, donanım bekliyor</span></td></tr>
+        <tr><td>9</td><td>Kapalı alanda konum (ölü hesap)</td><td><span class="badge b-gray">kod tamam, donanım bekliyor</span></td></tr>
+        <tr><td>10</td><td>WiFi tarama (kapalı alan konumlama)</td><td><span class="badge b-gray">kod tamam, araçta denenmedi</span></td></tr>
+        <tr><td>11</td><td>Güç yönetimi (kontak kapanınca derin uyku)</td><td><span class="badge b-gray">kod tamam, araçta denenmedi</span></td></tr>
+      </tbody></table></div>
+
+      <h3>Sıradaki işler</h3>
+      <ol>
+        <li><strong>Şifreli bağlantı.</strong> Rapor gönderimi ve güncelleme şu an şifresiz. Güncellemede daha ciddi: imzasız bir kanal, araya girenin kendi yazılımını yükletmesine açık.</li>
+        <li><strong>Donanım doğrulama turu.</strong> Araç hattı, uydu alıcısı, modem ve jiroskop yollarının dördü de yalnız derleniyor; gerçek donanımla sınanmadı.</li>
+      </ol>
+
+      <h3>Bizim elimizde olmayanlar</h3>
+      <ul>
+        <li>Sunucu tarafıyla anlaşma: adres, kanal adları, kimlik doğrulama</li>
+        <li>Rapordaki <code>positionSource</code>, <code>positionAccuracy</code> ve <code>wifi</code> alanlarının filo dokümanına eklenmesi</li>
+        <li>Bu ürün için ayrı bir güncelleme adresi</li>
+        <li>Mesaj öncelik bilgisi bulgusunun sunucu ekibine iletilmesi</li>
+      </ul>
+
+      <h2 id="sozluk">Sözlük</h2>
+
+      <p>Belgede geçen bütün teknik terimler. Konu başlıklarına göre gruplandı.</p>
+
+      <h3>Araç verisi</h3>
+      <div class="tablewrap"><table><thead><tr><th>Terim</th><th>Anlamı</th></tr></thead><tbody>
+        <tr><td><strong>CAN</strong></td><td>Araçlardaki standart veri yolu. İki telli; motor, fren, gösterge paneli hepsi buradan haberleşiyor.</td></tr>
+        <tr><td><strong>Frame</strong></td><td>CAN hattında geçen tek bir mesaj: bir kimlik numarası ve en çok 8 bayt veri.</td></tr>
+        <tr><td><strong>TWAI</strong></td><td>Cihazın işlemcisindeki CAN denetleyicisinin adı. Denetleyici var ama elektriksel arayüz yok.</td></tr>
+        <tr><td><strong>Transceiver</strong></td><td>İşlemcinin sinyalini CAN hattının elektriksel biçimine çeviren ara yonga. Olmadan hat kullanılamaz.</td></tr>
+        <tr><td><strong>J1939</strong></td><td>Ağır ticari araçlarda kullanılan CAN üst kuralları.</td></tr>
+        <tr><td><strong>PGN</strong></td><td>J1939'da bir mesaj grubunun numarası. Motor devri, hız, yakıt gibi.</td></tr>
+        <tr><td><strong>DBC</strong></td><td>Hangi mesajın hangi bitinin hangi sinyal olduğunu tanımlayan dosya. Bu projede 5,7 MB, sunucuda duruyor.</td></tr>
+        <tr><td><strong>Öncelik bitleri</strong></td><td>CAN kimliğinin baş kısmı; mesajın aciliyetini belirtiyor. Sunucudaki eşleştirme buna duyarlı.</td></tr>
+        <tr><td><strong>Kontak</strong></td><td>Aracın çalışma durumu. Rapor sıklığını ve güncelleme zamanını belirliyor.</td></tr>
+      </tbody></table></div>
+
+      <h3>Konum</h3>
+      <div class="tablewrap"><table><thead><tr><th>Terim</th><th>Anlamı</th></tr></thead><tbody>
+        <tr><td><strong>GNSS</strong></td><td>Uydu konumlama sistemlerinin genel adı. GPS bunlardan biri; GLONASS, Galileo, BeiDou diğerleri.</td></tr>
+        <tr><td><strong>NMEA</strong></td><td>Konum alıcılarının kullandığı metin biçimi. Her satır doğrulama koduyla bitiyor.</td></tr>
+        <tr><td><strong>RMC / GGA</strong></td><td>İki NMEA satır tipi. RMC tarih+saat taşıyor, GGA uydu sayısı.</td></tr>
+        <tr><td><strong>Sabitleme (fix)</strong></td><td>Alıcının yeterli uyduyu görüp konumu hesaplayabilmiş olması.</td></tr>
+        <tr><td><strong>Bayat sabitleme</strong></td><td>Geçerli ama eski konum. Hareket eden araçta yanlış; 10 saniyeden eskisi kullanılmıyor.</td></tr>
+        <tr><td><strong>Ölü hesap</strong></td><td>Uydu yokken konumu bilinen son noktadan yürütme: alınan yol aracın hızından, dönüş jiroskoptan. Tahmindir; hatası yol aldıkça büyür ve rapora hata payıyla birlikte yazılır.</td></tr>
+        <tr><td><strong>Jiroskop</strong></td><td>Dönüş hızını ölçen sensör. Aracın ne kadar döndüğünü söyler; tek başına konum üretemez.</td></tr>
+        <tr><td><strong>İvmeölçer</strong></td><td>İvmeyi ölçen sensör. Konum çıkarmak için kullanılmıyor: küçük ölçüm sapması zamanla çok hızlı büyüdüğü için tünel geçişinde işe yaramaz.</td></tr>
+        <tr><td><strong>MAC adresi</strong></td><td>Her ağ cihazının fabrikadan gelen benzersiz kimliği. Rapordaki WiFi listesinde ağlar bununla ayırt ediliyor.</td></tr>
+        <tr><td><strong>Sinyal gücü (RSSI)</strong></td><td>Bir ağın ne kadar güçlü duyulduğu. Konum çözümünde kabaca "ne kadar yakın" ipucu.</td></tr>
+      </tbody></table></div>
+
+      <h3>Bağlantı</h3>
+      <div class="tablewrap"><table><thead><tr><th>Terim</th><th>Anlamı</th></tr></thead><tbody>
+        <tr><td><strong>IMEI</strong></td><td>Modemin fabrikadan gelen 15 haneli benzersiz numarası. Filo sistemi cihazları bununla ayırt ediyor.</td></tr>
+        <tr><td><strong>APN</strong></td><td>Operatörün veri ağına giriş adı. Yanlışsa modem şebekeye kaydolur ama veri geçmez.</td></tr>
+        <tr><td><strong>AT komutu</strong></td><td>Modemlerin metin tabanlı komut dili.</td></tr>
+        <tr><td><strong>Kapsama</strong></td><td>Hücresel şebekenin çektiği alan.</td></tr>
+        <tr><td><strong>PPP</strong></td><td>Seri hat üzerinden internet taşıma yöntemi. Modem böylece cihazın ağ arayüzü oluyor.</td></tr>
+      </tbody></table></div>
+
+      <h3>Mesajlaşma</h3>
+      <div class="tablewrap"><table><thead><tr><th>Terim</th><th>Anlamı</th></tr></thead><tbody>
+        <tr><td><strong>MQTT</strong></td><td>Kanal tabanlı, hafif mesajlaşma protokolü. IoT cihazlarında yaygın.</td></tr>
+        <tr><td><strong>Kanal (topic)</strong></td><td>Mesajın gönderildiği adres. <code>narrtos/drive/&lt;imei&gt;/telemetry</code> gibi.</td></tr>
+        <tr><td><strong>QoS 1</strong></td><td>"En az bir kez" teslim. Alıcı onay verene kadar gönderen mesajı saklıyor; mesaj iki kez gelebilir.</td></tr>
+        <tr><td><strong>Onay (PUBACK)</strong></td><td>Sunucunun "mesajı aldım" bildirimi. Bu gelmeden cihaz raporu silmiyor.</td></tr>
+        <tr><td><strong>Saklanan mesaj (retained)</strong></td><td>Sunucunun kanaldaki son mesajı tutması. Yeni bağlanan hemen son durumu görüyor.</td></tr>
+        <tr><td><strong>Vasiyet (LWT)</strong></td><td>Bağlantı beklenmedik şekilde koptuğunda sunucunun cihaz adına yayınladığı mesaj.</td></tr>
+        <tr><td><strong>Broker</strong></td><td>Mesajları gönderenlerden alıp alıcılara dağıtan sunucu.</td></tr>
+      </tbody></table></div>
+
+      <h3>Cihaz ve bellek</h3>
+      <div class="tablewrap"><table><thead><tr><th>Terim</th><th>Anlamı</th></tr></thead><tbody>
+        <tr><td><strong>Firmware</strong></td><td>Cihazın içindeki yazılım.</td></tr>
+        <tr><td><strong>Tampon</strong></td><td>Gönderilemeyen raporların biriktirildiği alan. Burada kalıcı bellekte, 624 rapor kapasiteli.</td></tr>
+        <tr><td><strong>Kalıcı bellek (flash)</strong></td><td>Elektrik kesilse de içeriğini koruyan bellek. Yazma kurallarının bir özelliği var: veriyi değiştirmek için önce bölmeyi silmek gerekiyor.</td></tr>
+        <tr><td><strong>Ayar deposu (NVS)</strong></td><td>IMEI, sunucu adresi gibi ayarların saklandığı bölüm.</td></tr>
+        <tr><td><strong>A/B bölüm</strong></td><td>İki yazılım bölümü. Güncelleme boşta olana yazılıyor; yarım kalan güncelleme cihazı bozmuyor.</td></tr>
+        <tr><td><strong>Kablosuz güncelleme (OTA)</strong></td><td>Cihazın yazılımını kablo bağlanmadan güncellemesi.</td></tr>
+        <tr><td><strong>Geri alma (rollback)</strong></td><td>Yeni yazılım kendini sağlam ilan etmezse cihazın eski sürüme dönmesi.</td></tr>
+        <tr><td><strong>GPIO</strong></td><td>İşlemcinin dışa açılan numaralı bacakları.</td></tr>
+        <tr><td><strong>UART</strong></td><td>İki cihazın kablo üzerinden yazışmasını sağlayan seri haberleşme birimi.</td></tr>
+        <tr><td><strong>Derin uyku</strong></td><td>İşlemcinin neredeyse tamamen kapandığı, tüketimin binlerce kat düştüğü bekleme hâli. Uyanmak yeniden açılış demektir; kalıcı bellek, ayarlar ve saat korunur.</td></tr>
+        <tr><td><strong>RTC belleği</strong></td><td>Derin uykuda enerjili kalan küçük bellek bölgesi. Uyku sayacı gibi uykular arası taşınması gereken küçük veriler burada tutulur.</td></tr>
+        <tr><td><strong>Watchdog</strong></td><td>Takılan bir işi fark edip cihazı yeniden başlatan sayaç. Araçta kimse müdahale edemediği için açık.</td></tr>
+        <tr><td><strong>Duvar saati / monoton saat</strong></td><td>Birincisi gerçek tarih-saat (öğrenmek bağlantı gerektiriyor), ikincisi açılıştan beri geçen süre (hep biliniyor ama tarih taşımıyor).</td></tr>
+      </tbody></table></div>
+
+<!-- WIKI:BITIS -->
+
+  <footer>
+    <div>NarRTOS Drive · Corezzle Electronics</div>
+    <div class="sp">Generative Hardware, SiP, Edge AI &amp; IoT Solutions</div>
+  </footer>
+
+</main>
+
+<aside class="toc">
+  <div class="toc-h">Bu sayfada</div>
+  <nav class="toc-list"></nav>
+</aside>
+</div>
+</div>
+
+<script>
+/* NarRTOS Wiki: etkileşim katmanı.
+   Bağımlılık yok; sayfalar dosya sisteminden (file://) de açılabilir. */
+
+(function () {
+  "use strict";
+
+  /* ── Kod bloklarına kopyala butonu ───────────────────────────────── */
+  function initCopy() {
+    document.querySelectorAll("pre").forEach(function (pre) {
+      if (pre.parentElement.classList.contains("codewrap")) return;
+      var wrap = document.createElement("div");
+      wrap.className = "codewrap";
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+
+      var btn = document.createElement("button");
+      btn.className = "copy";
+      btn.type = "button";
+      btn.textContent = "kopyala";
+      btn.addEventListener("click", function () {
+        var text = pre.innerText;
+        var done = function () {
+          btn.textContent = "kopyalandı";
+          btn.classList.add("done");
+          setTimeout(function () {
+            btn.textContent = "kopyala";
+            btn.classList.remove("done");
+          }, 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, fallback);
+        } else {
+          fallback();
+        }
+        function fallback() {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand("copy"); done(); } catch (e) { /* yoksay */ }
+          document.body.removeChild(ta);
+        }
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  /* ── Sekmeler ────────────────────────────────────────────────────── */
+  function initTabs() {
+    document.querySelectorAll(".tabs").forEach(function (tabs) {
+      var buttons = tabs.querySelectorAll(".tabbar button");
+      var panels = tabs.querySelectorAll(".tabpanel");
+      buttons.forEach(function (btn, i) {
+        btn.setAttribute("role", "tab");
+        btn.addEventListener("click", function () {
+          buttons.forEach(function (b) { b.setAttribute("aria-selected", "false"); });
+          panels.forEach(function (p) { p.classList.remove("on"); });
+          btn.setAttribute("aria-selected", "true");
+          if (panels[i]) panels[i].classList.add("on");
+        });
+      });
+      if (buttons[0]) buttons[0].click();
+    });
+  }
+
+  /* ── İçindekiler: h2'lerden üret + kaydırma takibi ───────────────── */
+  function initToc() {
+    var toc = document.querySelector(".toc-list");
+    if (!toc) return;
+    var heads = Array.prototype.slice.call(document.querySelectorAll("main h2[id]"));
+    if (!heads.length) { var t = document.querySelector(".toc"); if (t) t.style.display = "none"; return; }
+
+    heads.forEach(function (h) {
+      var a = document.createElement("a");
+      a.href = "#" + h.id;
+      a.textContent = h.textContent;
+      toc.appendChild(a);
+    });
+
+    var links = toc.querySelectorAll("a");
+    function sync() {
+      var y = window.scrollY + 130;
+      var idx = 0;
+      heads.forEach(function (h, i) { if (h.offsetTop <= y) idx = i; });
+      links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    }
+    window.addEventListener("scroll", sync, { passive: true });
+    sync();
+  }
+
+  /* ── Görsel büyütme ──────────────────────────────────────────────── */
+  function initLightbox() {
+    var box = document.createElement("div");
+    box.id = "lightbox";
+    var img = document.createElement("img");
+    box.appendChild(img);
+    document.body.appendChild(box);
+
+    document.querySelectorAll("figure img").forEach(function (el) {
+      el.addEventListener("click", function () {
+        img.src = el.src;
+        img.alt = el.alt || "";
+        box.classList.add("on");
+      });
+    });
+    box.addEventListener("click", function () { box.classList.remove("on"); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") box.classList.remove("on");
+    });
+  }
+
+  /* ── Veri dürüstlüğü demosu ──────────────────────────────────────────
+     fallback null / "ipf" arasında geçiş yapınca hangi tüketicinin veriyi
+     aldığını gösterir. Kural geolocation.service + telemetry.routes'tan. */
+  function initIntegrityDemo() {
+    var demo = document.getElementById("integrity-demo");
+    if (!demo) return;
+
+    var STATES = {
+      real: {
+        json: '"geo": {\n  "lat": 41.0289898, "lng": 29.2229154,\n  "accuracy_m": 18.9,\n  "fallback": null,\n  "provider": "www.googleapis.com"\n}',
+        sinks: { coords: true, queue: true, panel: true },
+        panelNote: "konum olarak, OSM bağlantısıyla",
+      },
+      ipf: {
+        json: '"geo": {\n  "lat": 39.9207000, "lng": 32.8541000,\n  "accuracy_m": 25000,\n  "fallback": "ipf",\n  "provider": "www.googleapis.com"\n}',
+        sinks: { coords: false, queue: false, panel: true },
+        panelNote: "yalnızca gri bilgi olarak",
+      },
+    };
+
+    var out = demo.querySelector(".demo-json code");
+    var buttons = demo.querySelectorAll(".switch button");
+    var sinks = {
+      coords: demo.querySelector('[data-sink="coords"]'),
+      queue: demo.querySelector('[data-sink="queue"]'),
+      panel: demo.querySelector('[data-sink="panel"]'),
+    };
+
+    function apply(key) {
+      var s = STATES[key];
+      out.textContent = s.json;
+      Object.keys(sinks).forEach(function (k) {
+        var el = sinks[k];
+        if (!el) return;
+        var pass = s.sinks[k];
+        el.classList.toggle("pass", pass);
+        el.classList.toggle("block", !pass);
+        el.querySelector(".sink-v").textContent = pass ? "✓" : "✕";
+        if (k === "panel") el.querySelector(".sink-s").textContent = s.panelNote;
+      });
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.state === key));
+      });
+    }
+
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () { apply(b.dataset.state); });
+    });
+    apply("real");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initCopy();
+    initTabs();
+    initToc();
+    initLightbox();
+    initIntegrityDemo();
+  });
+})();
+
+</script>
+</body>
+</html>

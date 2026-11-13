@@ -1,0 +1,1 @@
+Bu belge cihazın **nasıl çalıştığını** ve **neden böyle çalıştığını** anlatıyor. Konuyu hiç bilmeyen biri de baştan okuyarak takip edebilir; teknik terimler ilk geçtikleri yerde açıklanıyor, tam liste sonda Sözlük'te.
